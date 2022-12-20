@@ -1,5 +1,7 @@
 package es.deusto.prog3.g32;
 
-public class Genero {
+public enum Genero {
+	Comedia, Terror, Accion, Aventura;
+	
 
 }
