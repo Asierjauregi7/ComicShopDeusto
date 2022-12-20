@@ -9,7 +9,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
-import com.jgoodies.forms.factories.DefaultComponentFactory;
 import javax.swing.JButton;
 
 
@@ -135,6 +134,8 @@ public class ventanaRegistro {
 		lblRepetirContraseña.setBounds(29, 216, 135, 16);
 		frameVentanaRegistro.getContentPane().add(lblRepetirContraseña);
 		
+		
+		
 		pswdRepetirContraseña = new JPasswordField();
 		pswdRepetirContraseña.setBounds(176, 211, 157, 26);
 		frameVentanaRegistro.getContentPane().add(pswdRepetirContraseña);
@@ -148,11 +149,11 @@ public class ventanaRegistro {
 		frameVentanaRegistro.getContentPane().add(separator);
 		
 		
-		
-		JLabel lblRequisitoContraseña = DefaultComponentFactory.getInstance().createLabel("min. 8 carácteres");
-		lblRequisitoContraseña.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel lblRequisitoContraseña = new JLabel("min. 8 carácteres");
 		lblRequisitoContraseña.setBounds(345, 183, 120, 16);
 		frameVentanaRegistro.getContentPane().add(lblRequisitoContraseña);
+		
+		
 		
 		
 		
