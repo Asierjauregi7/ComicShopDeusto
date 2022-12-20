@@ -5,14 +5,14 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
 import javax.swing.JButton;
 
 
-public class ventanaRegistro {
+public class VentanaRegistro {
 
 	private JFrame frameVentanaRegistro;
 	private JTextField textNombre;
@@ -33,7 +33,7 @@ public class ventanaRegistro {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ventanaRegistro window = new ventanaRegistro();
+					VentanaRegistro window = new VentanaRegistro();
 					window.frameVentanaRegistro.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,7 +45,7 @@ public class ventanaRegistro {
 	/**
 	 * Create the application.
 	 */
-	public ventanaRegistro() {
+	public VentanaRegistro() {
 		initialize();
 	}
 
@@ -152,8 +152,6 @@ public class ventanaRegistro {
 		JLabel lblRequisitoContraseña = new JLabel("min. 8 carácteres");
 		lblRequisitoContraseña.setBounds(345, 183, 120, 16);
 		frameVentanaRegistro.getContentPane().add(lblRequisitoContraseña);
-		
-		
 		
 		
 		
