@@ -19,8 +19,9 @@ public class VentanaInicioSesion {
 	private JTextField textUsuario;
 	private JPasswordField passwordField;
 	private JButton btnIniciarSesion;
-	private JLabel lblNoTienesCuenta;
 	private JButton btnRegistrarse;
+	private JLabel lblNoTienesCuenta;
+	private JSeparator separator;
 	private JSeparator separator_1;
 	
 	
@@ -101,11 +102,6 @@ public class VentanaInicioSesion {
 		btnRegistrarse.setBounds(322, 147, 124, 32);
 		frameVentanaInicioSesion.getContentPane().add(btnRegistrarse);
 
-		JSeparator separator = new JSeparator();
-		separator.setForeground(new Color(0, 0, 0));
-		separator.setBounds(6, 32, 488, 34);
-		frameVentanaInicioSesion.getContentPane().add(separator);
-		
 		separator = new JSeparator();
 		separator.setOrientation(SwingConstants.HORIZONTAL);
 		separator.setForeground(Color.BLACK);
