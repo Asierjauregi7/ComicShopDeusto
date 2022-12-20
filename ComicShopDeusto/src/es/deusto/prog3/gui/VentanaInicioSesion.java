@@ -106,6 +106,13 @@ public class VentanaInicioSesion {
 		separator.setBounds(6, 32, 488, 34);
 		frameVentanaInicioSesion.getContentPane().add(separator);
 		
+		separator = new JSeparator();
+		separator.setOrientation(SwingConstants.HORIZONTAL);
+		separator.setForeground(Color.BLACK);
+		separator.setBounds(6, 32, 488, 34);
+		frameVentanaInicioSesion.getContentPane().add(separator);
+		frameVentanaInicioSesion.setVisible(true);
+		
 		separator_1 = new JSeparator();
 		separator_1.setOrientation(SwingConstants.VERTICAL);
 		separator_1.setForeground(Color.BLACK);
