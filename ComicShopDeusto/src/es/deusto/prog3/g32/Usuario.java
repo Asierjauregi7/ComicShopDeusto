@@ -17,7 +17,8 @@ public class Usuario {
 		this.contraseña = contraseña;
 	}
 
-	
+	public Usuario() {		
+	}
 	
 	// Getters & Setters
 
