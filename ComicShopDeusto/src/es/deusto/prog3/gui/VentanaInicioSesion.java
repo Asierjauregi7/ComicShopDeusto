@@ -85,8 +85,8 @@ public class VentanaInicioSesion {
 		frameVentanaInicioSesion.getContentPane().add(passwordField);
 
 		btnIniciarSesion = new JButton("Iniciar sesion");
-		btnIniciarSesion.setBackground(new Color(101, 183, 246));
-		btnIniciarSesion.setForeground(Color.BLACK);
+		btnIniciarSesion.setBackground(Color.BLACK);
+		btnIniciarSesion.setForeground(Color.WHITE);
 		btnIniciarSesion.setBounds(117, 198, 119, 32);
 
 		frameVentanaInicioSesion.getContentPane().add(btnIniciarSesion);
@@ -97,7 +97,7 @@ public class VentanaInicioSesion {
 		frameVentanaInicioSesion.getContentPane().add(lblNoTienesCuenta);
 
 		btnRegistrarse = new JButton("Registrarse");
-		btnRegistrarse.setForeground(Color.BLACK);
+		btnRegistrarse.setForeground(Color.WHITE);
 		btnRegistrarse.setBackground(SystemColor.desktop);
 		btnRegistrarse.setBounds(322, 147, 124, 32);
 		frameVentanaInicioSesion.getContentPane().add(btnRegistrarse);

@@ -1,7 +1,15 @@
 package es.deusto.prog.bbdd;
 
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
 import es.deusto.prog3.g32.*;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -161,7 +169,71 @@ public class GestorBD {
 	//Métodos para insertar datos o devolver datos de la BBDD usando CSV
 	
 	
-	
+	public static ArrayList<Usuario> crearListaDeUsuariosConCSV(String ruta) {
+		ArrayList<Usuario> listaUsuarios = null;
+		try {
+
+			BufferedReader br = new BufferedReader(new FileReader(ruta));
+			String strLine = "";
+			StringTokenizer st = null;
+			listaUsuarios = new ArrayList<>();
+
+			while ((strLine = br.readLine()) != null) {
+				// break comma separated line using ","
+				st = new StringTokenizer(strLine, ",");
+				Usuario u = new Usuario();
+
+				u.setNombre(st.nextToken());
+
+				u.setApellidos(st.nextToken());
+				String f = st.nextToken();
+
+				/*
+				 * aqui cambiamos el String del csv a LocalDateTimeDateTimeFormatter formatter =
+				 * DateTimeFormatter. ofPattern("yyyy-MM-dd"); LocalDateTime dateTime =
+				 * LocalDateTime. parse(f); u.setFechaNacimiento(dateTime);
+				 */
+
+				
+				// añadimos el usuario de esta linea a la lista
+				listaUsuarios.add(u);
+
+			}
+			//ERROR: hay que cerrar el BufferedReader
+			br.close();
+			System.out.println("NOMBRES:");
+			for (Usuario u : listaUsuarios) {
+				System.out.println("#" + u.getNombre());
+			}
+
+		} catch (Exception e) {
+			System.out.println(String.format("Error creando lista usuarios con CSV: ", e.getMessage()));
+		}
+		return listaUsuarios;
+
+	}
+
+	public static void crearCSVusuarios(ArrayList<Usuario> listaUsuarios, String rutaNuevoFichero) {
+		try {
+			// Creamos el escritor
+			File file = new File(rutaNuevoFichero);
+			PrintWriter pr = new PrintWriter(file);
+			// Recorremos los usuarios uno por uno
+			for (Usuario u : listaUsuarios) {
+				pr.println("" + u.getNombre() + ";" + u.getApellidos() + ";" + u.getCorreo() + ";" + u.getNomUsuario() + ";" + u.getContraseña());
+				// comprobacion
+				System.out.println("#" + u.getNombre());
+			}
+			pr.close();
+		} catch (Exception e) {
+			System.out.println(String.format("Error creando CSV usuarios: ", e.getMessage()));
+		}
+
+	}
 	
 	
 }
+
+	
+	
+
