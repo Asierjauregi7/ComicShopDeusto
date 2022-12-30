@@ -8,6 +8,10 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.Window;
+
 import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Font;
@@ -117,8 +121,22 @@ public class VentanaInicioSesion {
 		frameVentanaInicioSesion.setVisible(true);
 
 		
+		//Action listeners
+		
+		btnRegistrarse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new VentanaRegistro();
+			}
+
+			
+		});
 		
 		
+	}
+
+	protected void dispose() {
+		// TODO Auto-generated method stub
 		
 	}
 }

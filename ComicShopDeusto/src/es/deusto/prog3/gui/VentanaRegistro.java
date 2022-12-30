@@ -56,7 +56,7 @@ public class VentanaRegistro {
 		frameVentanaRegistro = new JFrame();
 		frameVentanaRegistro.getContentPane().setBackground(new Color(255, 97, 60));
 		frameVentanaRegistro.setTitle("Registro");
-		frameVentanaRegistro.setBounds(200, 200, 500, 300);
+		frameVentanaRegistro.setBounds(200, 200, 500, 330);
 		frameVentanaRegistro.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frameVentanaRegistro.getContentPane().setLayout(null);
 		
@@ -170,6 +170,8 @@ public class VentanaRegistro {
 		btnRegistrar.setBounds(264, 244, 117, 29);
 
 		frameVentanaRegistro.getContentPane().add(btnRegistrar);
+		
+		frameVentanaRegistro.setVisible(true);
 
 		
 	}
