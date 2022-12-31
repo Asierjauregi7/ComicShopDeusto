@@ -5,6 +5,7 @@ import javax.swing.JLabel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -477,16 +478,15 @@ public class VentanaBiblioteca extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 				if(e.isAltDown() && e.getClickCount() == 2) {
 					int rowcount = mDatos.getRowCount();
-					ArrayList<Carrito> ALCarrito = BaseDeDatos.getCarrito();
+					ArrayList<Carrito> ALCarrito = GestorBD.getCarrito();
 					Carrito ultimaCompra = ALCarrito.get(rowcount-1);
 					int ultimaCompraTotal = ultimaCompra.getPrecio() * ultimaCompra.getCantidad();
 					int totalMenosUltimo = getTotalCarrito() - ultimaCompraTotal;
 					totalLbl.setText("Total:" + totalMenosUltimo + "�");
 					realizarCompra.setVisible(false);
-					FechaLlegada.setVisible(false);
 					mDatos.removeRow(rowcount-1);
-					String nombre = ultimaCompra.getNombre();
-					BaseDeDatos.EliminarDelCarrito(nombre);
+					String nombre = ultimaCompra.getTitulo();
+					GestorBD.EliminarDelCarrito(nombre);
 
 					
 				}
@@ -500,81 +500,29 @@ public class VentanaBiblioteca extends JFrame{
 	
 	
 	
-	
-	
-	//Modelo de productos de parte arriba
-	private void ModeloParteArriba(ArrayList<AtuendosParteArriba> lista) {
-		Vector<String> cabeceras = new Vector<String>(Arrays.asList("Id", "Nombre", "Precio", "Marca", "G�nero","Peso", "Color",
-				"Material", "Estampado", "Cantidad", "TipoProducto", "Talla"));
-		mDatos = new DefaultTableModel(
-				new Vector<Vector<Object>>(),
-				cabeceras 
-		) {
-			public boolean isCellEditable(int row, int column) {
-				if(column==0 || column==1 || column==2 || column==3 || column==4 || column==5 || column==6 || column==7 || column==8 || column==9 || column==10 || column==11)
-					return false;
-				return true;
-			}
-		};
-		
-		
-		ArrayList<AtuendosParteArriba> productosParteArriba = lista;
-
-	
-		for (AtuendosParteArriba producto : productosParteArriba) {
-			mDatos.addRow(new Object[] { producto.getId(), producto.getNombre(), producto.getPrecio(),
-					producto.getMarca(), producto.getGenero(), producto.getPeso(), producto.getColor(), producto.getMaterial(),
-					producto.getEstampado(), producto.getCantidad(), producto.getTipoAtuendo(), producto.getTallaArriba() });
-		}
-
-		tDatos.setModel(mDatos);
-		//Renderer que comprueba que si el precio es menos que 16 salga en un nuevo color la columna de precio:Mismo renderer 
-		// en todos los modelos
-		tDatos.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-			
-			@Override
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-					int row, int column) {
-				Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-				if(column == 2 && (Integer)mDatos.getValueAt(row, 2) < 20) {
-					((JComponent) c).setOpaque(true);
-					c.setBackground(new Color(255, 200, 200));
-				}else {
-					((JComponent) c).setOpaque(false);
-				}
-				
-				return c;
-			}
-		});
-	}
-	
-	
-	
-	
-	//Modelo de productos de parte abajo
-	private void ModeloParteAbajo(ArrayList<AtuendosParteAbajo> lista) {
-		Vector<String> cabeceras = new Vector<String>(Arrays.asList("Id", "Nombre", "Precio", "Marca", "G�nero", "Peso", "Color",
-				"Material", "Estampado", "Cantidad", "Tipo", "Talla"));
+	//Modelo de comics
+	private void ModeloComics(ArrayList<Comic> lista) {
+		Vector<String> cabeceras = new Vector<String>(Arrays.asList("Id", "Editorial", "Titulo", "Genero", "Precio", "Cantidad"));
 		
 		mDatos = new DefaultTableModel(
 				new Vector<Vector<Object>>(),
 				cabeceras
 		) {
 			public boolean isCellEditable(int row, int column) {
-				if(column==0 || column==1 || column==2 || column==3 || column==4 || column==5 || column==6 || column==7 || column==8 || column==9 || column==10 || column==11)
+				if(column==0 || column==1 || column==2 || column==3 || column==4 || column==5) 
 					return false;
 				return true;
 			}
 		};
 		
 		
-		ArrayList<AtuendosParteAbajo> productosParteAbajo = lista;
+		ArrayList<Comic> comics = lista;
 		
-		for (AtuendosParteAbajo producto : productosParteAbajo) {
-			mDatos.addRow(new Object[] { producto.getId(), producto.getNombre(), producto.getPrecio(),
-					producto.getMarca(), producto.getGenero(), producto.getPeso(), producto.getColor(), producto.getMaterial(),
-					producto.getEstampado(), producto.getCantidad(), producto.getTipo(), producto.getTalla() });
+		for (Comic producto : comics) {
+			mDatos.addRow(new Object[] { producto.getId(), producto.getEditorial(), producto.getTitulo(),
+					producto.getGenero(), producto.getPrecio(), producto.getCantidad() });
 		}
+		
 		tDatos.setModel(mDatos);
 		
 		
@@ -596,76 +544,33 @@ public class VentanaBiblioteca extends JFrame{
 		});
 	}
 
-	//Modelo de las zapatillas
-	private void ModeloCalzado(ArrayList<AtuendoZapatilla> lista) {
-		Vector<String> cabeceras = new Vector<String>(Arrays.asList("Id", "Nombre", "Precio", "Marca", "G�nero", "Peso", "Color",
-				"Material", "Estampado", "Cantidad", "Talla", "Color", "Tipo"));
-		mDatos = new DefaultTableModel( 
-				new Vector<Vector<Object>>(),
-				cabeceras 
-		) {
-			public boolean isCellEditable(int row, int column) {
-				if(column==0 || column==1 || column==2 || column==3 || column==4 || column==5 || column==6 || column==7 || column==8 || column==9 || column==10 || column==11 || column==12)
-					return false;
-				return true;
-			}
-		};
-		
-		ArrayList<AtuendoZapatilla> productosZapatilla = lista;
-		
-		for (AtuendoZapatilla producto : productosZapatilla) {
-			mDatos.addRow(new Object[] { producto.getId(), producto.getNombre(), producto.getPrecio(),
-					producto.getMarca(), producto.getGenero(), producto.getPeso(), producto.getColor(), producto.getMaterial(),
-					producto.getEstampado(), producto.getCantidad(), producto.getTalla(), producto.getColorCordon(),producto.getTipo()});
-		}
-		
-		
-		tDatos.setModel(mDatos);
-		
-		tDatos.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-			
-			@Override
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-					int row, int column) {
-				Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-				if(column == 2 && (Integer)mDatos.getValueAt(row, 2) < 50) {
-					((JComponent) c).setOpaque(true);
-					c.setBackground(new Color(255, 200, 200));
-				}else {
-					((JComponent) c).setOpaque(false);
-				}
-				
-				return c;
-			}
-		});
-	}
 	
 	//Modelo del carrito, productos seleccionados para ser comprados
 	private void verCarrito() {
-		Vector<String> cabeceras = new Vector<String>(Arrays.asList("NombreProducto", "Cantidad", "Precio", "Tipo"));
+		Vector<String> cabeceras = new Vector<String>(Arrays.asList("Id", "Editorial", "Titulo", "Genero", "Precio", "Cantidad"));
 		mDatos = new DefaultTableModel( 
 				new Vector<Vector<Object>>(), 
 				cabeceras 
 		) {
 			public boolean isCellEditable(int row, int column) {
-				if(column==0 || column==1 || column==2 || column==3)
+				if(column==0 || column==1 || column==2 || column==3 || column==4 || column==5)
 					return false;
 				return true;
 			}
 		};
-		ArrayList<Carrito> carrito = BaseDeDatos.getCarrito();
+		ArrayList<Carrito> carrito = GestorBD.getCarrito();
 		System.out.println(carrito);
 	
 		for (Carrito carro : carrito) {
 			int precio = carro.getCantidad() * carro.getPrecio();
-			mDatos.addRow(new Object[] { carro.getNombre(), carro.getCantidad(), precio, carro.getTipo()});
+			mDatos.addRow(new Object[] { carro.getId(), carro.getEditorial(), carro.getTitulo(), carro.getGenero(), precio, carro.getCantidad()});
 		}
 
 		tDatos.setModel(mDatos);
 	}
 	//Devuelve el precio total del carrito
 	private int getTotalCarrito() {
-		ArrayList<Carrito> carrito = BaseDeDatos.getCarrito();
+		ArrayList<Carrito> carrito = GestorBD.getCarrito();
 		int totalCarrito = 0;
 		if(carrito == null) {
 			totalCarrito = 0;
