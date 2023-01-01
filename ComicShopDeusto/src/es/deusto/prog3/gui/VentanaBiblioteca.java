@@ -586,24 +586,23 @@ public class VentanaBiblioteca extends JFrame{
 	
 	//Modelo de las compras del cliente que haya iniciado sesion
 	private void verCompras() {
-		Vector<String> cabeceras = new Vector<String>(Arrays.asList("Correo Cliente", "NombreProducto", "Cantidad", "Precio", "Tipo", "Fecha Compra", "Fecha Llegada"));
+		Vector<String> cabeceras = new Vector<String>(Arrays.asList("Id", "Editorial", "Titulo", "Genero", "Precio", "Cantidad"));
 		mDatos = new DefaultTableModel( 
 				new Vector<Vector<Object>>(),
 				cabeceras 
 		) {
 			public boolean isCellEditable(int row, int column) {
-				if(column==0 || column==1 || column==2 || column==3 || column==4 || column==5 || column==6)
+				if(column==0 || column==1 || column==2 || column==3 || column==4 || column==5)
 					return false;
 				return true;
 			}
 		};
-		String correo = BaseDeDatos.cargarCorreoDeUnCliente();
-		ArrayList<Pedido> pedidos = BaseDeDatos.getComprasUsuario(correo);
+		String correo = GestorBD.cargarCorreoDeUnCliente();
+		ArrayList<Compra> compras = GestorBD.getComprasUsuario(correo);
 		
-		for (Pedido pedido : pedidos) {
-			Date fechaCompra = new Date(pedido.getFechaCompra());
-			Date fechaLlegada = new Date(pedido.getFechaLLegada());
-			mDatos.addRow(new Object[] { pedido.getCorreoCliente(), pedido.getNombreProducto(), pedido.getCantidad(), pedido.getPrecio(), pedido.getTipo(), fechaCompra, fechaLlegada});
+		for (Compra compra : compras) {
+			
+			mDatos.addRow(new Object[] { compra.getCorreoCliente(), compra.getIdProducto(), compra.getEditorialProducto(), compra.getTituloProducto(), compra.getPrecio(), compra.getCantidad()});
 		}
 
 		tDatos.setModel(mDatos);
@@ -617,18 +616,20 @@ public class VentanaBiblioteca extends JFrame{
 	 */
 	
 	private void CrearCarrito() {
-		
+		//"Id", "Editorial", "Titulo", "Genero", "Precio", "Cantidad"
 		int filaSeleccionada = tDatos.getSelectedRow();
 		if(filaSeleccionada != -1) {
-			int cantidadTabla = (Integer) mDatos.getValueAt(filaSeleccionada, 9);
 			int idTabla = (Integer) mDatos.getValueAt(filaSeleccionada, 0);
-			String nombre =  (String) mDatos.getValueAt(filaSeleccionada, 1);
-			int precio = (Integer) mDatos.getValueAt(filaSeleccionada, 2);
-			ArrayList<Carrito> carros = BaseDeDatos.getCarrito();
+			String editorialTabla = (String) mDatos.getValueAt(filaSeleccionada, 1);
+			String titulo =  (String) mDatos.getValueAt(filaSeleccionada, 2);
+			String genero = (String) mDatos.getValueAt(filaSeleccionada, 3);
+			int precio = (Integer) mDatos.getValueAt(filaSeleccionada, 4);
+			int cantidadTabla = (Integer) mDatos.getValueAt(filaSeleccionada, 5);
+			ArrayList<Carrito> carros = GestorBD.getCarrito();
 			ArrayList<String> nombreProductos = new ArrayList();
 			
 			for(Carrito carro : carros) {
-				nombreProductos.add(carro.getNombre());
+				nombreProductos.add(carro.getTitulo());
 			}
 			
 			if(cantidadTabla == 0) {
@@ -638,53 +639,53 @@ public class VentanaBiblioteca extends JFrame{
 			
 			
 				if(cantidad<cantidadTabla) {
-					if(tipo1==0) {
-						if(nombreProductos.contains(nombre)) {
-							BaseDeDatos.aumentarCantidadCarrito(nombre, cantidad);
-						
-						}else {
-							String tipo = (String) mDatos.getValueAt(filaSeleccionada,10);
-							BaseDeDatos.crearCarrito(new Carrito(nombre,cantidad, precio, tipo));
-						}
-						BaseDeDatos.RestarCantidadDeProductosParteArriba(idTabla, cantidad);
-						ModeloParteArriba(BaseDeDatos.getAtuendosParteArriba());
-
-					}else if(tipo1==1){
-						if(nombreProductos.contains(nombre)) {
-							BaseDeDatos.aumentarCantidadCarrito(nombre, cantidad);
-						
-						}else {
-							String tipo = (String) mDatos.getValueAt(filaSeleccionada,10).toString();
-							BaseDeDatos.crearCarrito(new Carrito(nombre,cantidad, precio, tipo));
-						}
-						BaseDeDatos.RestarCantidadDeProductosParteAbajo(idTabla, cantidad);
-						ModeloParteAbajo(BaseDeDatos.getAtuendosParteAbajo());
+					
+					if(nombreProductos.contains(titulo)) {
+						GestorBD.aumentarCantidadCarrito(titulo, cantidad);
 					
 					}else {
-						for(Carrito carro : carros) {
-							nombreProductos.add(carro.getNombre());
-						}
-						if(nombreProductos.contains(nombre)) {
-							BaseDeDatos.aumentarCantidadCarrito(nombre, cantidad);
-						
-						}else {
-							String tipo = (String) mDatos.getValueAt(filaSeleccionada,11);
-							BaseDeDatos.crearCarrito(new Carrito(nombre,cantidad, precio, tipo));
-						}
-						BaseDeDatos.RestarCantidadDeZapatillas(idTabla, cantidad);
-						ModeloCalzado(BaseDeDatos.getZapatillas());
+						String tipo = (String) mDatos.getValueAt(filaSeleccionada,10);
+						BaseDeDatos.crearCarrito(new Carrito(idTabla, editorialTabla, titulo, genero, precio, cantidad));
 					}
+					BaseDeDatos.RestarCantidadDeProductosParteArriba(idTabla, cantidad);
+					ModeloParteArriba(BaseDeDatos.getAtuendosParteArriba());
+
+				}else if(tipo1==1){
+					if(nombreProductos.contains(nombre)) {
+						BaseDeDatos.aumentarCantidadCarrito(nombre, cantidad);
+					
+					}else {
+						String tipo = (String) mDatos.getValueAt(filaSeleccionada,10).toString();
+						BaseDeDatos.crearCarrito(new Carrito(nombre,cantidad, precio, tipo));
+					}
+					BaseDeDatos.RestarCantidadDeProductosParteAbajo(idTabla, cantidad);
+					ModeloParteAbajo(BaseDeDatos.getAtuendosParteAbajo());
 				
 				}else {
-					JOptionPane.showMessageDialog(null, "La cantidad seleccionada no es posible");
+					for(Carrito carro : carros) {
+						nombreProductos.add(carro.getNombre());
+					}
+					if(nombreProductos.contains(nombre)) {
+						BaseDeDatos.aumentarCantidadCarrito(nombre, cantidad);
+					
+					}else {
+						String tipo = (String) mDatos.getValueAt(filaSeleccionada,11);
+						BaseDeDatos.crearCarrito(new Carrito(nombre,cantidad, precio, tipo));
+					}
+					BaseDeDatos.RestarCantidadDeZapatillas(idTabla, cantidad);
+					ModeloCalzado(BaseDeDatos.getZapatillas());
 				}
+				
+			}else {
+				JOptionPane.showMessageDialog(null, "La cantidad seleccionada no es posible");
 			}
-
-		}else {
-				JOptionPane.showMessageDialog(null, "No has seleccionado ningun producto para borrar");
 		}
 
+	}else {
+			JOptionPane.showMessageDialog(null, "No has seleccionado ningun producto para borrar");
 	}
+
+}
 	
 	//Recorre todo el modelo de la tabla del carrito y crea las compras
 	

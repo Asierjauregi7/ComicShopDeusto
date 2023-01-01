@@ -7,10 +7,10 @@ public class Carrito {
 	private String genero;
 	private int precio;
 	private int cantidad;
-	private int saldo;
+	//private int saldo;
 	
 	//Constructor
-	public Carrito(int id, String editorial, String titulo, String genero, int precio, int cantidad, int saldo) {
+	public Carrito(int id, String editorial, String titulo, String genero, int precio, int cantidad) {
 		super();
 		this.id = id;
 		this.editorial = editorial;
@@ -18,7 +18,7 @@ public class Carrito {
 		this.genero = genero;
 		this.precio = precio;
 		this.cantidad = cantidad;
-		this.saldo = saldo;
+		//this.saldo = saldo;
 	}
 
 	
@@ -71,20 +71,20 @@ public class Carrito {
 		this.cantidad = cantidad;
 	}
 
-	public int getSaldo() {
-		return saldo;
-	}
+	//public int getSaldo() {
+		//return saldo;
+	//}
 
-	public void setSaldo(int saldo) {
-		this.saldo = saldo;
-	}
+	//public void setSaldo(int saldo) {
+		//this.saldo = saldo;
+	//}
 
 	
 	//ToString
 	@Override
 	public String toString() {
 		return "Carrito [id=" + id + ", editorial=" + editorial + ", titulo=" + titulo + ", genero=" + genero
-				+ ", precio=" + precio + ", cantidad=" + cantidad + ", saldo=" + saldo + "]";
+				+ ", precio=" + precio + ", cantidad=" + cantidad + "]";
 	}
 	
 	
