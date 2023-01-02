@@ -4,18 +4,89 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import Practica3D.src.es.deusto.prog3.practica3d.bbdd.Comic;
+import Practica3D.src.es.deusto.prog3.practica3d.bbdd.Exception;
+import Practica3D.src.es.deusto.prog3.practica3d.bbdd.FileInputStream;
+import Practica3D.src.es.deusto.prog3.practica3d.bbdd.GestorBD;
+import Practica3D.src.es.deusto.prog3.practica3d.bbdd.List;
+import Practica3D.src.es.deusto.prog3.practica3d.bbdd.Logger;
+import Practica3D.src.es.deusto.prog3.practica3d.bbdd.Personaje;
+import Practica3D.src.es.deusto.prog3.practica3d.bbdd.Properties;
+import Practica3D.src.es.deusto.prog3.practica3d.bbdd.String;
 import es.deusto.prog3.g32.*;
 
 import java.io.BufferedReader;
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
-import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+
+import es.deusto.prog3.g32.Comic;
+
+import java.io.File;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 
 public class GestorBD {
+	
+	private final String PROPERTIES_FILE = "conf/app.properties";
+	private final String CSV_PERSONAJES = "data/personajes.csv";
+	private final String CSV_COMICS = "data/comics.csv";
+	
+	private Properties properties;
+	private String driverName;
+	private String databaseFile;
+	private String connectionString;
+	
+	private static Logger logger = Logger.getLogger(GestorBD.class.getName());
+	
+	public GestorBD() {
+		try (FileInputStream fis = new FileInputStream("conf/logger.properties")) {
+			//Inicialización del Logger
+			LogManager.getLogManager().readConfiguration(fis);
+			
+			//Lectura del fichero properties
+			properties = new Properties();
+			properties.load(new FileReader(PROPERTIES_FILE));
+			
+			driverName = properties.getProperty("driver");
+			databaseFile = properties.getProperty("file");
+			connectionString = properties.getProperty("connection");
+			
+			//Cargar el diver SQLite
+			Class.forName(driverName);
+		} catch (Exception ex) {
+			logger.warning(String.format("Error al cargar el driver de BBDD: %s", ex.getMessage()));
+		}
+	}
+	
+	/**
+	 * Inicializa la BBDD leyendo los datos de los ficheros CSV 
+	 */
+	public void initilizeFromCSV() {
+		//Sólo se inicializa la BBDD si la propiedad initBBDD es true.
+		if (properties.get("loadCSV").equals("true")) {
+			//Se borran los datos, si existía alguno
+			GestorBD.borrarComics();
+			
+			
+			//Se leen los comics del CSV
+			List<Comic> comics = this.loadCVSComics();				
+			
+			
+			//Se insertan los comics en la BBDD
+			this.insertarComic(comics.toArray(new Comic[comics.size()]));				
+		}
+	}
 	
 	protected static final String DRIVER_NAME = "org.sqlite.JDBC";
 	protected static final String DATABASE_FILE = "db/BaseDeDatos.db";
@@ -468,6 +539,27 @@ public class GestorBD {
 			System.out.println(String.format("Error creando CSV usuarios: ", e.getMessage()));
 		}
 
+	}
+	
+	
+	private List<Comic> loadCVSComics() {
+		List<Comic> comics = new ArrayList<>();
+		
+		try (BufferedReader in = new BufferedReader(new FileReader(CSV_COMICS))) {
+			String linea = null;
+			
+			//Omitir la cabecera
+			in.readLine();			
+			
+			while ((linea = in.readLine()) != null) {
+				comics.add(Comic.parseCSV(linea));
+			}			
+			
+		} catch (Exception ex) {
+			logger.warning(String.format("Error leyendo comics del CSV: %s", ex.getMessage()));
+		}
+		
+		return comics;
 	}
 	
 	

@@ -44,9 +44,6 @@ public class VentanaBiblioteca extends JFrame{
 	private JPanel core; // centro
 	private JPanel margenIzq; // }<-- Margen
 	private JPanel margenInferior;
-	private JButton btnParteArriba;
-	private JButton btnParteAbajo;
-	private JButton btnCalzado;
 	private DefaultTableModel mDatos; // Modelo de datos de tabla central
 	private JTable tDatos;
 	private int tipo1;
@@ -61,21 +58,6 @@ public class VentanaBiblioteca extends JFrame{
 
 		// Panel Superior Izquierda
 		tipo1 = -1;
-		logo = new JLabel();
-		try {
-			Image img = ImageIO.read(getClass().getResource("pagina4libros.jpg"));
-			logo.setIcon(new ImageIcon(img));
-		} catch (Exception ex) {
-			System.out.println(ex);
-		}
-		logo.setBounds(0, 0, 200, 95);
-
-		superiorLogo = new JPanel();
-		superiorLogo.setPreferredSize(new Dimension(125, 50));
-		superiorLogo.setBackground(Color.WHITE);
-		superiorLogo.setLayout(null);
-		superiorLogo.add(logo);
-		
 	
 		// Panel Superior Centro
 		// TODO setLayout(new GridBagLayout()); <-- La idea es que los botones se
@@ -200,7 +182,6 @@ public class VentanaBiblioteca extends JFrame{
 		superior.setBackground(Color.WHITE);
 		superior.setPreferredSize(new Dimension(0, 100));
 		superior.setLayout(new BorderLayout());
-		superior.add(superiorLogo, BorderLayout.WEST);
 		superior.add(superiorVentanas, BorderLayout.CENTER);
 		superior.add(superiorCarrito, BorderLayout.EAST);
 
@@ -217,63 +198,36 @@ public class VentanaBiblioteca extends JFrame{
 
 // Margen Izquierdo
 
-		JLabel prendasLbl = new JLabel();
-		prendasLbl.setText("· Atuendo:");
-		prendasLbl.setBounds(5,20,100,20);
-		prendasLbl.setForeground(Color.WHITE);
-		prendasLbl.setFont(new Font("Consolas", Font.PLAIN, 18));
-		
-
-		btnParteArriba = new JButton("Superior");
-		btnParteArriba.setBounds(0, 50, 180, 30);
-		btnParteArriba.setFont(new Font("Roboto", Font.BOLD, 18));
-		btnParteArriba.setForeground(new Color(0xffffff));
-		btnParteArriba.setBackground(new Color(255, 97, 60));
-		btnParteArriba.setBorderPainted(false);
-
-		btnParteAbajo = new JButton("Inferior");
-		btnParteAbajo.setBounds(0, 90, 170, 30);
-		btnParteAbajo.setFont(new Font("Roboto", Font.BOLD, 18));
-		btnParteAbajo.setForeground(new Color(0xffffff));
-		btnParteAbajo.setBackground(new Color(255, 97, 60));
-		btnParteAbajo.setBorderPainted(false);
-		
-		JLabel calzadoLbl = new JLabel();
-		calzadoLbl.setText("· Calzado:");
-		calzadoLbl.setBounds(5,130,100,20);
-		calzadoLbl.setForeground(Color.WHITE);
-		calzadoLbl.setFont(new Font("Consolas", Font.PLAIN, 18));
-
-		btnCalzado = new JButton("Zapatillas");
-		btnCalzado.setBounds(0, 160,180, 30);
-		btnCalzado.setFont(new Font("Roboto", Font.BOLD, 18));
-		btnCalzado.setForeground(new Color(0xffffff));
-		btnCalzado.setBackground(new Color(255, 97, 60));
-		btnCalzado.setBorderPainted(false);
-		btnCalzado.setVisible(true);
 		
 		JLabel emptyLbl = new JLabel("");
 		emptyLbl.setBounds(5,190,100,20);
 				
-		btnAniadirACarrito = new JButton("Añadir Item");
-		btnAniadirACarrito.setBounds(0, 0, 180, 80);
+		btnAniadirACarrito = new JButton("Añadir al carrito");
+		btnAniadirACarrito.setBounds(0, 0, 180, 50);
 		btnAniadirACarrito.setFont(new Font("Roboto", Font.BOLD, 18));
 		btnAniadirACarrito.setForeground(new Color(255, 97, 60));
 		btnAniadirACarrito.setBackground(new Color(0xffffff));
 		btnAniadirACarrito.setBorderPainted(true);
 		btnAniadirACarrito.setVisible(true);
 
+		
+		
+		logo = new JLabel();
+		try {
+			Image img = ImageIO.read(getClass().getResource("/comic.jpg"));
+			logo.setIcon(new ImageIcon(img));
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+		logo.setBounds(0, 0, 200, 95);
+		
+		
 		margenIzq = new JPanel();
 		margenIzq.setBackground(new Color(255, 97, 60));
 		margenIzq.setPreferredSize(new Dimension(180, 0));
 		margenIzq.setLayout(new BorderLayout());
-		margenIzq.add(prendasLbl);
-		margenIzq.add(btnParteArriba);
-		margenIzq.add(btnParteAbajo);
-		margenIzq.add(calzadoLbl);
-		margenIzq.add(btnCalzado);
-		margenIzq.add(emptyLbl);
 		margenIzq.add(btnAniadirACarrito, BorderLayout.SOUTH);
+		margenIzq.add(logo);
 		
 		
 		realizarCompra = new JButton("Realizar compra");
@@ -311,19 +265,6 @@ public class VentanaBiblioteca extends JFrame{
 
 		});
 		
-		
-		
-		//Muestra los atuendos de parte arriba
-		btnParteArriba.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ModeloComics(GestorBD.getComics());
-				realizarCompra.setVisible(false);
-
-			}
-
-		});
 		
 		
 		//Aniade al carrito el producto seleccionado

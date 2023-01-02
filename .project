@@ -21,14 +21,14 @@
 			<locationURI>PARENT-4-PROJECT_LOC/Programacion/Proyecto_PrograIII-main/Proyecto_PrograIII-main/FinalDeustock1/src/carrito.png</locationURI>
 		</link>
 		<link>
+			<name>ComicShopDeusto/src/comic.jpg</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/3%C2%BA%20Curso/1%C2%BA%20Cuatri/Programacion%203/Proyecto/comic.jpg</locationURI>
+		</link>
+		<link>
 			<name>ComicShopDeusto/src/cuenta.png</name>
 			<type>1</type>
 			<locationURI>PARENT-4-PROJECT_LOC/Programacion/Proyecto_PrograIII-main/Proyecto_PrograIII-main/FinalDeustock1/src/cuenta.png</locationURI>
-		</link>
-		<link>
-			<name>ComicShopDeusto/src/pagina4libros.jpg</name>
-			<type>1</type>
-			<locationURI>PARENT-4-PROJECT_LOC/3%C2%BA%20Curso/1%C2%BA%20Cuatri/Programacion%203/Proyecto/pagina4libros.jpg</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
