@@ -4,15 +4,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import Practica3D.src.es.deusto.prog3.practica3d.bbdd.Comic;
-import Practica3D.src.es.deusto.prog3.practica3d.bbdd.Exception;
-import Practica3D.src.es.deusto.prog3.practica3d.bbdd.FileInputStream;
-import Practica3D.src.es.deusto.prog3.practica3d.bbdd.GestorBD;
-import Practica3D.src.es.deusto.prog3.practica3d.bbdd.List;
-import Practica3D.src.es.deusto.prog3.practica3d.bbdd.Logger;
-import Practica3D.src.es.deusto.prog3.practica3d.bbdd.Personaje;
-import Practica3D.src.es.deusto.prog3.practica3d.bbdd.Properties;
-import Practica3D.src.es.deusto.prog3.practica3d.bbdd.String;
 import es.deusto.prog3.g32.*;
 
 import java.io.BufferedReader;
@@ -30,6 +21,7 @@ import java.util.Properties;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+import Practica3D.src.es.deusto.prog3.practica3d.bbdd.Exception;
 import es.deusto.prog3.g32.Comic;
 
 import java.io.File;
@@ -39,13 +31,12 @@ import java.sql.SQLException;
 public class GestorBD {
 	
 	private final String PROPERTIES_FILE = "conf/app.properties";
-	private final String CSV_PERSONAJES = "data/personajes.csv";
-	private final String CSV_COMICS = "data/comics.csv";
+	private final String CSV_COMICS = "data/comics1.csv";
 	
 	private Properties properties;
 	private String driverName;
 	private String databaseFile;
-	private String connectionString;
+	private static String connectionString;
 	
 	private static Logger logger = Logger.getLogger(GestorBD.class.getName());
 	
@@ -62,7 +53,7 @@ public class GestorBD {
 			databaseFile = properties.getProperty("file");
 			connectionString = properties.getProperty("connection");
 			
-			//Cargar el diver SQLite
+			//Cargar el driver SQLite
 			Class.forName(driverName);
 		} catch (Exception ex) {
 			logger.warning(String.format("Error al cargar el driver de BBDD: %s", ex.getMessage()));
@@ -76,7 +67,7 @@ public class GestorBD {
 		//Sólo se inicializa la BBDD si la propiedad initBBDD es true.
 		if (properties.get("loadCSV").equals("true")) {
 			//Se borran los datos, si existía alguno
-			GestorBD.borrarComics();
+			this.borrarDatos();
 			
 			
 			//Se leen los comics del CSV
@@ -84,7 +75,7 @@ public class GestorBD {
 			
 			
 			//Se insertan los comics en la BBDD
-			this.insertarComic(comics.toArray(new Comic[comics.size()]));				
+			GestorBD.insertarComic(comics.toArray(new Comic[comics.size()]));				
 		}
 	}
 	
@@ -92,20 +83,20 @@ public class GestorBD {
 	protected static final String DATABASE_FILE = "db/BaseDeDatos.db";
 	protected static final String CONNECTION_STRING = "jdbc:sqlite:" + DATABASE_FILE;
 	
-	public GestorBD () {
-		try {
+	//public GestorBD () {
+		//try {
 			//Cargar el driver SQLite
-			Class.forName(DRIVER_NAME);
-		} catch (ClassNotFoundException e) {
-			System.err.println(String.format("Error al cargar el driver de BBDD: %s", e.getMessage()));
-		}
-	}
+			//Class.forName(DRIVER_NAME);
+		//} catch (ClassNotFoundException e) {
+			//System.err.println(String.format("Error al cargar el driver de BBDD: %s", e.getMessage()));
+		//}
+	//}
 	
 	
 	public static void crearBBDD() {
 		//Se abre la conexión y se obtiene el statement
 		//Al abrir la conexión, si no existía el fichero, se crea la base de datos
-		try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
+		try (Connection con = DriverManager.getConnection(connectionString);
 			 Statement stmt = con.createStatement()) {
 			String comic = "CREATE TABLE IF NOT EXISTS COMIC(\n"
 					+ "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n"
@@ -154,16 +145,34 @@ public class GestorBD {
 			String cogerCliente = "CREATE TABLE IF NOT EXISTS COGERCLIENTE(\n"
 					+ "Correo TEXT PRIMARY KEY NOT NULL);";
 			
-			//Se ejecuta la sentencia de la creación de la BBDD
-			if (!stmt.execute(comic) && !stmt.execute(biblioteca) && !stmt.execute(carrito) && !stmt.execute(usuario) && !stmt.execute(compra) && !stmt.execute(cogerCliente)) {
-				System.out.println("Se ha creado la BBDD");
+			
+	        //Se abre la conexión y se crea un PreparedStatement para cada tabla
+			//Al abrir la conexión, si no existía el fichero, se crea la base de datos
+			//try (Connection con1 = DriverManager.getConnection(connectionString);
+			     PreparedStatement pStmt1 = con.prepareStatement(comic);
+				 PreparedStatement pStmt2 = con.prepareStatement(biblioteca);
+				 PreparedStatement pStmt3 = con.prepareStatement(carrito);
+				 PreparedStatement pStmt4 = con.prepareStatement(usuario);
+				 PreparedStatement pStmt5 = con.prepareStatement(compra);
+				 PreparedStatement pStmt6 = con.prepareStatement(cogerCliente); 
+				
+				//Se ejecutan las sentencias de creación de las tablas
+				if (!pStmt1.execute(comic) && !pStmt2.execute(biblioteca) && !pStmt3.execute(carrito) && !pStmt4.execute(usuario) && !pStmt5.execute(compra) && !pStmt6.execute(cogerCliente)) {
+		        	logger.info("Se han creado las tablas");
+		        }
+		} catch (Exception ex) {
+			logger.warning(String.format("Error al crear las tablas: %s", ex.getMessage()));
+		
 			}
-			
-			
-		} catch (Exception e) {
-			System.err.println(String.format("Error al crear la BBDD: %s", e.getMessage()));
 		}
-	}
+					
+			//Se ejecuta la sentencia de la creación de la BBDD
+				//if (!stmt.execute(comic) && !stmt.execute(biblioteca) && !stmt.execute(carrito) && !stmt.execute(usuario) && !stmt.execute(compra) && !stmt.execute(cogerCliente)) {
+					//System.out.println("Se ha creado la BBDD");
+				//}
+			
+			
+	
 	
 	
 	
@@ -213,7 +222,7 @@ public class GestorBD {
 				int precio = rs.getInt("precio");
 				int cantidad = rs.getInt("cantidad");
 				
-				ret.add(new Comic(id, editorial, titulo, Genero.valueOf(genero), precio, cantidad)); 
+				//ret.add(new Comic(id, editorial, titulo, Genero.valueOf(genero), precio, cantidad)); 
 				
 				}
 			}catch(Exception e) {
@@ -222,6 +231,48 @@ public class GestorBD {
 			}
 			return ret;
 			
+	}
+	
+	
+	//Otro metodo para recivir comics
+	
+	public static ArrayList<Comic> getComics1() {
+		ArrayList<Comic> comics = new ArrayList<>();
+		String sql = "SELECT * FROM Comic";
+		
+		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
+		try (Connection con = DriverManager.getConnection(connectionString);
+		     PreparedStatement pStmt = con.prepareStatement(sql)) {			
+			
+			//Se ejecuta la sentencia y se obtiene el ResultSet con los resutlados
+			ResultSet rs = pStmt.executeQuery();			
+			Comic comic;
+			
+			//Se recorre el ResultSet y se crean los Comics
+			while (rs.next()) {
+				comic = new Comic();
+				
+				comic.setId(rs.getInt("id"));
+				comic.setEditorial(rs.getString("editorial"));
+				comic.setTitulo(rs.getString("titulo"));
+				comic.setGenero(Genero.valueOf(rs.getString("genero")));
+				comic.setPrecio(rs.getInt("precio"));
+				comic.setCantidad(rs.getInt("cantidad"));
+				
+				
+				//Se inserta cada nuevo cliente en la lista de clientes
+				comics.add(comic);
+			}
+			
+			//Se cierra el ResultSet
+			rs.close();
+			
+			logger.info(String.format("Se han recuperado %d comics", comics.size()));			
+		} catch (Exception ex) {
+			logger.warning(String.format("Error recuperar los comics: %s", ex.getMessage()));						
+		}		
+		
+		return comics;
 	}
 	
 	
@@ -323,7 +374,7 @@ public class GestorBD {
 			int precio = rs.getInt("precio");
 			int cantidad = rs.getInt("cantidad");
 			
-			ret.add(new Comic(id, editorial, titulo, Genero.valueOf(genero1), precio, cantidad)); 
+			//ret.add(new Comic(id, editorial, titulo, Genero.valueOf(genero1), precio, cantidad)); 
 			
 			}
 		}catch(Exception e) {
@@ -331,6 +382,47 @@ public class GestorBD {
 			
 		}
 		return ret;
+	}
+	
+	
+	
+	//Otro metodo para cargar comics por genero
+	
+	public static Comic cargarComicsPorGenero1(String genero) {
+		Comic comic = null;
+		String sql = "SELECT * FROM COMIC WHERE GENERO = '"+genero+"';";
+		
+		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
+		try (Connection con = DriverManager.getConnection(connectionString);
+		     PreparedStatement pStmt = con.prepareStatement(sql)) {			
+			
+			//Se definen los parámetros de la sentencia SQL
+			pStmt.setString(1, genero);
+			
+			//Se ejecuta la sentencia y se obtiene el ResultSet con los resutlados
+			ResultSet rs = pStmt.executeQuery();			
+
+			//Se procesa el único resultado
+			if (rs.next()) {
+				comic = new Comic();
+				
+				comic.setId(rs.getInt("id"));
+				comic.setEditorial(rs.getString("editorial"));
+				comic.setTitulo(rs.getString("titulo"));
+				comic.setGenero(Genero.valueOf(rs.getString("genero")));
+				comic.setPrecio(rs.getInt("precio"));
+				comic.setCantidad(rs.getInt("cantidad"));
+			}
+			
+			//Se cierra el ResultSet
+			rs.close();
+			
+			logger.info(String.format("Se ha recuperado el comic %s", comic));			
+		} catch (Exception ex) {
+			logger.warning(String.format("Error recuperar el comic con nombre %s: %s", genero, ex.getMessage()));						
+		}		
+		
+		return comic;
 	}
 	
 	
@@ -563,7 +655,41 @@ public class GestorBD {
 	}
 	
 	
+	
+	public void borrarDatos() {
+		//Sólo se borran los datos si la propiedad cleanBBDD es true
+		if (properties.get("cleanBBDD").equals("true")) {	
+			String sql1 = "DELETE FROM BIBLIOTECA;";
+			String sql2 = "DELETE FROM COMIC;";
+			String sql3 = "DELETE FROM CARRITO;";
+			String sql4 = "DELETE FROM USUARIO;";
+			String sql5 = "DELETE FROM COMPRA;";
+			String sql6 = "DELETE FROM COGERCLIENTE;";
+			
+	        //Se abre la conexión y se crea un PreparedStatement para cada tabla
+			//Al abrir la conexión, si no existía el fichero, se crea la base de datos
+			try (Connection con = DriverManager.getConnection(connectionString);
+			     PreparedStatement pStmt1 = con.prepareStatement(sql1);
+				 PreparedStatement pStmt2 = con.prepareStatement(sql2);
+				 PreparedStatement pStmt3 = con.prepareStatement(sql3);
+				 PreparedStatement pStmt4 = con.prepareStatement(sql4);
+				 PreparedStatement pStmt5 = con.prepareStatement(sql5);
+				 PreparedStatement pStmt6 = con.prepareStatement(sql6)) {
+				
+				//Se ejecutan las sentencias de borrado de las tablas
+		        if (!pStmt1.execute() && !pStmt2.execute() && !pStmt3.execute() && !pStmt4.execute() && !pStmt5.execute() && !pStmt6.execute()) {
+		        	logger.info("Se han borrado los datos");
+		        }
+			} catch (Exception ex) {
+				logger.warning(String.format("Error al borrar los datos: %s", ex.getMessage()));
+			}
+		}
+	}
+	
+	
 }
+
+
 
 	
 	

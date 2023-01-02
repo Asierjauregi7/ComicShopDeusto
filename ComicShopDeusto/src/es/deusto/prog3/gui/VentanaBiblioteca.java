@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Vector;
+
+import es.deusto.prog.bbdd.GestorBD;
 public class VentanaBiblioteca extends JFrame{
 	
 	private JLabel logo; // }<-- Panel Superior
@@ -350,22 +352,26 @@ public class VentanaBiblioteca extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String genero = "Comedia";
-				
-				ArrayList<Comic>lista = GestorBD.cargarComicsPorGenero(genero);
-				ModeloComics(lista);
+				ArrayList<Comic>listaComedia = new ArrayList<Comic>();
+				Comic comicsComedia = GestorBD.cargarComicsPorGenero1(genero);
+				listaComedia.add(comicsComedia);
+				ModeloComics(listaComedia);
 				
 			}
 			
 		});
+		
+		
 		//Se cargan los comics cuyo genero sea Terror
 				btnTerror.addActionListener(new ActionListener() {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						String genero = "Terror";
-						
-						ArrayList<Comic>lista = GestorBD.cargarComicsPorGenero(genero);
-						ModeloComics(lista);
+						ArrayList<Comic>listaTerror = new ArrayList<Comic>();
+						Comic comicsTerror = GestorBD.cargarComicsPorGenero1(genero);
+						listaTerror.add(comicsTerror);
+						ModeloComics(listaTerror);
 						
 					}
 					
@@ -377,9 +383,10 @@ public class VentanaBiblioteca extends JFrame{
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						String genero = "Accion";
-						
-						ArrayList<Comic>lista = GestorBD.cargarComicsPorGenero(genero);
-						ModeloComics(lista);
+						ArrayList<Comic>listaAccion = new ArrayList<Comic>();
+						Comic comicsAccion = GestorBD.cargarComicsPorGenero1(genero);
+						listaAccion.add(comicsAccion);
+						ModeloComics(listaAccion);
 						
 					}
 					
@@ -391,9 +398,10 @@ public class VentanaBiblioteca extends JFrame{
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						String genero = "Aventura";
-						
-						ArrayList<Comic>lista = GestorBD.cargarComicsPorGenero(genero);
-						ModeloComics(lista);
+						ArrayList<Comic>listaAventura = new ArrayList<Comic>();
+						Comic comicsAventura = GestorBD.cargarComicsPorGenero1(genero);
+						listaAventura.add(comicsAventura);
+						ModeloComics(listaAventura);
 						
 					}
 					
@@ -586,7 +594,7 @@ public class VentanaBiblioteca extends JFrame{
 					GestorBD.crearCarrito(new Carrito(idTabla, editorialTabla, titulo, genero, precio, cantidadTabla));
 					}
 					//GestorBD.RestarCantidadComics(idTabla, cantidadTabla);
-					ModeloComics(GestorBD.getComics());
+					ModeloComics(GestorBD.getComics1());
 				}
 				
 		}
