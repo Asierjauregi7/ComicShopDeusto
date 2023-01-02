@@ -30,8 +30,10 @@ public class VentanaBiblioteca extends JFrame{
 	private JLabel logo; // }<-- Panel Superior
 	private JPanel superiorLogo;
 	private JButton btnInicio;
-	private JButton btnHombre;
-	private JButton btnMujer;
+	private JButton btnComedia;
+	private JButton btnTerror;
+	private JButton btnAccion;
+	private JButton btnAventura;
 	private JButton btnCuenta;
 	private JPanel superiorVentanas;
 	private JButton btnCarrito;
@@ -61,7 +63,7 @@ public class VentanaBiblioteca extends JFrame{
 		tipo1 = -1;
 		logo = new JLabel();
 		try {
-			Image img = ImageIO.read(getClass().getResource("/libreria.png"));
+			Image img = ImageIO.read(getClass().getResource("pagina4libros.jpg"));
 			logo.setIcon(new ImageIcon(img));
 		} catch (Exception ex) {
 			System.out.println(ex);
@@ -69,7 +71,7 @@ public class VentanaBiblioteca extends JFrame{
 		logo.setBounds(0, 0, 200, 95);
 
 		superiorLogo = new JPanel();
-		superiorLogo.setPreferredSize(new Dimension(169, 96));
+		superiorLogo.setPreferredSize(new Dimension(125, 50));
 		superiorLogo.setBackground(Color.WHITE);
 		superiorLogo.setLayout(null);
 		superiorLogo.add(logo);
@@ -93,30 +95,50 @@ public class VentanaBiblioteca extends JFrame{
 		gbc.gridy = 0;
 		btnInicio.setSize(160, 35);
 		btnInicio.setFont(new Font("Roboto", Font.BOLD, 25));
-		btnInicio.setForeground(new Color(0xa8ccba));
+		btnInicio.setForeground(new Color(255, 97, 60));
 		btnInicio.setBackground(Color.WHITE);
 		btnInicio.setBorderPainted(false);
 		superiorVentanas.add(btnInicio,gbc);
 		
 
-		btnHombre = new JButton("HOMBRE");
-		btnHombre.setSize(160, 35);
-		btnHombre.setFont(new Font("Consolas", Font.BOLD, 25));
-		btnHombre.setForeground(new Color(0xa8ccba));
-		btnHombre.setBackground(Color.WHITE);
-		btnHombre.setBorderPainted(false);
-		gbc.gridx = 10;
-		superiorVentanas.add(btnHombre,gbc);
+		btnComedia = new JButton("COMEDIA");
+		btnComedia.setSize(160, 35);
+		btnComedia.setFont(new Font("Consolas", Font.BOLD, 25));
+		btnComedia.setForeground(new Color(255, 97, 60));
+		btnComedia.setBackground(Color.WHITE);
+		btnComedia.setBorderPainted(false);
+		gbc.gridx = 5;
+		superiorVentanas.add(btnComedia,gbc);
 		
 
-		btnMujer = new JButton("MUJER");
+		btnTerror = new JButton("TERROR");
+		gbc.gridx = 10;
+		btnTerror.setSize(160, 35);
+		btnTerror.setFont(new Font("Roboto", Font.BOLD, 25));
+		btnTerror.setForeground(new Color(255, 97, 60));
+		btnTerror.setBackground(Color.WHITE);
+		btnTerror.setBorderPainted(false);
+		superiorVentanas.add(btnTerror,gbc);
+		
+		
+		btnAccion = new JButton("ACCION");
+		btnAccion.setSize(160, 35);
+		btnAccion.setFont(new Font("Consolas", Font.BOLD, 25));
+		btnAccion.setForeground(new Color(255, 97, 60));
+		btnAccion.setBackground(Color.WHITE);
+		btnAccion.setBorderPainted(false);
+		gbc.gridx = 15;
+		superiorVentanas.add(btnAccion,gbc);
+		
+		
+		btnAventura = new JButton("AVENTURA");
+		btnAventura.setSize(160, 35);
+		btnAventura.setFont(new Font("Consolas", Font.BOLD, 25));
+		btnAventura.setForeground(new Color(255, 97, 60));
+		btnAventura.setBackground(Color.WHITE);
+		btnAventura.setBorderPainted(false);
 		gbc.gridx = 20;
-		btnMujer.setSize(160, 35);
-		btnMujer.setFont(new Font("Roboto", Font.BOLD, 25));
-		btnMujer.setForeground(new Color(0xa8ccba));
-		btnMujer.setBackground(Color.WHITE);
-		btnMujer.setBorderPainted(false);
-		superiorVentanas.add(btnMujer,gbc);
+		superiorVentanas.add(btnAventura,gbc);
 		
 
 		btnCuenta = new JButton();
@@ -131,7 +153,7 @@ public class VentanaBiblioteca extends JFrame{
 		btnCuenta.setIconTextGap(10);
 		btnCuenta.setSize(250, 90);
 		btnCuenta.setFont(new Font("Roboto", Font.BOLD, 24));
-		btnCuenta.setForeground(new Color(0xa8ccba));
+		btnCuenta.setForeground(new Color(255, 97, 60));
 		btnCuenta.setBackground(Color.WHITE);
 		btnCuenta.setBorderPainted(false);
 		btnCuenta.setHorizontalTextPosition(JButton.LEFT);
@@ -161,12 +183,12 @@ public class VentanaBiblioteca extends JFrame{
 			System.out.println(ex);
 		}
 		btnCarrito.setPreferredSize(new Dimension(100, 100));
-		btnCarrito.setBackground(new Color(0xa8ccba));
-		btnCarrito.setForeground(new Color(0xa8ccba));
+		btnCarrito.setBackground(new Color(255, 97, 60));
+		btnCarrito.setForeground(new Color(255, 97, 60));
 		btnCarrito.setBorderPainted(false);
 
 		superiorCarrito = new JPanel();
-		superiorCarrito.setBackground(new Color(0xa8ccba));
+		superiorCarrito.setBackground(new Color(255, 97, 60));
 		superiorCarrito.setPreferredSize(new Dimension(250, 0));
 		superiorCarrito.setLayout(new BorderLayout());
 		superiorCarrito.add(totalLbl, BorderLayout.EAST);
@@ -206,14 +228,14 @@ public class VentanaBiblioteca extends JFrame{
 		btnParteArriba.setBounds(0, 50, 180, 30);
 		btnParteArriba.setFont(new Font("Roboto", Font.BOLD, 18));
 		btnParteArriba.setForeground(new Color(0xffffff));
-		btnParteArriba.setBackground(new Color(0xa8ccba));
+		btnParteArriba.setBackground(new Color(255, 97, 60));
 		btnParteArriba.setBorderPainted(false);
 
 		btnParteAbajo = new JButton("Inferior");
 		btnParteAbajo.setBounds(0, 90, 170, 30);
 		btnParteAbajo.setFont(new Font("Roboto", Font.BOLD, 18));
 		btnParteAbajo.setForeground(new Color(0xffffff));
-		btnParteAbajo.setBackground(new Color(0xa8ccba));
+		btnParteAbajo.setBackground(new Color(255, 97, 60));
 		btnParteAbajo.setBorderPainted(false);
 		
 		JLabel calzadoLbl = new JLabel();
@@ -226,7 +248,7 @@ public class VentanaBiblioteca extends JFrame{
 		btnCalzado.setBounds(0, 160,180, 30);
 		btnCalzado.setFont(new Font("Roboto", Font.BOLD, 18));
 		btnCalzado.setForeground(new Color(0xffffff));
-		btnCalzado.setBackground(new Color(0xa8ccba));
+		btnCalzado.setBackground(new Color(255, 97, 60));
 		btnCalzado.setBorderPainted(false);
 		btnCalzado.setVisible(true);
 		
@@ -236,13 +258,13 @@ public class VentanaBiblioteca extends JFrame{
 		btnAniadirACarrito = new JButton("Añadir Item");
 		btnAniadirACarrito.setBounds(0, 0, 180, 80);
 		btnAniadirACarrito.setFont(new Font("Roboto", Font.BOLD, 18));
-		btnAniadirACarrito.setForeground(new Color(0xa8ccba));
+		btnAniadirACarrito.setForeground(new Color(255, 97, 60));
 		btnAniadirACarrito.setBackground(new Color(0xffffff));
 		btnAniadirACarrito.setBorderPainted(true);
 		btnAniadirACarrito.setVisible(true);
 
 		margenIzq = new JPanel();
-		margenIzq.setBackground(new Color(0xa8ccba));
+		margenIzq.setBackground(new Color(255, 97, 60));
 		margenIzq.setPreferredSize(new Dimension(180, 0));
 		margenIzq.setLayout(new BorderLayout());
 		margenIzq.add(prendasLbl);
@@ -260,13 +282,13 @@ public class VentanaBiblioteca extends JFrame{
 		
 		
 		margenInferior = new JPanel();
-		margenInferior.setBackground(new Color(0xa8ccba));
+		margenInferior.setBackground(new Color(255, 97, 60));
 		margenInferior.setLayout(new BorderLayout());
 		margenInferior.add(realizarCompra, BorderLayout.CENTER);
 
 		
 		core = new JPanel();
-		core.setBackground(new Color(0xa8ccba));
+		core.setBackground(new Color(255, 97, 60));
 		core.setLayout(new BorderLayout());
 		core.add(new JScrollPane(tDatos), BorderLayout.CENTER);
 
@@ -279,12 +301,12 @@ public class VentanaBiblioteca extends JFrame{
 		addWindowListener(new WindowAdapter() {
 			//Iniciamos conexion con la base de datos
 			public void windowOpened(WindowEvent e) {
-				BaseDeDatos.inicioConexion("BaseDeDatos1.db");
+				GestorBD.crearBBDD();
 			}
 			//Cerramos conexion con la base de datos y vaciamos la tabla que contiene el usuario actual
 			public void windowClosed(WindowEvent e) {
 				GestorBD.EliminarUsuarioDeBaseDeDatos();
-				GestorBD.cerrarConexion();
+				GestorBD.borrarBBDD();
 			}
 
 		});
@@ -296,40 +318,13 @@ public class VentanaBiblioteca extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ModeloParteArriba(GestorBD.getAtuendosParteArriba());
+				ModeloComics(GestorBD.getComics());
 				realizarCompra.setVisible(false);
-				
-				tipo1 = 0;
 
-			}
-
-		});
-		//Muestra los atuendos de parte abajo
-		btnParteAbajo.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ModeloParteAbajo(GestorBD.getAtuendosParteAbajo());
-				realizarCompra.setVisible(false);
-				
-				tipo1 = 1;
 			}
 
 		});
 		
-		//Muestra los calzados
-		btnCalzado.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ModeloCalzado(GestorBD.getZapatillas());;
-				realizarCompra.setVisible(false);
-				
-				tipo1 = 2;
-				
-			}
-			
-		});
 		
 		//Aniade al carrito el producto seleccionado
 		btnAniadirACarrito.addActionListener(new ActionListener() {
@@ -374,12 +369,13 @@ public class VentanaBiblioteca extends JFrame{
 				
 				
 				
-				
-				if(GestorBD.getSaldoUsuario() > getTotalCarrito()) {
-					//Crear metodo de coger saldo del usuario en la base de datos y eldel carrito que esta hecho en el otro proyecto
+				String correo = GestorBD.cargarCorreoUsuario();
+				if(GestorBD.cargarSaldoUsuario(correo) > getTotalCarrito()) {
+					
 					realizarCompra(1);
 					//Averiguar como establecer el saldo nuevo al realizar la compra
-					Biblioteca.setSaldo() = GestorBD.getSaldoUsuario() - getTotalCarrito();                        
+					int nuevoSaldo = GestorBD.cargarSaldoUsuario(correo) - getTotalCarrito();       
+					//Usuario.setSaldo(nuevoSaldo);
 				}
 				else {
 					//saldo insuficiente rellena tu saldo
@@ -407,53 +403,62 @@ public class VentanaBiblioteca extends JFrame{
 		});
 		
 		
-		//Se cargan los atuendos cuyo genero sea Hombre y se actualizara en funcion de en que tipo de atuendo se este
-		btnHombre.addActionListener(new ActionListener() {
+		//Se cargan los comics cuyo genero sea Comedia
+		btnComedia.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String genero = "Hombre";
+				String genero = "Comedia";
 				
-				if(tipo1 == 0) {
-					ArrayList<AtuendosParteArriba> lista = BaseDeDatos.getAtuendosParteArribaPorGenero(genero);
-					ModeloParteArriba(lista);
-					
-				}else if(tipo1 == 1) {
-					ArrayList<AtuendosParteAbajo> lista = BaseDeDatos.getAtuendosParteAbajoPorGenero(genero);
-					ModeloParteAbajo(lista);
-					
-				}else {
-					ArrayList<AtuendoZapatilla> lista = BaseDeDatos.getZapatillasPorGenero(genero);
-					ModeloCalzado(lista);
-				}
+				ArrayList<Comic>lista = GestorBD.cargarComicsPorGenero(genero);
+				ModeloComics(lista);
 				
 			}
 			
 		});
+		//Se cargan los comics cuyo genero sea Terror
+				btnTerror.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						String genero = "Terror";
+						
+						ArrayList<Comic>lista = GestorBD.cargarComicsPorGenero(genero);
+						ModeloComics(lista);
+						
+					}
+					
+				});
+				
+				//Se cargan los comics cuyo genero sea Accion
+				btnAccion.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						String genero = "Accion";
+						
+						ArrayList<Comic>lista = GestorBD.cargarComicsPorGenero(genero);
+						ModeloComics(lista);
+						
+					}
+					
+				});
+				
+				//Se cargan los comics cuyo genero sea Aventura
+				btnAventura.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						String genero = "Aventura";
+						
+						ArrayList<Comic>lista = GestorBD.cargarComicsPorGenero(genero);
+						ModeloComics(lista);
+						
+					}
+					
+				});
 		
-		//Se cargan los atuendos cuyo genero sea Mujer y se actualizara en funcion de en que tipo de atuendo se este
-		btnMujer.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String genero = "Mujer";
-				
-				if(tipo1 == 0) {
-					ArrayList<AtuendosParteArriba> lista = BaseDeDatos.getAtuendosParteArribaPorGenero(genero);
-					ModeloParteArriba(lista);
-					
-				}else if(tipo1 == 1) {
-					ArrayList<AtuendosParteAbajo> lista = BaseDeDatos.getAtuendosParteAbajoPorGenero(genero);
-					ModeloParteAbajo(lista);
-					
-				}else {
-					ArrayList<AtuendoZapatilla> lista = BaseDeDatos.getZapatillasPorGenero(genero);
-					ModeloCalzado(lista);
-				}
-				
-			}
-			
-		});
+		
 		
 		
 		
@@ -462,10 +467,10 @@ public class VentanaBiblioteca extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(e.isControlDown()) {
-					BaseDeDatos.EliminarCarrito();
+					GestorBD.EliminarCarrito();
 					totalLbl.setText("Total: 0�");
 					realizarCompra.setVisible(false);
-					FechaLlegada.setVisible(false);
+					
 					
 				}
 			}
@@ -597,8 +602,8 @@ public class VentanaBiblioteca extends JFrame{
 				return true;
 			}
 		};
-		String correo = GestorBD.cargarCorreoDeUnCliente();
-		ArrayList<Compra> compras = GestorBD.getComprasUsuario(correo);
+		String correo = GestorBD.cargarCorreoUsuario();
+		ArrayList<Compra> compras = GestorBD.cargarComprasUsuario(correo);
 		
 		for (Compra compra : compras) {
 			
@@ -616,13 +621,13 @@ public class VentanaBiblioteca extends JFrame{
 	 */
 	
 	private void CrearCarrito() {
-		//"Id", "Editorial", "Titulo", "Genero", "Precio", "Cantidad"
+		
 		int filaSeleccionada = tDatos.getSelectedRow();
 		if(filaSeleccionada != -1) {
 			int idTabla = (Integer) mDatos.getValueAt(filaSeleccionada, 0);
 			String editorialTabla = (String) mDatos.getValueAt(filaSeleccionada, 1);
 			String titulo =  (String) mDatos.getValueAt(filaSeleccionada, 2);
-			String genero = (String) mDatos.getValueAt(filaSeleccionada, 3);
+			Genero genero = (Genero) mDatos.getValueAt(filaSeleccionada, 3);
 			int precio = (Integer) mDatos.getValueAt(filaSeleccionada, 4);
 			int cantidadTabla = (Integer) mDatos.getValueAt(filaSeleccionada, 5);
 			ArrayList<Carrito> carros = GestorBD.getCarrito();
@@ -634,89 +639,44 @@ public class VentanaBiblioteca extends JFrame{
 			
 			if(cantidadTabla == 0) {
 				JOptionPane.showMessageDialog(null, "No queda stock de este producto");
-			}else {
-				int cantidad = Integer.parseInt(JOptionPane.showInputDialog("Introduce la cantidad del producto"));
-			
-			
-				if(cantidad<cantidadTabla) {
-					
-					if(nombreProductos.contains(titulo)) {
-						GestorBD.aumentarCantidadCarrito(titulo, cantidad);
-					
-					}else {
-						String tipo = (String) mDatos.getValueAt(filaSeleccionada,10);
-						BaseDeDatos.crearCarrito(new Carrito(idTabla, editorialTabla, titulo, genero, precio, cantidad));
-					}
-					BaseDeDatos.RestarCantidadDeProductosParteArriba(idTabla, cantidad);
-					ModeloParteArriba(BaseDeDatos.getAtuendosParteArriba());
-
-				}else if(tipo1==1){
-					if(nombreProductos.contains(nombre)) {
-						BaseDeDatos.aumentarCantidadCarrito(nombre, cantidad);
-					
-					}else {
-						String tipo = (String) mDatos.getValueAt(filaSeleccionada,10).toString();
-						BaseDeDatos.crearCarrito(new Carrito(nombre,cantidad, precio, tipo));
-					}
-					BaseDeDatos.RestarCantidadDeProductosParteAbajo(idTabla, cantidad);
-					ModeloParteAbajo(BaseDeDatos.getAtuendosParteAbajo());
 				
 				}else {
-					for(Carrito carro : carros) {
-						nombreProductos.add(carro.getNombre());
-					}
-					if(nombreProductos.contains(nombre)) {
-						BaseDeDatos.aumentarCantidadCarrito(nombre, cantidad);
 					
-					}else {
-						String tipo = (String) mDatos.getValueAt(filaSeleccionada,11);
-						BaseDeDatos.crearCarrito(new Carrito(nombre,cantidad, precio, tipo));
+					GestorBD.crearCarrito(new Carrito(idTabla, editorialTabla, titulo, genero, precio, cantidadTabla));
 					}
-					BaseDeDatos.RestarCantidadDeZapatillas(idTabla, cantidad);
-					ModeloCalzado(BaseDeDatos.getZapatillas());
+					//GestorBD.RestarCantidadComics(idTabla, cantidadTabla);
+					ModeloComics(GestorBD.getComics());
 				}
 				
-			}else {
-				JOptionPane.showMessageDialog(null, "La cantidad seleccionada no es posible");
-			}
 		}
-
-	}else {
-			JOptionPane.showMessageDialog(null, "No has seleccionado ningun producto para borrar");
-	}
-
-}
 	
 	//Recorre todo el modelo de la tabla del carrito y crea las compras
 	
 	private void realizarCompra(int i) {
 		
-		Date f = FechaLlegada.getDate();
-		long fechaLlegada = f.getTime();
-		if(f.toString().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "No has seleccionado una fecha de llegada");
-		}else {
 			while(i< mDatos.getRowCount()) {
-				String correo = BaseDeDatos.cargarCorreoDeUnCliente();
-				String nombreProducto = (String) mDatos.getValueAt(i, 0);
-				int cantidad = (Integer) mDatos.getValueAt(i, 1);
-				int precio = (Integer) mDatos.getValueAt(i, 2);
-				String tipo = (String) mDatos.getValueAt(i, 3);
-				long fechaCompra = System.currentTimeMillis();
-				BaseDeDatos.crearCompra(new Pedido(0, correo, nombreProducto, cantidad, precio, tipo, fechaCompra, fechaLlegada));
+				String correo = GestorBD.cargarCorreoUsuario();
+				int idComic = (Integer) mDatos.getValueAt(i, 0);
+				String editorialComic = (String) mDatos.getValueAt(i, 1);
+				String tituloComic = (String) mDatos.getValueAt(i, 2);
+				String generoComic = (String) mDatos.getValueAt(i, 3);
+				int precioComic = (Integer) mDatos.getValueAt(i, 4);
+				int cantidadComic = (Integer) mDatos.getValueAt(i, 5);
+				
+				GestorBD.crearCompra(new Compra(0, correo, idComic, editorialComic, tituloComic, generoComic, precioComic, cantidadComic));
 				mDatos.removeRow(i);
-				BaseDeDatos.EliminarCarrito();
+				GestorBD.EliminarCarrito();
 				realizarCompra(i+1);
 				
 			}
 		}
 		
-	}
+	
 	
 	
 
-	public static void main(String[] args) {
-		VentanaUsuario ventana = new VentanaUsuario();
+	public static void main(String[] args){
+		VentanaBiblioteca ventana = new VentanaBiblioteca();
 		ventana.setVisible(true);
 	}
 	

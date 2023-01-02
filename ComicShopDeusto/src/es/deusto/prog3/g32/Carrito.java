@@ -4,13 +4,13 @@ public class Carrito {
 	private int id;
 	private String editorial;
 	private String titulo;
-	private String genero;
+	private Genero genero;
 	private int precio;
 	private int cantidad;
 	//private int saldo;
 	
 	//Constructor
-	public Carrito(int id, String editorial, String titulo, String genero, int precio, int cantidad) {
+	public Carrito(int id, String editorial, String titulo, Genero genero, int precio, int cantidad) {
 		super();
 		this.id = id;
 		this.editorial = editorial;
@@ -47,11 +47,11 @@ public class Carrito {
 		this.titulo = titulo;
 	}
 
-	public String getGenero() {
+	public Genero getGenero() {
 		return genero;
 	}
 
-	public void setGenero(String genero) {
+	public void setGenero(Genero genero) {
 		this.genero = genero;
 	}
 
