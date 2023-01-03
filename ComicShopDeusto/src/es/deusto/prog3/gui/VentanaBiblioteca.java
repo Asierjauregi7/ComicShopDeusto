@@ -50,6 +50,9 @@ public class VentanaBiblioteca extends JFrame{
 	private JTable tDatos;
 	private int tipo1;
 	private JButton realizarCompra;
+	private JPanel margenSaldo;
+	private JLabel saldo;
+	private JButton btnRecargarSaldo;
 	public VentanaBiblioteca() {
 		this.setTitle("Comic Shop Deusto");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -127,13 +130,8 @@ public class VentanaBiblioteca extends JFrame{
 
 		btnCuenta = new JButton();
 		gbc.gridx = 30;
-		try {
-			Image img = ImageIO.read(getClass().getResource("/cuenta.png"));
-			btnCuenta.setIcon(new ImageIcon(img));
-		} catch (Exception ex) {
-			System.out.println(ex);
-		}
-		btnCuenta.setText("CUENTA: ");
+		
+		btnCuenta.setText("MI BIBLIOTECA");
 		btnCuenta.setIconTextGap(10);
 		btnCuenta.setSize(250, 90);
 		btnCuenta.setFont(new Font("Roboto", Font.BOLD, 24));
@@ -235,12 +233,40 @@ public class VentanaBiblioteca extends JFrame{
 		realizarCompra = new JButton("Realizar compra");
 		realizarCompra.setVisible(false);
 		realizarCompra.setBounds(50, 1000, 175, 20);
+		realizarCompra.setFont(new Font("Roboto", Font.BOLD, 18));
+		realizarCompra.setForeground(new Color(255, 97, 60));
+		realizarCompra.setBackground(new Color(0xffffff));
+		realizarCompra.setBorderPainted(true);
+		
+		saldo = new JLabel("Saldo:"+ getSaldoUsuario() +"€", SwingConstants.CENTER);
+		//saldo.setText("Saldo:"+"€");
+		saldo.setForeground(Color.WHITE);
+		saldo.setFont(new Font("Consolas", Font.BOLD, 20));
+		saldo.setPreferredSize(new Dimension(500, 50));
+		//saldo.setHorizontalTextPosition(JButton.RIGHT);
+		saldo.setVisible(false);
+		
+		btnRecargarSaldo = new JButton("Recargar saldo");
+		btnRecargarSaldo.setBounds(0, 0, 180, 50);
+		btnRecargarSaldo.setFont(new Font("Roboto", Font.BOLD, 18));
+		btnRecargarSaldo.setForeground(new Color(255, 97, 60));
+		btnRecargarSaldo.setBackground(new Color(0xffffff));
+		btnRecargarSaldo.setBorderPainted(true);
+		btnRecargarSaldo.setVisible(false);
+		
+		margenSaldo = new JPanel();
+		margenSaldo.setBackground(new Color(255, 97, 60));
+		margenSaldo.setLayout(new BorderLayout());
+		margenSaldo.add(saldo, BorderLayout.NORTH);
+		margenSaldo.add(btnRecargarSaldo, BorderLayout.SOUTH);
 		
 		
 		margenInferior = new JPanel();
 		margenInferior.setBackground(new Color(255, 97, 60));
 		margenInferior.setLayout(new BorderLayout());
 		margenInferior.add(realizarCompra, BorderLayout.CENTER);
+		margenInferior.add(margenSaldo, BorderLayout.NORTH);
+		
 
 		
 		core = new JPanel();
@@ -291,7 +317,8 @@ public class VentanaBiblioteca extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				verCarrito();
 				realizarCompra.setVisible(true);
-				
+				saldo.setVisible(true);
+				btnRecargarSaldo.setVisible(true);
 				
 				
 			}
@@ -302,7 +329,7 @@ public class VentanaBiblioteca extends JFrame{
 		
 		
 		
-		//Al clicar en este boton se crea una nueva compra y se abre una ventana para el metodo de pago
+		//Al clicar en este boton se crea una nueva compra 
 		realizarCompra.addActionListener(new ActionListener() {
 
 			@Override
@@ -316,12 +343,12 @@ public class VentanaBiblioteca extends JFrame{
 				if(GestorBD.cargarSaldoUsuario(correo) > getTotalCarrito()) {
 					
 					realizarCompra(1);
-					//Averiguar como establecer el saldo nuevo al realizar la compra
+					
 					int nuevoSaldo = GestorBD.cargarSaldoUsuario(correo) - getTotalCarrito();       
-					//Usuario.setSaldo(nuevoSaldo);
+					GestorBD.actualizarSaldo(nuevoSaldo);
 				}
 				else {
-					//saldo insuficiente rellena tu saldo
+					JOptionPane.showMessageDialog(null, "Saldo insuficiente, realice un ingreso");
 					realizarCompra(0);
 				}
 				
@@ -340,6 +367,8 @@ public class VentanaBiblioteca extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				verCompras();
+				saldo.setVisible(true);
+				btnRecargarSaldo.setVisible(true);
 				
 			}
 			
@@ -406,8 +435,17 @@ public class VentanaBiblioteca extends JFrame{
 					}
 					
 				});
-		
-		
+				
+				btnRecargarSaldo.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						
+						new VentanaPago();
+						
+					}
+					
+				});
 		
 		
 		
@@ -618,6 +656,19 @@ public class VentanaBiblioteca extends JFrame{
 				realizarCompra(i+1);
 				
 			}
+		}
+	
+
+		
+		//Devuelve el saldo del usuario
+		private int getSaldoUsuario() {
+			
+			
+			String correo = GestorBD.cargarCorreoUsuario();
+			int saldoUsuario = GestorBD.cargarSaldoUsuario(correo);
+			
+			return saldoUsuario;
+			
 		}
 		
 	

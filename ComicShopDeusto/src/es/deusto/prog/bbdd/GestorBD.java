@@ -21,7 +21,7 @@ import java.util.Properties;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import Practica3D.src.es.deusto.prog3.practica3d.bbdd.Exception;
+
 import es.deusto.prog3.g32.Comic;
 
 import java.io.File;
@@ -512,6 +512,20 @@ public class GestorBD {
 				e.printStackTrace();
 			}
 		}
+		
+		
+	//Metodo para editar el saldo
+		
+	public static void actualizarSaldo(int saldo) {
+		try (Connection con = DriverManager.getConnection(CONNECTION_STRING); Statement stmt = con.createStatement()) {
+			String sql = "INSERT INTO SALDO FROM USUARIO (SALDO) VALUES('" + saldo + "')";
+			((Statement) con).executeUpdate(sql);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 		
 	
