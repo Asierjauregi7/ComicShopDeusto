@@ -123,6 +123,19 @@ public class VentanaInicioSesion {
 		
 		//Action listeners
 		
+		
+		btnIniciarSesion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				
+				if()
+				new VentanaBiblioteca();
+			}
+
+			
+		});
+		
+		
 		btnRegistrarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();

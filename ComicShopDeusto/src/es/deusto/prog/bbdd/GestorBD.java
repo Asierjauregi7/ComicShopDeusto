@@ -529,6 +529,26 @@ public class GestorBD {
 	
 		
 	
+	//Metodo para comprobar usuario
+	public static boolean existeUsuarioEnBBDD(String correo, String contrasena) {
+		try {
+			ArrayList<Usuario> usuarios = GestorBD.todosLosUsuarios();
+			for (Usuario u : usuarios) {
+				if (u.getCorreo() == correo && u.getContraseña() == contrasena) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+	
 	//MÉTODOS PARA INSERTAR DATOS A LA BBDD
 	
 	
