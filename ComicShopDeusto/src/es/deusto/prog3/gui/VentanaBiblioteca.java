@@ -638,6 +638,17 @@ public class VentanaBiblioteca extends JFrame{
 				
 		}
 	
+	//Devuelve el saldo del usuario
+			private int getSaldoUsuario() {
+				
+				
+				String correo = GestorBD.cargarCorreoUsuario();
+				int saldoUsuario = GestorBD.cargarSaldoUsuario(correo);
+				
+				return saldoUsuario;
+				
+			}
+	
 	//Recorre todo el modelo de la tabla del carrito y crea las compras
 	
 	private void realizarCompra(int i) {
@@ -661,16 +672,7 @@ public class VentanaBiblioteca extends JFrame{
 	
 
 		
-		//Devuelve el saldo del usuario
-		private int getSaldoUsuario() {
-			
-			
-			String correo = GestorBD.cargarCorreoUsuario();
-			int saldoUsuario = GestorBD.cargarSaldoUsuario(correo);
-			
-			return saldoUsuario;
-			
-		}
+		
 		
 	
 		
