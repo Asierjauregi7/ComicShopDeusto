@@ -169,7 +169,7 @@ public class GestorBD {
 			
 			
 			String cogerCliente = "CREATE TABLE IF NOT EXISTS COGERCLIENTE(\n"
-					+ "Correo TEXT PRIMARY KEY NOT NULL);";
+					+ "Correo TEXT NOT NULL);";
 			
 			
 	        //Se abre la conexión y se crea un PreparedStatement para cada tabla

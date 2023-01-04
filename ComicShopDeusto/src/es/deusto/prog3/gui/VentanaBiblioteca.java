@@ -54,14 +54,16 @@ public class VentanaBiblioteca extends JFrame{
 	private JPanel margenSaldo;
 	private JLabel saldo;
 	private JButton btnRecargarSaldo;
+	
 	public VentanaBiblioteca() {
 		this.setTitle("Comic Shop Deusto");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setExtendedState(Frame.MAXIMIZED_BOTH);
 		this.setLayout(new BorderLayout());
 
-// Panel Superior
 
+		GestorBD.Conexion();
+		
 		// Panel Superior Izquierda
 		tipo1 = -1;
 	
@@ -638,6 +640,17 @@ public class VentanaBiblioteca extends JFrame{
 				
 		}
 	
+	//Devuelve el saldo del usuario
+			private int getSaldoUsuario() {
+				
+				
+				String correo = GestorBD.cargarCorreoUsuario();
+				int saldoUsuario = GestorBD.cargarSaldoUsuario(correo);
+				
+				return saldoUsuario;
+				
+			}
+	
 	//Recorre todo el modelo de la tabla del carrito y crea las compras
 	
 	private void realizarCompra(int i) {
@@ -661,16 +674,7 @@ public class VentanaBiblioteca extends JFrame{
 	
 
 		
-		//Devuelve el saldo del usuario
-		private int getSaldoUsuario() {
-			
-			
-			String correo = GestorBD.cargarCorreoUsuario();
-			int saldoUsuario = GestorBD.cargarSaldoUsuario(correo);
-			
-			return saldoUsuario;
-			
-		}
+		
 		
 	
 		
