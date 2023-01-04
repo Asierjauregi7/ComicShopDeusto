@@ -102,7 +102,7 @@ public class VentanaInicioSesion {
 
 		btnRegistrarse = new JButton("Registrarse");
 		btnRegistrarse.setForeground(Color.WHITE);
-		btnRegistrarse.setBackground(SystemColor.desktop);
+		btnRegistrarse.setBackground(Color.BLACK);
 		btnRegistrarse.setBounds(322, 147, 124, 32);
 		frameVentanaInicioSesion.getContentPane().add(btnRegistrarse);
 
