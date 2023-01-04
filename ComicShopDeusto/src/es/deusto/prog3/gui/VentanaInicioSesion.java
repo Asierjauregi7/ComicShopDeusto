@@ -133,17 +133,17 @@ public class VentanaInicioSesion {
 		//Si este no funciona se utiliza chequear inicio sesion 
 		btnIniciarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frameVentanaInicioSesion.dispose();
-				
-				if(GestorBD.existeUsuarioEnBBDD(textUsuario.getText(), passwordField.getText())) {
-					GestorBD.almacenarUsuarioVentana(textUsuario.getText());
-					VentanaBiblioteca ventana = new VentanaBiblioteca();
-					ventana.setVisible(true);
+				//frameVentanaInicioSesion.dispose();
+				chequearInicioSesion();
+				//if(GestorBD.existeUsuarioEnBBDD(textUsuario.getText(), passwordField.getText())) {
+					//GestorBD.almacenarUsuarioVentana(textUsuario.getText());
+					//VentanaBiblioteca ventana = new VentanaBiblioteca();
+					//ventana.setVisible(true);
 					
 					
-				}else {
-					System.out.println("Error en el correo o contraseña");
-				}
+				//}else {
+					//System.out.println("Error en el correo o contraseña");
+				//}
 				
 			
 					
@@ -186,7 +186,7 @@ public class VentanaInicioSesion {
 					GestorBD.almacenarUsuarioVentana(usuario);
 					VentanaBiblioteca ventana = new VentanaBiblioteca();
 					ventana.setVisible(true);
-					
+					frameVentanaInicioSesion.dispose();
 					
 				}else {
 					JOptionPane.showMessageDialog(null, "Contrasenia incorrecta");

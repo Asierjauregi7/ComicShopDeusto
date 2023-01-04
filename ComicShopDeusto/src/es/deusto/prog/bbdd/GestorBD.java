@@ -42,10 +42,10 @@ public class GestorBD {
 	
 	private static Logger logger = Logger.getLogger(GestorBD.class.getName());
 	
-	public GestorBD() {
-		try (FileInputStream fis = new FileInputStream("conf/logger.properties")) {
+	//public GestorBD() {
+		//try (FileInputStream fis = new FileInputStream("conf/logger.properties")) {
 		//Inicialización del Logger
-			LogManager.getLogManager().readConfiguration(fis);
+			//LogManager.getLogManager().readConfiguration(fis);
 			
 			//Lectura del fichero properties
 			//properties = new Properties();
@@ -56,11 +56,11 @@ public class GestorBD {
 			//url = properties.getProperty("connection");
 			
 			//Cargar el driver SQLite
-			Class.forName(driverName);
-		} catch (Exception ex) {
-			logger.warning(String.format("Error al cargar el driver de BBDD: %s", ex.getMessage()));
-		}
-	}
+			//Class.forName(driverName);
+		//} catch (Exception ex) {
+			//logger.warning(String.format("Error al cargar el driver de BBDD: %s", ex.getMessage()));
+		//}
+	//}
 	
 	/**
 	 * Inicializa la BBDD leyendo los datos de los ficheros CSV 
@@ -85,14 +85,35 @@ public class GestorBD {
 	protected static final String DATABASE_FILE = "ComicShopDeusto/db/BaseDeDatos.db";
 	protected static final String CONNECTION_STRING = "jdbc:sqlite:" + DATABASE_FILE;
 	
-	//public GestorBD () {
-		//try {
+	public GestorBD () {
+		try {
 			//Cargar el driver SQLite
-			//Class.forName(DRIVER_NAME);
-		//} catch (ClassNotFoundException e) {
-			//System.err.println(String.format("Error al cargar el driver de BBDD: %s", e.getMessage()));
-		//}
-	//}
+			Class.forName(DRIVER_NAME);
+		} catch (ClassNotFoundException e) {
+			System.err.println(String.format("Error al cargar el driver de BBDD: %s", e.getMessage()));
+		}
+	}
+	
+	public static Connection Conexion(){
+        /*Declaramos una variable para almacenar la cadena de conexión.
+        Primero la iniciamos en null.*/
+        Connection conex = null;
+         
+        //Controlamos la excepciones que puedan surgir al conectarnos a la BBDD
+        try {
+            //Registrar el driver
+            Class.forName(DRIVER_NAME);
+            //Creamos una conexión a la Base de Datos
+            conex = DriverManager.getConnection(CONNECTION_STRING);
+         
+        // Si hay errores informamos al usuario. 
+        } catch (Exception e) {
+            System.out.println("Error al conectar con la base de datos.\n"
+                    + e.getMessage().toString());
+        }
+        // Devolvemos la conexión.
+        return conex;
+	}
 	
 	
 	
@@ -163,10 +184,10 @@ public class GestorBD {
 				
 				//Se ejecutan las sentencias de creación de las tablas
 				if (!pStmt1.execute(comic) && !pStmt2.execute(biblioteca) && !pStmt3.execute(carrito) && !pStmt4.execute(usuario) && !pStmt5.execute(compra) && !pStmt6.execute(cogerCliente)) {
-		        	logger.info("Se han creado las tablas");
+		        	//logger.info("Se han creado las tablas");
 		        }
 		} catch (Exception ex) {
-			logger.warning(String.format("Error al crear las tablas: %s", ex.getMessage()));
+			//logger.warning(String.format("Error al crear las tablas: %s", ex.getMessage()));
 		
 			}
 		}
@@ -869,6 +890,26 @@ public class GestorBD {
 			}
 		}
 	}
+	
+	
+	public static void main(String[] args) {
+        
+        /*Declaramos una variable para almacenar la conexión que nos va a
+        devolver el método Conexion(). Primero la iniciamos en null.*/
+        Connection conex=null;
+         
+        /*Almacenamos lo que nos devuelve el método Conexion()
+        en la variable conex*/
+        conex = Conexion();
+         
+        // Si la variable objeto conex es diferente de nulo
+        if(conex != null){
+            // Informamos que la conexión es correcta
+            System.out.println("Conectado correctamente");
+        }else{ // Sino informamos que no nos podemos conectar.
+            System.out.println("No has podido conectarte");
+        }
+    }   
 	
 	
 }
