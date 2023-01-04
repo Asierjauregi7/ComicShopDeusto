@@ -3,7 +3,10 @@ package es.deusto.prog3.gui;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -181,11 +184,37 @@ public class VentanaRegistro {
 		frameVentanaRegistro.setVisible(true);
 		
 		
+		
+		btnRegistrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frameVentanaRegistro.dispose();
+				chequearUsuario();
+				
+				
+			}
+
+			
+		});
+		
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frameVentanaRegistro.dispose();
+				
+				
+				
+			}
+
+			
+		});
+	}
+		
 		//Listeners
 		
+	
+	
 		private void chequearUsuario(){
-			ArrayList<String> listaUsuarios = BaseDeDatos.getClientes();
-			ArrayList<String> listaAdministradores = BaseDeDatos.getAdministradores();
+			ArrayList<Usuario> listaUsuarios = GestorBD.getUsuarios();
+			
 			
 			if(textNombre.getText().equals("") || textApellidos.getText().equals("") || textCorreo.getText().equals("") || textUsuario.getText().equals("") || pswdContraseña.getText().equals("") || pswdRepetirContraseña.getText().equals("")) {
 				JOptionPane.showMessageDialog(null, "Rellena todos los campos"); // Si alguno de los campos esta vacio
@@ -195,9 +224,9 @@ public class VentanaRegistro {
 					}else if (pswdContraseña.getText().length() < 8){
 						JOptionPane.showMessageDialog(null, "La contraseña debe tener minimo 8 caracteres.");
 						
-						}else if(pswdContraseña.getText() != pswdRepetirContraseña.getText()) {
-							JOptionPane.showMessageDialog(null, "La contraseña no coincide.");
-						}
+						}//else if(pswdContraseña.getText() != pswdRepetirContraseña.getText()) {
+							//JOptionPane.showMessageDialog(null, "La contraseña no coincide.");
+						//}
 
 							else {
 							String nombre = textNombre.getText();
@@ -205,14 +234,17 @@ public class VentanaRegistro {
 							String correo = textCorreo.getText();
 							String usuario = textUsuario.getText();
 							String contrasenia = pswdContraseña.getText();
-		
+							int saldo = 0;
 							try {
-								ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
-								GestorBD.insertarUsuarios(usuarios);
-							} catch (MiExcepcionExplicita e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
+								
+								GestorBD.insertarUsuario(new Usuario(nombre, apellidos, correo, usuario, contrasenia, saldo));
+								
+							}catch(Exception e) {
+								System.out.println(e);
+								
 							}
+							
+	
 					}
 			
 

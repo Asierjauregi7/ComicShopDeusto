@@ -26,6 +26,7 @@ import es.deusto.prog3.g32.Comic;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.lang.System.Logger.Level;
 import java.sql.SQLException;
 
 public class GestorBD {
@@ -275,6 +276,46 @@ public class GestorBD {
 		return comics;
 	}
 	
+	
+	//Metodo para recivir usuarios
+	public static ArrayList<Usuario> getUsuarios() {
+		ArrayList<Usuario> usuarios = new ArrayList<>();
+		String sql = "SELECT * FROM Usuario";
+		
+		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
+		try (Connection con = DriverManager.getConnection(connectionString);
+		     PreparedStatement pStmt = con.prepareStatement(sql)) {			
+			
+			//Se ejecuta la sentencia y se obtiene el ResultSet con los resutlados
+			ResultSet rs = pStmt.executeQuery();			
+			Usuario usuario;
+			
+			//Se recorre el ResultSet y se crean los Comics
+			while (rs.next()) {
+				usuario = new Usuario();
+				
+				usuario.setNombre(rs.getString("nombre"));
+				usuario.setApellidos(rs.getString("apellidos"));
+				usuario.setCorreo(rs.getString("correo"));
+				usuario.setNomUsuario(rs.getString("nomUsuario"));
+				usuario.setContraseña(rs.getString("contraseña"));
+				usuario.setSaldo(rs.getInt("saldo"));
+				
+				
+				//Se inserta cada nuevo cliente en la lista de clientes
+				usuarios.add(usuario);
+			}
+			
+			//Se cierra el ResultSet
+			rs.close();
+			
+			logger.info(String.format("Se han recuperado %d comics", usuarios.size()));			
+		} catch (Exception ex) {
+			logger.warning(String.format("Error recuperar los comics: %s", ex.getMessage()));						
+		}		
+		
+		return usuarios;
+	}
 	
 	//Metodo para recivir el carrito
 	
@@ -532,7 +573,7 @@ public class GestorBD {
 	//Metodo para comprobar usuario
 	public static boolean existeUsuarioEnBBDD(String correo, String contrasena) {
 		try {
-			ArrayList<Usuario> usuarios = GestorBD.todosLosUsuarios();
+			ArrayList<Usuario> usuarios = GestorBD.getUsuarios();
 			for (Usuario u : usuarios) {
 				if (u.getCorreo() == correo && u.getContraseña() == contrasena) {
 					return true;
@@ -541,9 +582,9 @@ public class GestorBD {
 				}
 			}
 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		 }catch(Exception e) {
+			System.out.println(e);
+			
 		}
 
 		return false;
@@ -552,8 +593,30 @@ public class GestorBD {
 	//MÉTODOS PARA INSERTAR DATOS A LA BBDD
 	
 	
+	//Metodo para insertar un solo comic
+	public static void insertarComic(Comic... comic) {
+		try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
+			 Statement stmt = con.createStatement()) {
+			for(Comic c: comic) {
+				 String editorial = c.getEditorial();
+				 String titulo = c.getTitulo();
+				 Genero genero = c.getGenero();
+				 int precio = c.getPrecio();
+				 int cantidad = c.getCantidad();
+				 String sql = "INSERT INTO COMIC (Editorial,Titulo,Genero,Precio,Cantidad)" + "VALUES('" + editorial + "','" + titulo
+							+ "','" + genero + "','" + precio + "','" + cantidad + "');";
+				 
+				 stmt.executeUpdate(sql);
+				 
+			}
+		} catch (Exception e) {
+			System.out.println(String.format("Error insertando comics: ", e.getMessage()));
+			e.printStackTrace();
+		}
+	}
 	
-	public static void insertarComic(Comic... listaComics) {
+	
+	public static void insertarComics(ArrayList<Comic>listaComics) {
 		try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
 			 Statement stmt = con.createStatement()) {
 			 for (Comic c : listaComics) {
@@ -574,8 +637,32 @@ public class GestorBD {
 		}
 	}
 	
+	//Insertar un usuario
+	public static void insertarUsuario(Usuario usuario) {
+		try (Connection con = DriverManager.getConnection(CONNECTION_STRING); 
+			 Statement stmt = con.createStatement()) {
+			 
+			String nombre = usuario.getNombre();
+			String apellidos = usuario.getApellidos();
+			String correo = usuario.getCorreo();
+			String nombreUsuario = usuario.getNomUsuario();
+			String contraseña = usuario.getContraseña();
+			int saldo = usuario.getSaldo();
+			String sql = "INSERT INTO USUARIO (Nombre,Apellidos,Correo,NomUsuario,Contraseña,Saldo)" 
+			+ "VALUES(' " + nombre + "','" + apellidos + "','" + correo + "','" + nombreUsuario + "','" + contraseña + "','" + saldo + "');";
+			stmt.executeUpdate(sql);
+			
+			System.out.println(nombre);
+
+			
+		} catch (Exception e) {
+			System.out.println(String.format("Error insertando usuarios: ", e.getMessage()));
+			e.printStackTrace();
+		}
+	}
 	
-	public static void insertarUsuarios(Usuario... listaUsuariosInsertado) {
+	
+	public static void insertarUsuarios(ArrayList<Usuario>listaUsuariosInsertado) {
 		try (Connection con = DriverManager.getConnection(CONNECTION_STRING); 
 			 Statement stmt = con.createStatement()) {
 			 for (Usuario u : listaUsuariosInsertado) {
@@ -584,8 +671,9 @@ public class GestorBD {
 				String correo = u.getCorreo();
 				String nombreUsuario = u.getNomUsuario();
 				String contraseña = u.getContraseña();
-				String sql = "INSERT INTO USUARIO (Nombre,Apellidos,Correo,NomUsuario,Contraseña)" 
-				+ "VALUES(' " + nombre + "','" + apellidos + "','" + correo + "','" + nombreUsuario + "','" + contraseña + "');";
+				int saldo = u.getSaldo();
+				String sql = "INSERT INTO USUARIO (Nombre,Apellidos,Correo,NomUsuario,Contraseña,Saldo)" 
+				+ "VALUES(' " + nombre + "','" + apellidos + "','" + correo + "','" + nombreUsuario + "','" + contraseña + "','" + saldo + "');";
 				stmt.executeUpdate(sql);
 				
 				System.out.println(nombre);
@@ -598,7 +686,59 @@ public class GestorBD {
 	}
 	
 	
+	//Metodo para coger usuario conectado
+	public static Usuario usuarioPorCorreo(String correo) throws SQLException {
+		Usuario usuario = null;
+		try (Connection con = DriverManager.getConnection(CONNECTION_STRING); Statement stmt = con.createStatement()) {
+
+			String sql = "SELECT * FROM USUARIO WHERE Correo = '"+correo+"'";
+			
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				usuario = new Usuario();
+				usuario.setNombre(rs.getString("Nombre"));
+				usuario.setApellidos(rs.getString("Apellidos"));
+				usuario.setCorreo(rs.getString("Correo"));
+				usuario.setContraseña("Contraseña");
+				usuario.setSaldo(rs.getInt("Saldo"));
+
+			}
+			return usuario;
+
+		}
+	}
 	
+	
+	//Metodo para recivir contraseña del usuario
+	public static String getContraseñaUsuario(String usuario) {
+		try (Connection con = DriverManager.getConnection(CONNECTION_STRING); Statement stmt = con.createStatement()) {
+			String contraseniaDev = "";
+			String sent = "select contrasenia from cliente where nomUsuario='"+usuario+"'";
+			ResultSet rs = stmt.executeQuery(sent);
+			while (rs.next()) { // Leer el resultset
+				String contrasenia = rs.getString("contrasenia");
+				contraseniaDev = contrasenia;
+			}
+			
+			return contraseniaDev;
+			
+		} catch (Exception e) {
+			
+			return null;
+		}
+	}
+	
+	
+	//Metodo para establecer el usuario
+	public static void almacenarUsuarioVentana(String correo) {
+		try (Connection con = DriverManager.getConnection(CONNECTION_STRING); Statement stmt = con.createStatement()) {
+			String sent = "insert into cogerCliente (correo) values('" + correo + "')";
+			stmt.executeUpdate(sent);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	
 	
