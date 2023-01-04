@@ -55,6 +55,7 @@ public class VentanaPago {
 	 */
 	public VentanaPago() {
 		initialize();
+		GestorBD.Conexion();
 	}
 
 	/**

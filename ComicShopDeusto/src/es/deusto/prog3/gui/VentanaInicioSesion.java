@@ -58,6 +58,7 @@ public class VentanaInicioSesion {
 	 */
 	public VentanaInicioSesion() {
 		initialize();
+		GestorBD.Conexion();
 	}
 
 	/**
@@ -173,30 +174,28 @@ public class VentanaInicioSesion {
 		ArrayList<Usuario> listaUsuarios = GestorBD.getUsuarios();
 		
 		String usuario = textUsuario.getText();
-		
+		String contraseña = passwordField.getText();
 		if(usuario.equals("") || passwordField.getText().equals("")) {
 			JOptionPane.showMessageDialog(null, "Rellena todos los campos"); // Si alguno de los campos esta vacio
 		
-			}else if(listaUsuarios.contains(usuario)){
+			}
+		for(Usuario u : listaUsuarios) {
+			//String contraseña = GestorBD.getContraseñaUsuario(usuario);
+			if(u.getNomUsuario().equals(usuario) && u.getContraseña().equals(contraseña)){
 				System.out.println("Eres un cliente");
-				String contraseña = GestorBD.getContraseñaUsuario(usuario);
-				
-			
-				if(passwordField.getText().equals(contraseña)) {
-					GestorBD.almacenarUsuarioVentana(usuario);
-					VentanaBiblioteca ventana = new VentanaBiblioteca();
-					ventana.setVisible(true);
-					frameVentanaInicioSesion.dispose();
-					
-				}else {
-					JOptionPane.showMessageDialog(null, "Contrasenia incorrecta");
-				}
-			
+				GestorBD.almacenarUsuarioVentana(usuario);
+				VentanaBiblioteca ventana = new VentanaBiblioteca();
+				ventana.setVisible(true);
+				frameVentanaInicioSesion.dispose();
 			}else {
 				JOptionPane.showMessageDialog(null, "Primero debes registrarte");
 			}
 		}
-	
+	}
+				
+					
+				
+		
 	
 
 	protected void dispose() {

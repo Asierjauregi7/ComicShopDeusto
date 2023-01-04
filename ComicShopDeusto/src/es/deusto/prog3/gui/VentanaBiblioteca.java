@@ -54,14 +54,16 @@ public class VentanaBiblioteca extends JFrame{
 	private JPanel margenSaldo;
 	private JLabel saldo;
 	private JButton btnRecargarSaldo;
+	
 	public VentanaBiblioteca() {
 		this.setTitle("Comic Shop Deusto");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setExtendedState(Frame.MAXIMIZED_BOTH);
 		this.setLayout(new BorderLayout());
 
-// Panel Superior
 
+		GestorBD.Conexion();
+		
 		// Panel Superior Izquierda
 		tipo1 = -1;
 	

@@ -57,6 +57,7 @@ public class VentanaRegistro {
 	 */
 	public VentanaRegistro() {
 		initialize();
+		GestorBD.Conexion();
 	}
 
 	/**
