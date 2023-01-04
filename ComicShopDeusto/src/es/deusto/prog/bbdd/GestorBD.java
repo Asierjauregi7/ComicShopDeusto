@@ -31,28 +31,29 @@ import java.sql.SQLException;
 
 public class GestorBD {
 	
+	public static final String connectionString = "jdbc:sqlite:ComicShopDeusto/db/BaseDeDatos.db";
 	private final String PROPERTIES_FILE = "conf/app.properties";
 	private final String CSV_COMICS = "data/comics1.csv";
 	
 	private Properties properties;
-	private String driverName;
-	private String databaseFile;
-	private static String connectionString;
+	private String driverName = "org.sqlite.JDBC";
+	private String databaseFile = "ComicShopDeusto/db/BaseDeDatos.db";
+	private static String url = "jdbc:sqlite:ComicShopDeusto/db";
 	
 	private static Logger logger = Logger.getLogger(GestorBD.class.getName());
 	
 	public GestorBD() {
 		try (FileInputStream fis = new FileInputStream("conf/logger.properties")) {
-			//Inicialización del Logger
+		//Inicialización del Logger
 			LogManager.getLogManager().readConfiguration(fis);
 			
 			//Lectura del fichero properties
-			properties = new Properties();
-			properties.load(new FileReader(PROPERTIES_FILE));
+			//properties = new Properties();
+			//properties.load(new FileReader(PROPERTIES_FILE));
 			
-			driverName = properties.getProperty("driver");
-			databaseFile = properties.getProperty("file");
-			connectionString = properties.getProperty("connection");
+			//driverName = properties.getProperty("driver");
+			//databaseFile = properties.getProperty("file");
+			//url = properties.getProperty("connection");
 			
 			//Cargar el driver SQLite
 			Class.forName(driverName);
@@ -81,7 +82,7 @@ public class GestorBD {
 	}
 	
 	protected static final String DRIVER_NAME = "org.sqlite.JDBC";
-	protected static final String DATABASE_FILE = "db/BaseDeDatos.db";
+	protected static final String DATABASE_FILE = "ComicShopDeusto/db/BaseDeDatos.db";
 	protected static final String CONNECTION_STRING = "jdbc:sqlite:" + DATABASE_FILE;
 	
 	//public GestorBD () {
@@ -94,11 +95,14 @@ public class GestorBD {
 	//}
 	
 	
+	
+	
 	public static void crearBBDD() {
 		//Se abre la conexión y se obtiene el statement
 		//Al abrir la conexión, si no existía el fichero, se crea la base de datos
-		try (Connection con = DriverManager.getConnection(connectionString);
-			 Statement stmt = con.createStatement()) {
+		try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
+			 Statement stmt = con.createStatement()){
+			 
 			String comic = "CREATE TABLE IF NOT EXISTS COMIC(\n"
 					+ "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n"
 					+ "Editorial TEXT NOT NULL,\n"
@@ -171,8 +175,13 @@ public class GestorBD {
 				//if (!stmt.execute(comic) && !stmt.execute(biblioteca) && !stmt.execute(carrito) && !stmt.execute(usuario) && !stmt.execute(compra) && !stmt.execute(cogerCliente)) {
 					//System.out.println("Se ha creado la BBDD");
 				//}
+		//}catch (Exception ex) {
+					//System.err.println(String.format("* Error al crear la BBDD: %s", ex.getMessage()));
+					//ex.printStackTrace();
+				//}
+		
 			
-			
+		//}
 	
 	
 	
@@ -180,9 +189,9 @@ public class GestorBD {
 	public static void borrarBBDD() {
 		//Se abre la conexión y se obtiene el statement
 		//Al abrir la conexión, si no existía el fichero, se crea la base de datos
-		try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
+		try (Connection con = DriverManager.getConnection(connectionString);
 			 Statement stmt = con.createStatement()) {
-			String sql = "DROP DATABASE '"+CONNECTION_STRING+"'";
+			String sql = "DROP DATABASE '"+connectionString+"'";
 			
 			//Se ejecuta la sentencia del borrado de la BBDD
 			if (!stmt.execute(sql)) {
@@ -195,7 +204,7 @@ public class GestorBD {
 	
 	
 	public static void borrarComics() {
-		try (Connection con = DriverManager.getConnection(CONNECTION_STRING); Statement stmt = con.createStatement()) {
+		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 			String sql = "DELETE * FROM COMIC";
 			
 			if (!stmt.execute(sql)) {
@@ -212,7 +221,7 @@ public class GestorBD {
 	
 	public static ArrayList<Comic> getComics() {
 		ArrayList<Comic> ret = new ArrayList<>();
-		try (Connection con = DriverManager.getConnection(CONNECTION_STRING); Statement stmt = con.createStatement()) {
+		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 			String sql = "SELECT * FROM COMIC";
 			ResultSet rs = ((Statement) con).executeQuery(sql);
 			while (rs.next()) { // Leer el resultset
@@ -280,6 +289,7 @@ public class GestorBD {
 	//Metodo para recivir usuarios
 	public static ArrayList<Usuario> getUsuarios() {
 		ArrayList<Usuario> usuarios = new ArrayList<>();
+		
 		String sql = "SELECT * FROM Usuario";
 		
 		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
@@ -321,7 +331,7 @@ public class GestorBD {
 	
 		public static ArrayList<Carrito> getCarrito() {
 			ArrayList<Carrito> ret = new ArrayList<>();
-			try (Connection con = DriverManager.getConnection(CONNECTION_STRING); Statement stmt = con.createStatement()) {
+			try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 				String sql = "SELECT * FROM CARRITO";
 				//"Id", "Editorial", "Titulo", "Genero", "Precio", "Cantidad"
 				ResultSet rs = ((Statement) con).executeQuery(sql);
@@ -347,7 +357,7 @@ public class GestorBD {
 	//Metodo para eliminar usuarios
 	
 	public static void EliminarUsuarioDeBaseDeDatos() {
-		try (Connection con = DriverManager.getConnection(CONNECTION_STRING); Statement stmt = con.createStatement()) {
+		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 			String sql = "DELETE * FROM COGERCLIENTE";
 			((Statement) con).executeUpdate(sql);
 		}catch (SQLException e) {
@@ -362,7 +372,7 @@ public class GestorBD {
 
 	public static String cargarCorreoUsuario() {
 		String ret = "";
-		try (Connection con = DriverManager.getConnection(CONNECTION_STRING); Statement stmt = con.createStatement()) {
+		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 			String sql = "SELECT CORREO FROM COGERCLIENTE";
 		ResultSet rs = ((Statement) con).executeQuery(sql);
 		while (rs.next()) { // Leer el resultset
@@ -383,7 +393,7 @@ public class GestorBD {
 	
 	public static int cargarSaldoUsuario(String correo) {
 		int ret = 0;
-		try (Connection con = DriverManager.getConnection(CONNECTION_STRING); Statement stmt = con.createStatement()) {
+		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 			String sql = "SELECT SALDO FROM USUARIO WHERE CORREO = '"+correo+"';";
 		ResultSet rs = ((Statement) con).executeQuery(sql);
 			while (rs.next()) { // Leer el resultset
@@ -404,7 +414,7 @@ public class GestorBD {
 	
 	public static ArrayList<Comic> cargarComicsPorGenero(String genero) {
 		ArrayList<Comic> ret = new ArrayList<>();
-		try (Connection con = DriverManager.getConnection(CONNECTION_STRING); Statement stmt = con.createStatement()) {
+		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 			String sql = "SELECT * FROM COMIC WHERE GENERO = '"+genero+"';";
 		ResultSet rs = ((Statement) con).executeQuery(sql);
 		while (rs.next()) { // Leer el resultset
@@ -471,7 +481,7 @@ public class GestorBD {
 	//Metodo para borrar el carrito
 	
 	public static void EliminarCarrito() {
-		try (Connection con = DriverManager.getConnection(CONNECTION_STRING); Statement stmt = con.createStatement()) {
+		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 			String sql = "DELETE * FROM CARRITO";
 			((Statement) con).executeUpdate(sql);
 		}catch (SQLException e) {
@@ -485,7 +495,7 @@ public class GestorBD {
 	//Metodo que elimina de la tabla carrito un producto determinado
 	
 	public static void EliminarDelCarrito(String Titulo) {
-		try (Connection con = DriverManager.getConnection(CONNECTION_STRING); Statement stmt = con.createStatement()) {
+		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 			String sql = "DELETE * FROM CARRITO WHERE TITULO = '"+Titulo+"';";
 			((Statement) con).executeUpdate(sql);
 		}catch (SQLException e) {
@@ -499,7 +509,7 @@ public class GestorBD {
 	
 	public static ArrayList<Compra> cargarComprasUsuario(String correo) {
 		ArrayList<Compra> ret = new ArrayList<>();
-		try (Connection con = DriverManager.getConnection(CONNECTION_STRING); Statement stmt = con.createStatement()) {
+		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 			String sql = "SELECT * FROM COMPRA WHERE CORREO = '"+correo+"';";
 		ResultSet rs = ((Statement) con).executeQuery(sql);
 			while (rs.next()) {
@@ -528,7 +538,7 @@ public class GestorBD {
 	//Metodo para crear carrito
 	
 	public static void crearCarrito(Carrito carro) {
-		try (Connection con = DriverManager.getConnection(CONNECTION_STRING); Statement stmt = con.createStatement()) {
+		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 			String sql = "INSERT INTO CARRITO (ID, EDITORIAL, TITULO, GENERO, PRECIO, CANTIDAD) VALUES('" + carro.getId() + "','" + carro.getEditorial() + "', '" + carro.getTitulo() + "', '"
 					+ carro.getGenero() + "', '" + carro.getPrecio() +"', '" + carro.getCantidad() + "')";
 			((Statement) con).executeUpdate(sql);
@@ -543,7 +553,7 @@ public class GestorBD {
 	//Metodo para crear compra
 	
 		public static void crearCompra(Compra compra) {
-			try (Connection con = DriverManager.getConnection(CONNECTION_STRING); Statement stmt = con.createStatement()) {
+			try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 				String sql = "INSERT INTO COMPRA (IDCOMPRA, CORREOCLIENTE, IDPRODUCTO, EDITORIALPRODUCTO, TITULOPRODUCTO, GENERO, PRECIO, CANTIDAD) VALUES('" + compra.getIdCompra() + "','" + compra.getCorreoCliente() +"','" + compra.getIdProducto() +"','" + compra.getEditorialProducto() + "', '" + compra.getTituloProducto() + "', '"
 						+ compra.getGenero() + "', '" + compra.getPrecio() +"', '" + compra.getCantidad() + "')";
 				((Statement) con).executeUpdate(sql);
@@ -558,7 +568,7 @@ public class GestorBD {
 	//Metodo para editar el saldo
 		
 	public static void actualizarSaldo(int saldo) {
-		try (Connection con = DriverManager.getConnection(CONNECTION_STRING); Statement stmt = con.createStatement()) {
+		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 			String sql = "INSERT INTO SALDO FROM USUARIO (SALDO) VALUES('" + saldo + "')";
 			((Statement) con).executeUpdate(sql);
 			
@@ -595,7 +605,7 @@ public class GestorBD {
 	
 	//Metodo para insertar un solo comic
 	public static void insertarComic(Comic... comic) {
-		try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
+		try (Connection con = DriverManager.getConnection(connectionString);
 			 Statement stmt = con.createStatement()) {
 			for(Comic c: comic) {
 				 String editorial = c.getEditorial();
@@ -617,7 +627,7 @@ public class GestorBD {
 	
 	
 	public static void insertarComics(ArrayList<Comic>listaComics) {
-		try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
+		try (Connection con = DriverManager.getConnection(connectionString);
 			 Statement stmt = con.createStatement()) {
 			 for (Comic c : listaComics) {
 				 String editorial = c.getEditorial();
@@ -639,7 +649,7 @@ public class GestorBD {
 	
 	//Insertar un usuario
 	public static void insertarUsuario(Usuario usuario) {
-		try (Connection con = DriverManager.getConnection(CONNECTION_STRING); 
+		try (Connection con = DriverManager.getConnection(connectionString); 
 			 Statement stmt = con.createStatement()) {
 			 
 			String nombre = usuario.getNombre();
@@ -663,7 +673,7 @@ public class GestorBD {
 	
 	
 	public static void insertarUsuarios(ArrayList<Usuario>listaUsuariosInsertado) {
-		try (Connection con = DriverManager.getConnection(CONNECTION_STRING); 
+		try (Connection con = DriverManager.getConnection(connectionString); 
 			 Statement stmt = con.createStatement()) {
 			 for (Usuario u : listaUsuariosInsertado) {
 				String nombre = u.getNombre();
@@ -689,7 +699,7 @@ public class GestorBD {
 	//Metodo para coger usuario conectado
 	public static Usuario usuarioPorCorreo(String correo) throws SQLException {
 		Usuario usuario = null;
-		try (Connection con = DriverManager.getConnection(CONNECTION_STRING); Statement stmt = con.createStatement()) {
+		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 
 			String sql = "SELECT * FROM USUARIO WHERE Correo = '"+correo+"'";
 			
@@ -711,7 +721,7 @@ public class GestorBD {
 	
 	//Metodo para recivir contraseña del usuario
 	public static String getContraseñaUsuario(String usuario) {
-		try (Connection con = DriverManager.getConnection(CONNECTION_STRING); Statement stmt = con.createStatement()) {
+		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 			String contraseniaDev = "";
 			String sent = "select contrasenia from cliente where nomUsuario='"+usuario+"'";
 			ResultSet rs = stmt.executeQuery(sent);
@@ -731,7 +741,7 @@ public class GestorBD {
 	
 	//Metodo para establecer el usuario
 	public static void almacenarUsuarioVentana(String correo) {
-		try (Connection con = DriverManager.getConnection(CONNECTION_STRING); Statement stmt = con.createStatement()) {
+		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 			String sent = "insert into cogerCliente (correo) values('" + correo + "')";
 			stmt.executeUpdate(sent);
 		} catch (SQLException e) {
