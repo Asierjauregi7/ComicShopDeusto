@@ -90,7 +90,6 @@ public class GestorBD {
 			//Cargar el driver SQLite
 			Class.forName(DRIVER_NAME);
 		} catch (ClassNotFoundException e) {
-			System.err.println(String.format("Error al cargar el driver de BBDD: %s", e.getMessage()));
 		}
 	}
 	
@@ -183,14 +182,14 @@ public class GestorBD {
 				 PreparedStatement pStmt6 = con.prepareStatement(cogerCliente); 
 				
 				//Se ejecutan las sentencias de creación de las tablas
-				if (!pStmt1.execute(comic) && !pStmt2.execute(biblioteca) && !pStmt3.execute(carrito) && !pStmt4.execute(usuario) && !pStmt5.execute(compra) && !pStmt6.execute(cogerCliente)) {
-		        	//logger.info("Se han creado las tablas");
+				if (!pStmt1.execute() && !pStmt2.execute() && !pStmt3.execute() && !pStmt4.execute() && !pStmt5.execute() && !pStmt6.execute()) {
+		        	logger.info("Se han creado las tablas");
 		        }
 		} catch (Exception ex) {
-			//logger.warning(String.format("Error al crear las tablas: %s", ex.getMessage()));
+			logger.warning(String.format("Error al crear las tablas: %s", ex.getMessage()));
 		
 			}
-		}
+		//}
 					
 			//Se ejecuta la sentencia de la creación de la BBDD
 				//if (!stmt.execute(comic) && !stmt.execute(biblioteca) && !stmt.execute(carrito) && !stmt.execute(usuario) && !stmt.execute(compra) && !stmt.execute(cogerCliente)) {
@@ -202,7 +201,7 @@ public class GestorBD {
 				//}
 		
 			
-		//}
+		}
 	
 	
 	
@@ -390,12 +389,13 @@ public class GestorBD {
 	
 	//Metodo para coger el correo del usuario conectado
 	
-
 	public static String cargarCorreoUsuario() {
 		String ret = "";
-		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
-			String sql = "SELECT CORREO FROM COGERCLIENTE";
-		ResultSet rs = ((Statement) con).executeQuery(sql);
+		String sql = "SELECT CORREO FROM COGERCLIENTE";
+		try (Connection con = DriverManager.getConnection(connectionString); PreparedStatement stmt = con.prepareStatement(sql)) {
+			
+		ResultSet rs = stmt.executeQuery(sql);
+		
 		while (rs.next()) { // Leer el resultset
 			String correo = rs.getString("correo");
 			ret = correo;
@@ -762,8 +762,9 @@ public class GestorBD {
 	
 	//Metodo para establecer el usuario
 	public static void almacenarUsuarioVentana(String correo) {
-		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
-			String sent = "insert into cogerCliente (correo) values('" + correo + "')";
+		String sent = "insert into cogerCliente (correo) values('" + correo + "')";
+		try (Connection con = DriverManager.getConnection(connectionString); PreparedStatement stmt = con.prepareStatement(sent)) {
+			
 			stmt.executeUpdate(sent);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -897,7 +898,7 @@ public class GestorBD {
         /*Declaramos una variable para almacenar la conexión que nos va a
         devolver el método Conexion(). Primero la iniciamos en null.*/
         Connection conex=null;
-         
+        //crearBBDD();
         /*Almacenamos lo que nos devuelve el método Conexion()
         en la variable conex*/
         conex = Conexion();

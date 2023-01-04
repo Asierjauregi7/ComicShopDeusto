@@ -2,6 +2,8 @@ package es.deusto.prog3.g32;
 
 import java.util.ArrayList;
 
+import es.deusto.prog.bbdd.GestorBD;
+
 public class Biblioteca {
 	private int id;
 	private String editorial;
@@ -18,6 +20,9 @@ public class Biblioteca {
 		this.genero = genero;
 		this.saldo = saldo;
 		this.comics = comics;
+	}
+	public Biblioteca() {
+		GestorBD.Conexion();
 	}
 
 	//Getters & Setters

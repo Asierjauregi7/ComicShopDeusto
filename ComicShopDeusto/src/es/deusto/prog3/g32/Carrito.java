@@ -1,5 +1,7 @@
 package es.deusto.prog3.g32;
 
+import es.deusto.prog.bbdd.GestorBD;
+
 public class Carrito {
 	private int id;
 	private String editorial;
@@ -19,6 +21,10 @@ public class Carrito {
 		this.precio = precio;
 		this.cantidad = cantidad;
 		//this.saldo = saldo;
+	}
+	
+	public Carrito() {
+		GestorBD.Conexion();
 	}
 
 	
