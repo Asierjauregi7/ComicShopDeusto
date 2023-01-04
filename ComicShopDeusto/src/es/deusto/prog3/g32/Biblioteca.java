@@ -1,20 +1,23 @@
 package es.deusto.prog3.g32;
 
+import java.util.ArrayList;
+
 public class Biblioteca {
 	private int id;
 	private String editorial;
 	private String titulo;
 	private String genero;
 	private int saldo;
-	
+	private ArrayList<Comic> comics;
 	//Constructor
-	public Biblioteca(int id, String editorial, String titulo, String genero, int saldo) {
+	public Biblioteca(int id, String editorial, String titulo, String genero, int saldo, ArrayList<Comic> comics) {
 		super();
 		this.id = id;
 		this.editorial = editorial;
 		this.titulo = titulo;
 		this.genero = genero;
 		this.saldo = saldo;
+		this.comics = comics;
 	}
 
 	//Getters & Setters
@@ -57,12 +60,20 @@ public class Biblioteca {
 	public void setSaldo(int saldo) {
 		this.saldo = saldo;
 	}
+	
+	public ArrayList<Comic> getComics() {
+		return comics;
+	}
+
+	public void setComics(ArrayList<Comic> comics) {
+		this.comics = comics;
+	}
 
 	//ToString
 	@Override
 	public String toString() {
 		return "Biblioteca [id=" + id + ", editorial=" + editorial + ", titulo=" + titulo + ", genero=" + genero
-				+ ", saldo=" + saldo + "]";
+				+ ", saldo=" + saldo + ", comics=" + comics + "]";
 	}
 	
 	

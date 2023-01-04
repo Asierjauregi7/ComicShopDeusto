@@ -3,11 +3,17 @@ package es.deusto.prog3.gui;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import java.awt.Window;
+import es.deusto.prog.bbdd.GestorBD;
+
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
@@ -58,7 +64,7 @@ public class VentanaPago {
 		frameVentanaPago = new JFrame();
 		frameVentanaPago.getContentPane().setBackground(new Color(255, 97, 60));
 		frameVentanaPago.setTitle("Pago");
-		frameVentanaPago.setBounds(200, 200, 500, 300);
+		frameVentanaPago.setBounds(200, 200, 500, 330);
 		frameVentanaPago.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frameVentanaPago.getContentPane().setLayout(null);
 		
@@ -148,10 +154,32 @@ public class VentanaPago {
 		frameVentanaPago.getContentPane().add(txtCantidad);
 		txtCantidad.setColumns(10);
 		
+		frameVentanaPago.setVisible(true);
 		
 		
-		
+		//Ingresar saldo 
+		btnIngresar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				String correo = GestorBD.cargarCorreoUsuario();
+				int saldoIngresado = Integer.valueOf(txtCantidad.getText());
+				int nuevoSaldo= GestorBD.cargarSaldoUsuario(correo) + saldoIngresado;
+				GestorBD.actualizarSaldo(nuevoSaldo);
+				frameVentanaPago.dispose();
+				JOptionPane.showMessageDialog(null, "Saldo ingresado correctamente");
+				
+				
+			}
+			
+		});
 		
 	
+	}
+
+	protected void dispose() {
+		// TODO Auto-generated method stub
+		
 	}
 }

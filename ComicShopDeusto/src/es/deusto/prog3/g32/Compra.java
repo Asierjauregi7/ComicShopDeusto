@@ -3,7 +3,7 @@ package es.deusto.prog3.g32;
 public class Compra {
 	private int idCompra;
 	private String correoCliente;
-	private String idProducto;
+	private int idProducto;
 	private String editorialProducto;
 	private String tituloProducto;
 	private String genero;
@@ -12,7 +12,7 @@ public class Compra {
 	
 	
 	//Constructor
-	public Compra(int idCompra, String correoCliente, String idProducto, String editorialProducto,
+	public Compra(int idCompra, String correoCliente, int idProducto, String editorialProducto,
 			String tituloProducto, String genero, int precio, int cantidad) {
 		super();
 		this.idCompra = idCompra;
@@ -47,12 +47,12 @@ public class Compra {
 	}
 
 
-	public String getIdProducto() {
+	public int getIdProducto() {
 		return idProducto;
 	}
 
 
-	public void setIdProducto(String idProducto) {
+	public void setIdProducto(int idProducto) {
 		this.idProducto = idProducto;
 	}
 

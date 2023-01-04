@@ -1,5 +1,11 @@
 package es.deusto.prog3.g32;
 
+
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
 public class Comic {
 	private int id;
 	private String editorial;
@@ -9,15 +15,15 @@ public class Comic {
 	private int cantidad;
 	
 	//Constructor
-	public Comic(int id, String editorial, String titulo, Genero genero, int precio, int cantidad) {
-		super();
-		this.id = id;
-		this.editorial = editorial;
-		this.titulo = titulo;
-		this.genero = genero;
-		this.precio = precio;
-		this.cantidad = cantidad;
-	}
+	//public Comic(int id, String editorial, String titulo, Genero genero, int precio, int cantidad) {
+		//super();
+		//this.id = id;
+		//this.editorial = editorial;
+		//this.titulo = titulo;
+		//this.genero = genero;
+		//this.precio = precio;
+		//this.cantidad = cantidad;
+	//}
 
 	
 	//Getters & Setters
@@ -68,14 +74,48 @@ public class Comic {
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
+	
+	//Crea un Comic a partir de una cadena de texto separada por comas.
+		public static Comic parseCSV(String csvString) {
+			if (csvString != null && !csvString.isBlank()) {		
+				StringTokenizer tokenizer = new StringTokenizer(csvString, ";");
+				
+				Comic comic = new Comic();
+				comic.setId(Integer.valueOf(tokenizer.nextToken()));
+				comic.setEditorial(tokenizer.nextToken());
+				comic.setTitulo(tokenizer.nextToken());
+				comic.setGenero(Genero.valueOf(tokenizer.nextToken()));
+				comic.setPrecio(Integer.valueOf(tokenizer.nextToken()));
+				comic.setCantidad(Integer.valueOf(tokenizer.nextToken()));
+				
+				
+				
+				
+				
+
+				return comic;
+			} else {
+				return null;
+			}
+		}
 
 	
+		@Override
+		public String toString() {
+			StringBuffer buffer = new StringBuffer(String.format("[%-6s] %d - %s", editorial, id, titulo));
+			
+			
+			
+			return buffer.toString();
+		}
+		
+		
 	//ToString
-	@Override
-	public String toString() {
-		return "Comic [id=" + id + ", editorial=" + editorial + ", titulo=" + titulo + ", genero=" + genero
-				+ ", precio=" + precio + ", cantidad=" + cantidad + "]";
-	}
+	//@Override
+	//public String toString() {
+		//return "Comic [id=" + id + ", editorial=" + editorial + ", titulo=" + titulo + ", genero=" + genero
+				//+ ", precio=" + precio + ", cantidad=" + cantidad + "]";
+	//}
 	
 	
 	

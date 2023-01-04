@@ -6,15 +6,17 @@ public class Usuario {
 	private String correo;
 	private String nomUsuario;
 	private String contraseña;
+	private int saldo;
 	
 	//Constructor
-	public Usuario(String nombre, String apellidos, String correo, String nomUsuario, String contraseña) {
+	public Usuario(String nombre, String apellidos, String correo, String nomUsuario, String contraseña, int saldo) {
 		super();
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.correo = correo;
 		this.nomUsuario = nomUsuario;
 		this.contraseña = contraseña;
+		this.saldo = saldo;
 	}
 
 	public Usuario() {		
@@ -70,13 +72,22 @@ public class Usuario {
 	public void setContraseña(String contraseña) {
 		this.contraseña = contraseña;
 	}
+	
+	public int getSaldo() {
+			return saldo;
+		}
+
+		public void setSaldo(int saldo) {
+			this.saldo = saldo;
+		}
+
 
 
 
 	@Override
 	public String toString() {
 		return "Usuario [nombre=" + nombre + ", apellidos=" + apellidos + ", correo=" + correo + ", nomUsuario="
-				+ nomUsuario + ", contraseña=" + contraseña + "]";
+				+ nomUsuario + ", contraseña=" + contraseña + ", saldo=" + saldo +"]";
 	}
 	
 	

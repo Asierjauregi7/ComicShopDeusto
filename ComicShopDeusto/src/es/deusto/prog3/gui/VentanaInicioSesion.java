@@ -7,12 +7,19 @@ import javax.swing.JFrame;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import es.deusto.prog.bbdd.GestorBD;
+import es.deusto.prog3.g32.Usuario;
+
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.Window;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JSeparator;
@@ -123,6 +130,31 @@ public class VentanaInicioSesion {
 		
 		//Action listeners
 		
+		//Si este no funciona se utiliza chequear inicio sesion 
+		btnIniciarSesion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//frameVentanaInicioSesion.dispose();
+				chequearInicioSesion();
+				//if(GestorBD.existeUsuarioEnBBDD(textUsuario.getText(), passwordField.getText())) {
+					//GestorBD.almacenarUsuarioVentana(textUsuario.getText());
+					//VentanaBiblioteca ventana = new VentanaBiblioteca();
+					//ventana.setVisible(true);
+					
+					
+				//}else {
+					//System.out.println("Error en el correo o contraseña");
+				//}
+				
+			
+					
+				}
+				
+			
+
+			
+		});
+		
+		
 		btnRegistrarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -134,6 +166,38 @@ public class VentanaInicioSesion {
 		
 		
 	}
+	
+	
+	private void chequearInicioSesion() {
+		
+		ArrayList<Usuario> listaUsuarios = GestorBD.getUsuarios();
+		
+		String usuario = textUsuario.getText();
+		
+		if(usuario.equals("") || passwordField.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "Rellena todos los campos"); // Si alguno de los campos esta vacio
+		
+			}else if(listaUsuarios.contains(usuario)){
+				System.out.println("Eres un cliente");
+				String contraseña = GestorBD.getContraseñaUsuario(usuario);
+				
+			
+				if(passwordField.getText().equals(contraseña)) {
+					GestorBD.almacenarUsuarioVentana(usuario);
+					VentanaBiblioteca ventana = new VentanaBiblioteca();
+					ventana.setVisible(true);
+					frameVentanaInicioSesion.dispose();
+					
+				}else {
+					JOptionPane.showMessageDialog(null, "Contrasenia incorrecta");
+				}
+			
+			}else {
+				JOptionPane.showMessageDialog(null, "Primero debes registrarte");
+			}
+		}
+	
+	
 
 	protected void dispose() {
 		// TODO Auto-generated method stub
