@@ -174,15 +174,15 @@ public class GestorBD {
 	        //Se abre la conexión y se crea un PreparedStatement para cada tabla
 			//Al abrir la conexión, si no existía el fichero, se crea la base de datos
 			//try (Connection con1 = DriverManager.getConnection(connectionString);
-			     PreparedStatement pStmt1 = con.prepareStatement(comic);
-				 PreparedStatement pStmt2 = con.prepareStatement(biblioteca);
-				 PreparedStatement pStmt3 = con.prepareStatement(carrito);
-				 PreparedStatement pStmt4 = con.prepareStatement(usuario);
-				 PreparedStatement pStmt5 = con.prepareStatement(compra);
-				 PreparedStatement pStmt6 = con.prepareStatement(cogerCliente); 
+			     //PreparedStatement pStmt1 = con.prepareStatement(comic);
+				 //PreparedStatement pStmt2 = con.prepareStatement(biblioteca);
+				 //PreparedStatement pStmt3 = con.prepareStatement(carrito);
+				 //PreparedStatement pStmt4 = con.prepareStatement(usuario);
+				 //PreparedStatement pStmt5 = con.prepareStatement(compra);
+				 //PreparedStatement pStmt6 = con.prepareStatement(cogerCliente); 
 				
 				//Se ejecutan las sentencias de creación de las tablas
-				if (!pStmt1.execute() && !pStmt2.execute() && !pStmt3.execute() && !pStmt4.execute() && !pStmt5.execute() && !pStmt6.execute()) {
+				if (!stmt.execute(comic) && !stmt.execute(biblioteca) && !stmt.execute(carrito) && !stmt.execute(usuario) && !stmt.execute(compra) && !stmt.execute(cogerCliente)) {
 		        	logger.info("Se han creado las tablas");
 		        }
 		} catch (Exception ex) {
@@ -237,7 +237,7 @@ public class GestorBD {
 	}
 	
 	
-	//Metodo para recivir los comics
+	//Metodo para recibir los comics
 	
 	public static ArrayList<Comic> getComics() {
 		ArrayList<Comic> ret = new ArrayList<>();
@@ -264,7 +264,7 @@ public class GestorBD {
 	}
 	
 	
-	//Otro metodo para recivir comics
+	//Otro metodo para recibir comics
 	
 	public static ArrayList<Comic> getComics1() {
 		ArrayList<Comic> comics = new ArrayList<>();
@@ -306,7 +306,7 @@ public class GestorBD {
 	}
 	
 	
-	//Metodo para recivir usuarios
+	//Metodo para recibir usuarios
 	public static ArrayList<Usuario> getUsuarios() {
 		ArrayList<Usuario> usuarios = new ArrayList<>();
 		
@@ -347,7 +347,7 @@ public class GestorBD {
 		return usuarios;
 	}
 	
-	//Metodo para recivir el carrito
+	//Metodo para recibir el carrito
 	
 		public static ArrayList<Carrito> getCarrito() {
 			ArrayList<Carrito> ret = new ArrayList<>();
@@ -431,7 +431,7 @@ public class GestorBD {
 	}
 	
 	
-	//Metodo para recivir los comics por genero
+	//Metodo para recibir los comics por genero
 	
 	public static ArrayList<Comic> cargarComicsPorGenero(String genero) {
 		ArrayList<Comic> ret = new ArrayList<>();

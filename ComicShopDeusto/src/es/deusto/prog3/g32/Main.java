@@ -9,18 +9,7 @@ public class Main {
 		
 		try {
 			GestorBD.crearBBDD();
-			
-			
-			Usuario u = new Usuario();
-			u.setNombre("Asier");
-			u.setApellidos("Jauregi");
-			u.setCorreo("asier.jauregi@opendeusto.es");
-			u.setNomUsuario("asier");
-			u.setContraseña("asier");
-			
-			
 
-			
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

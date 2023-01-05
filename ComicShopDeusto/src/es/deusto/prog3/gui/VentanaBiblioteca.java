@@ -28,6 +28,9 @@ import java.util.Date;
 import java.util.Vector;
 
 import es.deusto.prog.bbdd.GestorBD;
+
+
+
 public class VentanaBiblioteca extends JFrame{
 	
 	private JLabel logo; // }<-- Panel Superior
