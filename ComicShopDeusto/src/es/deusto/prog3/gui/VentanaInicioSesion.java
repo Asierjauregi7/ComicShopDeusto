@@ -181,7 +181,7 @@ public class VentanaInicioSesion {
 			}
 		for(Usuario u : listaUsuarios) {
 			//String contraseña = GestorBD.getContraseñaUsuario(usuario);
-			if(u.getNomUsuario().equals(usuario) && u.getContraseña().equals(contraseña)){
+			if(u.getNomUsuario() == usuario && u.getContraseña() == contraseña){
 				System.out.println("Eres un cliente");
 				GestorBD.almacenarUsuarioVentana(usuario);
 				VentanaBiblioteca ventana = new VentanaBiblioteca();

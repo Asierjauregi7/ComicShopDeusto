@@ -1,5 +1,7 @@
 package es.deusto.prog3.g32;
 
+import es.deusto.prog.bbdd.GestorBD;
+
 public class Usuario {
 	private String nombre;
 	private String apellidos;
@@ -19,7 +21,8 @@ public class Usuario {
 		this.saldo = saldo;
 	}
 
-	public Usuario() {		
+	public Usuario() {	
+		GestorBD.Conexion();
 	}
 	
 	// Getters & Setters

@@ -1,5 +1,7 @@
 package es.deusto.prog3.g32;
 
+import es.deusto.prog.bbdd.GestorBD;
+
 public class Pago {
 	private int cuentaBancaria;
 	private String caducidad;
@@ -13,7 +15,9 @@ public class Pago {
 		this.cvv = cvv;
 	}
 
-	
+	public Pago() {
+		GestorBD.Conexion();
+	}
 	//Getters & Setters
 	public int getCuentaBancaria() {
 		return cuentaBancaria;

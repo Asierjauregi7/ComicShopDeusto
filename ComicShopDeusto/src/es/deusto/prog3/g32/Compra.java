@@ -1,5 +1,7 @@
 package es.deusto.prog3.g32;
 
+import es.deusto.prog.bbdd.GestorBD;
+
 public class Compra {
 	private int idCompra;
 	private String correoCliente;
@@ -24,7 +26,10 @@ public class Compra {
 		this.precio = precio;
 		this.cantidad = cantidad;
 	}
-
+	
+	public Compra() {
+		GestorBD.Conexion();
+	}
 
 	//Getters & Setters
 	public int getIdCompra() {

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import es.deusto.prog.bbdd.GestorBD;
+
 public class Comic {
 	private int id;
 	private String editorial;
@@ -25,7 +27,9 @@ public class Comic {
 		//this.cantidad = cantidad;
 	//}
 
-	
+	public Comic() {
+		GestorBD.Conexion();
+	}
 	//Getters & Setters
 	public int getId() {
 		return id;
