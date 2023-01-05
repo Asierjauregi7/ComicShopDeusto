@@ -495,6 +495,7 @@ public class VentanaBiblioteca extends JFrame{
 	
 	
 	
+	
 	//Modelo de comics
 	private void ModeloComics(ArrayList<Comic> lista) {
 		Vector<String> cabeceras = new Vector<String>(Arrays.asList("Id", "Editorial", "Titulo", "Genero", "Precio", "Cantidad"));
