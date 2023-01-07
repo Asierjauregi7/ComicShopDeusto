@@ -243,7 +243,7 @@ public class GestorBD {
 		ArrayList<Comic> ret = new ArrayList<>();
 		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 			String sql = "SELECT * FROM COMIC";
-			ResultSet rs = ((Statement) con).executeQuery(sql);
+			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) { // Leer el resultset
 				int id = rs.getInt("id");
 				String editorial = rs.getString("editorial");
@@ -437,8 +437,8 @@ public class GestorBD {
 	public static ArrayList<Comic> cargarComicsPorGenero(String genero) {
 		ArrayList<Comic> ret = new ArrayList<>();
 		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
-			String sql = "SELECT * FROM COMIC WHERE GENERO = '"+genero+"';";
-		ResultSet rs = ((Statement) con).executeQuery(sql);
+		String sql = "SELECT * FROM COMIC WHERE GENERO = '"+genero+"';";
+		ResultSet rs = stmt.executeQuery(sql);
 		while (rs.next()) { // Leer el resultset
 			int id = rs.getInt("id");
 			String editorial = rs.getString("editorial");
@@ -505,7 +505,7 @@ public class GestorBD {
 	public static void EliminarCarrito() {
 		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 			String sql = "DELETE * FROM CARRITO";
-			((Statement) con).executeUpdate(sql);
+			stmt.executeUpdate(sql);
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -519,7 +519,7 @@ public class GestorBD {
 	public static void EliminarDelCarrito(String Titulo) {
 		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 			String sql = "DELETE * FROM CARRITO WHERE TITULO = '"+Titulo+"';";
-			((Statement) con).executeUpdate(sql);
+			stmt.executeUpdate(sql);
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -533,7 +533,7 @@ public class GestorBD {
 		ArrayList<Compra> ret = new ArrayList<>();
 		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 			String sql = "SELECT * FROM COMPRA WHERE CORREO = '"+correo+"';";
-		ResultSet rs = ((Statement) con).executeQuery(sql);
+		ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 				int idCompra = rs.getInt("idCompra");
 				String correoCliente = rs.getString("correoCliente");
@@ -563,7 +563,7 @@ public class GestorBD {
 		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 			String sql = "INSERT INTO CARRITO (ID, EDITORIAL, TITULO, GENERO, PRECIO, CANTIDAD) VALUES('" + carro.getId() + "','" + carro.getEditorial() + "', '" + carro.getTitulo() + "', '"
 					+ carro.getGenero() + "', '" + carro.getPrecio() +"', '" + carro.getCantidad() + "')";
-			((Statement) con).executeUpdate(sql);
+			stmt.executeUpdate(sql);
 		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -578,7 +578,7 @@ public class GestorBD {
 			try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 				String sql = "INSERT INTO COMPRA (IDCOMPRA, CORREOCLIENTE, IDPRODUCTO, EDITORIALPRODUCTO, TITULOPRODUCTO, GENERO, PRECIO, CANTIDAD) VALUES('" + compra.getIdCompra() + "','" + compra.getCorreoCliente() +"','" + compra.getIdProducto() +"','" + compra.getEditorialProducto() + "', '" + compra.getTituloProducto() + "', '"
 						+ compra.getGenero() + "', '" + compra.getPrecio() +"', '" + compra.getCantidad() + "')";
-				((Statement) con).executeUpdate(sql);
+				stmt.executeUpdate(sql);
 			
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -592,7 +592,7 @@ public class GestorBD {
 	public static void actualizarSaldo(int saldo) {
 		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 			String sql = "INSERT INTO SALDO FROM USUARIO (SALDO) VALUES('" + saldo + "')";
-			((Statement) con).executeUpdate(sql);
+			stmt.executeUpdate(sql);
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

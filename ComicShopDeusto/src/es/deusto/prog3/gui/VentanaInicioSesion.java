@@ -173,6 +173,8 @@ public class VentanaInicioSesion {
 
 	
 	private void chequearInicioSesion(String nomUsuario, String contra) {
+
+		
 		
 		ArrayList<Usuario> listaUsuarios = GestorBD.getUsuarios();
 		//String usuario = textUsuario.getText();
@@ -189,6 +191,7 @@ public class VentanaInicioSesion {
 						VentanaBiblioteca ventana = new VentanaBiblioteca();
 						ventana.setVisible(true);
 						frameVentanaInicioSesion.dispose();
+						System.out.println(GestorBD.getComics1());
 						}else {
 							JOptionPane.showMessageDialog(null, "Primero debes registrarte");
 						}

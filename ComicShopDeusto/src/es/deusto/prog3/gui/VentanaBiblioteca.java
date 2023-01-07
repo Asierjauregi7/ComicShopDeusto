@@ -674,14 +674,17 @@ public class VentanaBiblioteca extends JFrame{
 				mDatos.removeRow(i);
 				GestorBD.EliminarCarrito();
 				realizarCompra(i+1);
+
+				
+				
 				
 			}
 		}
 	
 
+	
 		
-		
-		
+	
 	
 		
 	
