@@ -391,10 +391,11 @@ public class GestorBD {
 	
 	public static String cargarCorreoUsuario() {
 		String ret = "";
+		//String sql = "SELECT CORREO FROM COGERCLIENTE";
+		//try (Connection con = DriverManager.getConnection(connectionString); PreparedStatement stmt = con.prepareStatement(sql)) {
+		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {	
 		String sql = "SELECT CORREO FROM COGERCLIENTE";
-		try (Connection con = DriverManager.getConnection(connectionString); PreparedStatement stmt = con.prepareStatement(sql)) {
-			
-		ResultSet rs = stmt.executeQuery(sql);
+	    ResultSet rs = stmt.executeQuery(sql);
 		
 		while (rs.next()) { // Leer el resultset
 			String correo = rs.getString("correo");
@@ -415,8 +416,8 @@ public class GestorBD {
 	public static int cargarSaldoUsuario(String correo) {
 		int ret = 0;
 		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
-			String sql = "SELECT SALDO FROM USUARIO WHERE CORREO = '"+correo+"';";
-		ResultSet rs = ((Statement) con).executeQuery(sql);
+		String sql = "SELECT SALDO FROM USUARIO WHERE CORREO = '"+correo+"';";
+		ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) { // Leer el resultset
 				int saldo = rs.getInt("saldo");
 				ret = saldo;
@@ -762,9 +763,14 @@ public class GestorBD {
 	
 	//Metodo para establecer el usuario
 	public static void almacenarUsuarioVentana(String correo) {
-		String sent = "insert into cogerCliente (correo) values('" + correo + "')";
-		try (Connection con = DriverManager.getConnection(connectionString); PreparedStatement stmt = con.prepareStatement(sent)) {
+		//String sent = "insert into cogerCliente (correo) values('" + correo + "')";
+		//try (Connection con = DriverManager.getConnection(connectionString); PreparedStatement stmt = con.prepareStatement(sent)) {
 			
+			//stmt.executeUpdate(sent);
+		
+		try (Connection con = DriverManager.getConnection(connectionString); 
+				 Statement stmt = con.createStatement()) {
+			String sent = "INSERT INTO COGERCLIENTE (CORREO) VALUES('" + correo + "')";
 			stmt.executeUpdate(sent);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -9,7 +9,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 
-import es.deusto.prog.bbdd.*;
+import es.deusto.prog.bbdd.GestorBD;
 import es.deusto.prog3.g32.*;
 
 import java.awt.*;
@@ -59,13 +59,15 @@ public class VentanaBiblioteca extends JFrame{
 	private JButton btnRecargarSaldo;
 	
 	public VentanaBiblioteca() {
+		
+		GestorBD.Conexion();
 		this.setTitle("Comic Shop Deusto");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setExtendedState(Frame.MAXIMIZED_BOTH);
 		this.setLayout(new BorderLayout());
 
 
-		GestorBD.Conexion();
+		
 		
 		// Panel Superior Izquierda
 		tipo1 = -1;

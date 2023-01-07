@@ -134,8 +134,10 @@ public class VentanaInicioSesion {
 		//Si este no funciona se utiliza chequear inicio sesion 
 		btnIniciarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				chequearInicioSesion(textUsuario.getText(), passwordField.getText());
 				//frameVentanaInicioSesion.dispose();
-				chequearInicioSesion();
+				
+				
 				//if(GestorBD.existeUsuarioEnBBDD(textUsuario.getText(), passwordField.getText())) {
 					//GestorBD.almacenarUsuarioVentana(textUsuario.getText());
 					//VentanaBiblioteca ventana = new VentanaBiblioteca();
@@ -168,30 +170,32 @@ public class VentanaInicioSesion {
 		
 	}
 	
+
 	
-	private void chequearInicioSesion() {
+	private void chequearInicioSesion(String nomUsuario, String contra) {
 		
 		ArrayList<Usuario> listaUsuarios = GestorBD.getUsuarios();
-		
-		String usuario = textUsuario.getText();
-		String contraseña = passwordField.getText();
-		if(usuario.equals("") || passwordField.getText().equals("")) {
+		//String usuario = textUsuario.getText();
+		//String contraseña = passwordField.getText();
+		if(nomUsuario.equals("") || contra.equals("")) {
 			JOptionPane.showMessageDialog(null, "Rellena todos los campos"); // Si alguno de los campos esta vacio
 		
-			}
-		for(Usuario u : listaUsuarios) {
-			//String contraseña = GestorBD.getContraseñaUsuario(usuario);
-			if(u.getNomUsuario() == usuario && u.getContraseña() == contraseña){
-				System.out.println("Eres un cliente");
-				GestorBD.almacenarUsuarioVentana(usuario);
-				VentanaBiblioteca ventana = new VentanaBiblioteca();
-				ventana.setVisible(true);
-				frameVentanaInicioSesion.dispose();
-			}else {
-				JOptionPane.showMessageDialog(null, "Primero debes registrarte");
-			}
-		}
+			}else{
+				for(Usuario u : listaUsuarios) {
+					//String contraseña = GestorBD.getContraseñaUsuario(usuario);
+					if(u.getNomUsuario().equals(nomUsuario) && u.getContraseña().equals(contra)){
+						System.out.println("Eres un cliente");
+						GestorBD.almacenarUsuarioVentana(nomUsuario);
+						VentanaBiblioteca ventana = new VentanaBiblioteca();
+						ventana.setVisible(true);
+						frameVentanaInicioSesion.dispose();
+						}else {
+							JOptionPane.showMessageDialog(null, "Primero debes registrarte");
+						}
+					}
+				}
 	}
+	
 				
 					
 				
