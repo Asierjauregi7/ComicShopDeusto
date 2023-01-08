@@ -33,7 +33,7 @@ public class GestorBD {
 	
 	public static final String connectionString = "jdbc:sqlite:ComicShopDeusto/db/BaseDeDatos.db";
 	private final String PROPERTIES_FILE = "conf/app.properties";
-	private final String CSV_COMICS = "data/comics1.csv";
+	private final String CSV_COMICS = "ComicShopDeusto/src/es/deusto/prog3/data/comics1.csv";
 	
 	private Properties properties;
 	private String driverName = "org.sqlite.JDBC";
@@ -65,7 +65,7 @@ public class GestorBD {
 	/**
 	 * Inicializa la BBDD leyendo los datos de los ficheros CSV 
 	 */
-	public void initilizeFromCSV() {
+	public void initializeFromCSV() {
 		//Sólo se inicializa la BBDD si la propiedad initBBDD es true.
 		//if (properties.get("loadCSV").equals("true")) {
 			//Se borran los datos, si existía alguno
@@ -75,11 +75,13 @@ public class GestorBD {
 			//Se leen los comics del CSV
 			List<Comic> comics = this.loadCVSComics();				
 			
+	        System.out.println(comics);
 			
 			//Se insertan los comics en la BBDD
 			GestorBD.insertarComic(comics.toArray(new Comic[comics.size()]));				
 		//}
 	}
+	
 	
 	protected static final String DRIVER_NAME = "org.sqlite.JDBC";
 	protected static final String DATABASE_FILE = "ComicShopDeusto/db/BaseDeDatos.db";
@@ -849,7 +851,7 @@ public class GestorBD {
 	}
 	
 	
-	private List<Comic> loadCVSComics() {
+	public List<Comic> loadCVSComics() {
 		List<Comic> comics = new ArrayList<>();
 		
 		try (BufferedReader in = new BufferedReader(new FileReader(CSV_COMICS))) {
@@ -873,7 +875,7 @@ public class GestorBD {
 	
 	public void borrarDatos() {
 		//Sólo se borran los datos si la propiedad cleanBBDD es true
-		if (properties.get("cleanBBDD").equals("true")) {	
+			
 			String sql1 = "DELETE FROM BIBLIOTECA;";
 			String sql2 = "DELETE FROM COMIC;";
 			String sql3 = "DELETE FROM CARRITO;";
@@ -898,7 +900,7 @@ public class GestorBD {
 			} catch (Exception ex) {
 				logger.warning(String.format("Error al borrar los datos: %s", ex.getMessage()));
 			}
-		}
+		
 	}
 	
 	
@@ -919,6 +921,8 @@ public class GestorBD {
         }else{ // Sino informamos que no nos podemos conectar.
             System.out.println("No has podido conectarte");
         }
+        
+        
     }   
 	
 	

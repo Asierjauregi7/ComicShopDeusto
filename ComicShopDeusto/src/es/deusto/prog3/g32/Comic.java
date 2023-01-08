@@ -85,7 +85,7 @@ public class Comic {
 				StringTokenizer tokenizer = new StringTokenizer(csvString, ";");
 				
 				Comic comic = new Comic();
-				comic.setId(Integer.valueOf(tokenizer.nextToken()));
+				//comic.setId(Integer.valueOf(tokenizer.nextToken()));
 				comic.setEditorial(tokenizer.nextToken());
 				comic.setTitulo(tokenizer.nextToken());
 				comic.setGenero(Genero.valueOf(tokenizer.nextToken()));

@@ -2,6 +2,7 @@ package es.deusto.prog3.gui;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -65,8 +66,9 @@ public class VentanaBiblioteca extends JFrame{
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setExtendedState(Frame.MAXIMIZED_BOTH);
 		this.setLayout(new BorderLayout());
-
-
+		
+		
+		
 		
 		
 		// Panel Superior Izquierda
@@ -514,9 +516,10 @@ public class VentanaBiblioteca extends JFrame{
 					return false;
 				return true;
 			}
+			
 		};
 		
-		
+	
 		ArrayList<Comic> comics = lista;
 		
 		for (Comic producto : comics) {

@@ -24,7 +24,7 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JSeparator;
 
-public class VentanaInicioSesion {
+public class VentanaInicioSesion extends JFrame{
 
 	private JFrame frameVentanaInicioSesion;
 	private JTextField textUsuario;
@@ -40,18 +40,18 @@ public class VentanaInicioSesion {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaInicioSesion window = new VentanaInicioSesion();
-					window.frameVentanaInicioSesion.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	//public static void main(String[] args) {
+		//EventQueue.invokeLater(new Runnable() {
+			//public void run() {
+				//try {
+					//VentanaInicioSesion window = new VentanaInicioSesion();
+					//window.frameVentanaInicioSesion.setVisible(true);
+				//} catch (Exception e) {
+					//e.printStackTrace();
+				//}
+			//}
+		//});
+	//}
 
 	/**
 	 * Create the application.
@@ -205,8 +205,8 @@ public class VentanaInicioSesion {
 		
 	
 
-	protected void dispose() {
-		// TODO Auto-generated method stub
-		
+	public static void main(String[] args){
+		VentanaInicioSesion ventana = new VentanaInicioSesion();
+		ventana.setVisible(true);
 	}
 }
