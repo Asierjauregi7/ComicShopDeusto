@@ -67,7 +67,7 @@ public class GestorBD {
 	 */
 	public void initilizeFromCSV() {
 		//Sólo se inicializa la BBDD si la propiedad initBBDD es true.
-		if (properties.get("loadCSV").equals("true")) {
+		//if (properties.get("loadCSV").equals("true")) {
 			//Se borran los datos, si existía alguno
 			this.borrarDatos();
 			
@@ -78,7 +78,7 @@ public class GestorBD {
 			
 			//Se insertan los comics en la BBDD
 			GestorBD.insertarComic(comics.toArray(new Comic[comics.size()]));				
-		}
+		//}
 	}
 	
 	protected static final String DRIVER_NAME = "org.sqlite.JDBC";
@@ -268,14 +268,17 @@ public class GestorBD {
 	
 	public static ArrayList<Comic> getComics1() {
 		ArrayList<Comic> comics = new ArrayList<>();
-		String sql = "SELECT * FROM Comic";
+		//String sql = "SELECT * FROM Comic";
 		
 		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
-		try (Connection con = DriverManager.getConnection(connectionString);
-		     PreparedStatement pStmt = con.prepareStatement(sql)) {			
+		//try (Connection con = DriverManager.getConnection(connectionString);
+		     //PreparedStatement pStmt = con.prepareStatement(sql)) {	
+		
+		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
+			String sql = "SELECT * FROM Comic";
 			
 			//Se ejecuta la sentencia y se obtiene el ResultSet con los resutlados
-			ResultSet rs = pStmt.executeQuery();			
+			ResultSet rs = stmt.executeQuery(sql);			
 			Comic comic;
 			
 			//Se recorre el ResultSet y se crean los Comics
@@ -379,7 +382,7 @@ public class GestorBD {
 	public static void EliminarUsuarioDeBaseDeDatos() {
 		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 			String sql = "DELETE * FROM COGERCLIENTE";
-			((Statement) con).executeUpdate(sql);
+			stmt.executeUpdate(sql);
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
