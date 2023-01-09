@@ -277,7 +277,7 @@ public class GestorBD {
 		     //PreparedStatement pStmt = con.prepareStatement(sql)) {	
 		
 		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
-			String sql = "SELECT * FROM Comic";
+			String sql = "SELECT * FROM COMIC";
 			
 			//Se ejecuta la sentencia y se obtiene el ResultSet con los resutlados
 			ResultSet rs = stmt.executeQuery(sql);			
@@ -359,7 +359,7 @@ public class GestorBD {
 			try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 				String sql = "SELECT * FROM CARRITO";
 				//"Id", "Editorial", "Titulo", "Genero", "Precio", "Cantidad"
-				ResultSet rs = ((Statement) con).executeQuery(sql);
+				ResultSet rs = stmt.executeQuery(sql);
 				while (rs.next()) { // Leer el resultset
 					int id = rs.getInt("id");
 					String editorial = rs.getString("editorial");
@@ -596,7 +596,8 @@ public class GestorBD {
 		
 	public static void actualizarSaldo(int saldo) {
 		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
-			String sql = "INSERT INTO SALDO FROM USUARIO (SALDO) VALUES('" + saldo + "')";
+			//String sql = "INSERT INTO SALDO FROM USUARIO (SALDO) VALUES('" + saldo + "')";
+			String sql = "INSERT INTO USUARIO (SALDO) VALUES('" + saldo + "')";
 			stmt.executeUpdate(sql);
 			
 		} catch (SQLException e) {
