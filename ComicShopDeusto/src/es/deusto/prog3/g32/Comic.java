@@ -105,12 +105,16 @@ public class Comic {
 
 	
 		@Override
+		//public String toString() {
+			//StringBuffer buffer = new StringBuffer(String.format("%d %s %s s% %d %d", id, editorial, titulo, genero, precio, cantidad));
+			
+			
+			
+			//return buffer.toString();
+		//}
+		
 		public String toString() {
-			StringBuffer buffer = new StringBuffer(String.format("[%-6s] %d - %s", editorial, id, titulo));
-			
-			
-			
-			return buffer.toString();
+			return String.format("%d %s %s s% %d %d", id, editorial, titulo, genero, precio, cantidad);
 		}
 		
 		
