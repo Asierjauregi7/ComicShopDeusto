@@ -113,17 +113,17 @@ public class Comic {
 			//return buffer.toString();
 		//}
 		
-		public String toString() {
-			return String.format("%d %s %s s% %d %d", id, editorial, titulo, genero, precio, cantidad);
-		}
+		//public String toString() {
+			//return String.format("%d - %s - %s - s% - %d - %d", id, editorial, titulo, genero, precio, cantidad);
+		//}
 		
 		
 	//ToString
 	//@Override
-	//public String toString() {
-		//return "Comic [id=" + id + ", editorial=" + editorial + ", titulo=" + titulo + ", genero=" + genero
-				//+ ", precio=" + precio + ", cantidad=" + cantidad + "]";
-	//}
+	public String toString() {
+		return "Comic [id=" + id + ", editorial=" + editorial + ", titulo=" + titulo + ", genero=" + genero
+				+ ", precio=" + precio + ", cantidad=" + cantidad + "]";
+	}
 	
 	
 	

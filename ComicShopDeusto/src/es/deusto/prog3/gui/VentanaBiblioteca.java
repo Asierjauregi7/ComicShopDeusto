@@ -520,7 +520,7 @@ public class VentanaBiblioteca extends JFrame{
 		};
 		
 	
-		ArrayList<Comic> comics = lista;
+		ArrayList<Comic> comics = GestorBD.getComics1();
 		
 		for (Comic producto : comics) {
 			mDatos.addRow(new Object[] { producto.getId(), producto.getEditorial(), producto.getTitulo(),
