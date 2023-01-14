@@ -230,7 +230,7 @@ public class GestorBD {
 			String sql = "DELETE * FROM COMIC";
 			
 			if (!stmt.execute(sql)) {
-				System.out.println("Se ha borrado la BBDD");
+				System.out.println("Se han borrado los comics");
 			}
 		}catch(Exception e) {
 			System.out.println(e);
@@ -466,8 +466,9 @@ public class GestorBD {
 	
 	//Otro metodo para cargar comics por genero
 	
-	public static Comic cargarComicsPorGenero1(String genero) {
+	public static ArrayList<Comic> cargarComicsPorGenero1(String genero) {
 		Comic comic = null;
+		ArrayList<Comic> ret = new ArrayList<>();
 		String sql = "SELECT * FROM COMIC WHERE GENERO = '"+genero+"';";
 		
 		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
@@ -478,10 +479,10 @@ public class GestorBD {
 			pStmt.setString(1, genero);
 			
 			//Se ejecuta la sentencia y se obtiene el ResultSet con los resutlados
-			ResultSet rs = pStmt.executeQuery();			
+			ResultSet rs = pStmt.executeQuery(sql);			
 
 			//Se procesa el único resultado
-			if (rs.next()) {
+			while (rs.next()) {
 				comic = new Comic();
 				
 				comic.setId(rs.getInt("id"));
@@ -490,6 +491,8 @@ public class GestorBD {
 				comic.setGenero(Genero.valueOf(rs.getString("genero")));
 				comic.setPrecio(rs.getInt("precio"));
 				comic.setCantidad(rs.getInt("cantidad"));
+				
+				ret.add(comic);
 			}
 			
 			//Se cierra el ResultSet
@@ -500,7 +503,7 @@ public class GestorBD {
 			logger.warning(String.format("Error recuperar el comic con nombre %s: %s", genero, ex.getMessage()));						
 		}		
 		
-		return comic;
+		return ret;
 	}
 	
 	
@@ -909,19 +912,19 @@ public class GestorBD {
         
         /*Declaramos una variable para almacenar la conexión que nos va a
         devolver el método Conexion(). Primero la iniciamos en null.*/
-        Connection conex=null;
+        //Connection conex=null;
         //crearBBDD();
         /*Almacenamos lo que nos devuelve el método Conexion()
         en la variable conex*/
-        conex = Conexion();
+        //conex = Conexion();
          
         // Si la variable objeto conex es diferente de nulo
-        if(conex != null){
+        //if(conex != null){
             // Informamos que la conexión es correcta
-            System.out.println("Conectado correctamente");
-        }else{ // Sino informamos que no nos podemos conectar.
-            System.out.println("No has podido conectarte");
-        }
+            //System.out.println("Conectado correctamente");
+        //}else{ // Sino informamos que no nos podemos conectar.
+            //System.out.println("No has podido conectarte");
+        //}
         
         
     }   

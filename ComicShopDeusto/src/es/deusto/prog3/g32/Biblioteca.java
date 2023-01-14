@@ -21,9 +21,7 @@ public class Biblioteca {
 		this.saldo = saldo;
 		this.comics = comics;
 	}
-	public Biblioteca() {
-		GestorBD.Conexion();
-	}
+	
 
 	//Getters & Setters
 	public int getId() {

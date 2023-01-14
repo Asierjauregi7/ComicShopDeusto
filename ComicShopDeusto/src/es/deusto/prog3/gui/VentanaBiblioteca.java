@@ -61,7 +61,7 @@ public class VentanaBiblioteca extends JFrame{
 	
 	public VentanaBiblioteca() {
 		
-		GestorBD.Conexion();
+		
 		this.setTitle("Comic Shop Deusto");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setExtendedState(Frame.MAXIMIZED_BOTH);
@@ -391,10 +391,8 @@ public class VentanaBiblioteca extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String genero = "Comedia";
-				ArrayList<Comic>listaComedia = new ArrayList<Comic>();
-				Comic comicsComedia = GestorBD.cargarComicsPorGenero1(genero);
-				listaComedia.add(comicsComedia);
-				ModeloComics(listaComedia);
+				ArrayList<Comic>comicsComedia = GestorBD.cargarComicsPorGenero1(genero);
+				ModeloComics(comicsComedia);
 				
 			}
 			
@@ -407,10 +405,8 @@ public class VentanaBiblioteca extends JFrame{
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						String genero = "Terror";
-						ArrayList<Comic>listaTerror = new ArrayList<Comic>();
-						Comic comicsTerror = GestorBD.cargarComicsPorGenero1(genero);
-						listaTerror.add(comicsTerror);
-						ModeloComics(listaTerror);
+						ArrayList<Comic>comicsTerror = GestorBD.cargarComicsPorGenero1(genero);
+						ModeloComics(comicsTerror);
 						
 					}
 					
@@ -422,10 +418,8 @@ public class VentanaBiblioteca extends JFrame{
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						String genero = "Accion";
-						ArrayList<Comic>listaAccion = new ArrayList<Comic>();
-						Comic comicsAccion = GestorBD.cargarComicsPorGenero1(genero);
-						listaAccion.add(comicsAccion);
-						ModeloComics(listaAccion);
+						ArrayList<Comic>comicsAccion = GestorBD.cargarComicsPorGenero1(genero);
+						ModeloComics(comicsAccion);
 						
 					}
 					
@@ -437,10 +431,8 @@ public class VentanaBiblioteca extends JFrame{
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						String genero = "Aventura";
-						ArrayList<Comic>listaAventura = new ArrayList<Comic>();
-						Comic comicsAventura = GestorBD.cargarComicsPorGenero1(genero);
-						listaAventura.add(comicsAventura);
-						ModeloComics(listaAventura);
+						ArrayList<Comic>comicsAventura = GestorBD.cargarComicsPorGenero1(genero);
+						ModeloComics(comicsAventura);
 						
 					}
 					

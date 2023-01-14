@@ -27,9 +27,7 @@ public class Comic {
 		//this.cantidad = cantidad;
 	//}
 
-	public Comic() {
-		GestorBD.Conexion();
-	}
+	
 	//Getters & Setters
 	public int getId() {
 		return id;
