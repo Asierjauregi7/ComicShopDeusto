@@ -467,20 +467,24 @@ public class GestorBD {
 	//Otro metodo para cargar comics por genero
 	
 	public static ArrayList<Comic> cargarComicsPorGenero1(String genero) {
-		Comic comic = null;
+		//Comic comic = null;
 		ArrayList<Comic> ret = new ArrayList<>();
-		String sql = "SELECT * FROM COMIC WHERE GENERO = '"+genero+"';";
+		//String sql = "SELECT * FROM COMIC WHERE GENERO = '"+genero+"';";
 		
 		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
-		try (Connection con = DriverManager.getConnection(connectionString);
-		     PreparedStatement pStmt = con.prepareStatement(sql)) {			
+		//try (Connection con = DriverManager.getConnection(connectionString);
+		     //PreparedStatement pStmt = con.prepareStatement(sql)) {	
+		
+		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
+			String sql = "SELECT * FROM COMIC WHERE GENERO = '"+genero+"';";
 			
 			//Se definen los parámetros de la sentencia SQL
-			pStmt.setString(1, genero);
+			//pStmt.setString(1, genero);
 			
 			//Se ejecuta la sentencia y se obtiene el ResultSet con los resutlados
-			ResultSet rs = pStmt.executeQuery(sql);			
-
+			//ResultSet rs = pStmt.executeQuery(sql);			
+			ResultSet rs = stmt.executeQuery(sql);			
+			Comic comic;
 			//Se procesa el único resultado
 			while (rs.next()) {
 				comic = new Comic();
@@ -495,10 +499,12 @@ public class GestorBD {
 				ret.add(comic);
 			}
 			
+			
+			
 			//Se cierra el ResultSet
 			rs.close();
 			
-			logger.info(String.format("Se ha recuperado el comic %s", comic));			
+			logger.info(String.format("Se ha recuperado el comic %s"));//, comic));			
 		} catch (Exception ex) {
 			logger.warning(String.format("Error recuperar el comic con nombre %s: %s", genero, ex.getMessage()));						
 		}		

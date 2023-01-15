@@ -1,7 +1,5 @@
 package es.deusto.prog3.gui;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -384,6 +382,17 @@ public class VentanaBiblioteca extends JFrame{
 			
 		});
 		
+		btnInicio.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<Comic>comics = GestorBD.getComics1();
+				ModeloComics(comics);
+				
+			}
+			
+		});
+		
 		
 		//Se cargan los comics cuyo genero sea Comedia
 		btnComedia.addActionListener(new ActionListener() {
@@ -400,54 +409,54 @@ public class VentanaBiblioteca extends JFrame{
 		
 		
 		//Se cargan los comics cuyo genero sea Terror
-				btnTerror.addActionListener(new ActionListener() {
+		btnTerror.addActionListener(new ActionListener() {
 
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						String genero = "Terror";
-						ArrayList<Comic>comicsTerror = GestorBD.cargarComicsPorGenero1(genero);
-						ModeloComics(comicsTerror);
-						
-					}
-					
-				});
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String genero = "Terror";
+				ArrayList<Comic>comicsTerror = GestorBD.cargarComicsPorGenero1(genero);
+				ModeloComics(comicsTerror);
 				
-				//Se cargan los comics cuyo genero sea Accion
-				btnAccion.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						String genero = "Accion";
-						ArrayList<Comic>comicsAccion = GestorBD.cargarComicsPorGenero1(genero);
-						ModeloComics(comicsAccion);
-						
-					}
+			}
 					
-				});
+		});
 				
-				//Se cargan los comics cuyo genero sea Aventura
-				btnAventura.addActionListener(new ActionListener() {
+		//Se cargan los comics cuyo genero sea Accion
+		btnAccion.addActionListener(new ActionListener() {
 
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						String genero = "Aventura";
-						ArrayList<Comic>comicsAventura = GestorBD.cargarComicsPorGenero1(genero);
-						ModeloComics(comicsAventura);
-						
-					}
-					
-				});
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String genero = "Accion";
+				ArrayList<Comic>comicsAccion = GestorBD.cargarComicsPorGenero1(genero);
+				ModeloComics(comicsAccion);
 				
-				btnRecargarSaldo.addActionListener(new ActionListener() {
+			}
+			
+		});
+				
+		//Se cargan los comics cuyo genero sea Aventura
+		btnAventura.addActionListener(new ActionListener() {
 
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						
-						new VentanaPago();
-						
-					}
-					
-				});
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String genero = "Aventura";
+				ArrayList<Comic>comicsAventura = GestorBD.cargarComicsPorGenero1(genero);
+				ModeloComics(comicsAventura);
+				
+			}
+			
+		});
+				
+		btnRecargarSaldo.addActionListener(new ActionListener() {
+	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				new VentanaPago();
+				
+			}
+			
+		});
 		
 		
 		
@@ -457,7 +466,7 @@ public class VentanaBiblioteca extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 				if(e.isControlDown()) {
 					GestorBD.EliminarCarrito();
-					totalLbl.setText("Total: 0�");
+					totalLbl.setText("Total: 0€");
 					realizarCompra.setVisible(false);
 					
 					
@@ -522,22 +531,22 @@ public class VentanaBiblioteca extends JFrame{
 		tDatos.setModel(mDatos);
 		
 		
-		tDatos.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+		//tDatos.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 			
-			@Override
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-					int row, int column) {
-				Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-				if(column == 2 && (Integer)mDatos.getValueAt(row, 2) < 35) {
-					((JComponent) c).setOpaque(true);
-					c.setBackground(new Color(255, 200, 200));
-				}else {
-					((JComponent) c).setOpaque(false);
-				}
+			//@Override
+			//public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+					//int row, int column) {
+				//Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+				//if(column == 2 && (Integer)mDatos.getValueAt(row, 2) < 35) {
+					//((JComponent) c).setOpaque(true);
+					//c.setBackground(new Color(255, 200, 200));
+				//}else {
+					//((JComponent) c).setOpaque(false);
+				//}
 				
-				return c;
-			}
-		});
+				//return c;
+			//}
+		//});
 	}
 
 	
@@ -620,9 +629,9 @@ public class VentanaBiblioteca extends JFrame{
 			String titulo =  (String) mDatos.getValueAt(filaSeleccionada, 2);
 			Genero genero = (Genero) mDatos.getValueAt(filaSeleccionada, 3);
 			int precio = (Integer) mDatos.getValueAt(filaSeleccionada, 4);
-			int cantidadTabla = (Integer) mDatos.getValueAt(filaSeleccionada, 5);
+			int cantidadTabla = Integer.parseInt(JOptionPane.showInputDialog("Introduce la cantidad del producto"));//(Integer) mDatos.getValueAt(filaSeleccionada, 5);
 			ArrayList<Carrito> carros = GestorBD.getCarrito();
-			ArrayList<String> nombreProductos = new ArrayList();
+			ArrayList<String> nombreProductos = new ArrayList<>();
 			
 			for(Carrito carro : carros) {
 				nombreProductos.add(carro.getTitulo());
