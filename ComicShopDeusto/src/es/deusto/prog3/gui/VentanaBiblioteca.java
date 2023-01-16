@@ -54,7 +54,7 @@ public class VentanaBiblioteca extends JFrame{
 	private int tipo1;
 	private JButton realizarCompra;
 	private JPanel margenSaldo;
-	private JLabel saldo;
+	public static JLabel saldo;
 	private JButton btnRecargarSaldo;
 	
 	public VentanaBiblioteca() {
@@ -309,7 +309,7 @@ public class VentanaBiblioteca extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				CrearCarrito();
-				totalLbl.setText("Total:" + getTotalCarrito() + "�");
+				totalLbl.setText("Total:" + getTotalCarrito() + "€");
 				realizarCompra.setVisible(false);
 				
 				
@@ -353,7 +353,8 @@ public class VentanaBiblioteca extends JFrame{
 					realizarCompra(1);
 					
 					int nuevoSaldo = GestorBD.cargarSaldoUsuario(correo) - getTotalCarrito();       
-					GestorBD.actualizarSaldo(nuevoSaldo);
+					GestorBD.actualizarSaldo(nuevoSaldo, correo);
+					saldo.setText("Saldo:"+ VentanaBiblioteca.getSaldoUsuario() +"€");
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Saldo insuficiente, realice un ingreso");
@@ -442,7 +443,7 @@ public class VentanaBiblioteca extends JFrame{
 				String genero = "Aventura";
 				ArrayList<Comic>comicsAventura = GestorBD.cargarComicsPorGenero1(genero);
 				ModeloComics(comicsAventura);
-				
+				System.out.println(comicsAventura);
 			}
 			
 		});
@@ -521,8 +522,8 @@ public class VentanaBiblioteca extends JFrame{
 		};
 		
 	
-		ArrayList<Comic> comics = GestorBD.getComics1();
-		
+		//ArrayList<Comic> comics = GestorBD.getComics1();
+		ArrayList<Comic> comics = lista;
 		for (Comic producto : comics) {
 			mDatos.addRow(new Object[] { producto.getId(), producto.getEditorial(), producto.getTitulo(),
 					producto.getGenero(), producto.getPrecio(), producto.getCantidad() });
@@ -591,23 +592,23 @@ public class VentanaBiblioteca extends JFrame{
 	
 	//Modelo de las compras del cliente que haya iniciado sesion
 	private void verCompras() {
-		Vector<String> cabeceras = new Vector<String>(Arrays.asList("Id", "Editorial", "Titulo", "Genero", "Precio", "Cantidad"));
+		Vector<String> cabeceras = new Vector<String>(Arrays.asList("Correo", "Id", "Editorial", "Titulo", "Genero", "Precio", "Cantidad"));
 		mDatos = new DefaultTableModel( 
 				new Vector<Vector<Object>>(),
 				cabeceras 
 		) {
 			public boolean isCellEditable(int row, int column) {
-				if(column==0 || column==1 || column==2 || column==3 || column==4 || column==5)
+				if(column==0 || column==1 || column==2 || column==3 || column==4 || column==5 || column==6)
 					return false;
 				return true;
 			}
 		};
 		String correo = GestorBD.cargarCorreoUsuario();
 		ArrayList<Compra> compras = GestorBD.cargarComprasUsuario(correo);
-		
+		System.out.println(compras);
 		for (Compra compra : compras) {
 			
-			mDatos.addRow(new Object[] { compra.getCorreoCliente(), compra.getIdProducto(), compra.getEditorialProducto(), compra.getTituloProducto(), compra.getPrecio(), compra.getCantidad()});
+			mDatos.addRow(new Object[] { compra.getCorreoCliente(), compra.getIdProducto(), compra.getEditorialProducto(), compra.getTituloProducto(), compra.getGenero().toString(), compra.getPrecio(), compra.getCantidad()});
 		}
 
 		tDatos.setModel(mDatos);
@@ -651,7 +652,7 @@ public class VentanaBiblioteca extends JFrame{
 		}
 	
 	//Devuelve el saldo del usuario
-			private int getSaldoUsuario() {
+			public static int getSaldoUsuario() {
 				
 				
 				String correo = GestorBD.cargarCorreoUsuario();
@@ -664,25 +665,29 @@ public class VentanaBiblioteca extends JFrame{
 	//Recorre todo el modelo de la tabla del carrito y crea las compras
 	
 	private void realizarCompra(int i) {
-		
-			while(i< mDatos.getRowCount()) {
-				String correo = GestorBD.cargarCorreoUsuario();
-				int idComic = (Integer) mDatos.getValueAt(i, 0);
-				String editorialComic = (String) mDatos.getValueAt(i, 1);
-				String tituloComic = (String) mDatos.getValueAt(i, 2);
-				String generoComic = (String) mDatos.getValueAt(i, 3);
-				int precioComic = (Integer) mDatos.getValueAt(i, 4);
-				int cantidadComic = (Integer) mDatos.getValueAt(i, 5);
+		ArrayList<Carrito> carrito = GestorBD.getCarrito();
+		for(Carrito comic : carrito) {
+			GestorBD.crearCompra(new Compra(GestorBD.cargarCorreoUsuario(), comic.getId(), comic.getEditorial(), comic.getTitulo(), comic.getGenero().toString(), comic.getPrecio(), comic.getCantidad()));
+		}
+		GestorBD.EliminarCarrito();
+			//while(i< mDatos.getRowCount()) {
+				//String correo = GestorBD.cargarCorreoUsuario();
+				//int idComic = (Integer) mDatos.getValueAt(i, 0);
+				//String editorialComic = (String) mDatos.getValueAt(i, 1);
+				//String tituloComic = (String) mDatos.getValueAt(i, 2);
+				//String generoComic = (String) Genero.valueOf(mDatos.getValueAt(i, 3));
+				//int precioComic = (Integer) mDatos.getValueAt(i, 4);
+				//int cantidadComic = (Integer) mDatos.getValueAt(i, 5);
 				
-				GestorBD.crearCompra(new Compra(0, correo, idComic, editorialComic, tituloComic, generoComic, precioComic, cantidadComic));
-				mDatos.removeRow(i);
-				GestorBD.EliminarCarrito();
-				realizarCompra(i+1);
+				//GestorBD.crearCompra(new Compra(0, correo, idComic, editorialComic, tituloComic, generoComic, precioComic, cantidadComic));
+				//mDatos.removeRow(i);
+				
+				//realizarCompra(i+1);
 
 				
 				
 				
-			}
+			//}
 		}
 	
 

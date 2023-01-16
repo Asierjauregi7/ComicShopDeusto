@@ -109,7 +109,7 @@ public class VentanaInicioSesion extends JFrame{
 		frameVentanaInicioSesion.getContentPane().add(lblNoTienesCuenta);
 
 		btnRegistrarse = new JButton("Registrarse");
-		btnRegistrarse.setForeground(Color.BLACK);
+		btnRegistrarse.setForeground(Color.WHITE);
 		btnRegistrarse.setBackground(Color.BLACK);
 		btnRegistrarse.setBounds(322, 147, 124, 32);
 		frameVentanaInicioSesion.getContentPane().add(btnRegistrarse);

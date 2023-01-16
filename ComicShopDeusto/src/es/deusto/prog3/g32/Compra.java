@@ -3,7 +3,7 @@ package es.deusto.prog3.g32;
 import es.deusto.prog.bbdd.GestorBD;
 
 public class Compra {
-	private int idCompra;
+	//private int idCompra;
 	private String correoCliente;
 	private int idProducto;
 	private String editorialProducto;
@@ -14,10 +14,10 @@ public class Compra {
 	
 	
 	//Constructor
-	public Compra(int idCompra, String correoCliente, int idProducto, String editorialProducto,
+	public Compra( String correoCliente, int idProducto, String editorialProducto,
 			String tituloProducto, String genero, int precio, int cantidad) {
 		super();
-		this.idCompra = idCompra;
+		//this.idCompra = idCompra;
 		this.correoCliente = correoCliente;
 		this.idProducto = idProducto;
 		this.editorialProducto = editorialProducto;
@@ -32,14 +32,14 @@ public class Compra {
 	}
 
 	//Getters & Setters
-	public int getIdCompra() {
-		return idCompra;
-	}
+	//public int getIdCompra() {
+		//return idCompra;
+	//}
 
 
-	public void setIdCompra(int idCompra) {
-		this.idCompra = idCompra;
-	}
+	//public void setIdCompra(int idCompra) {
+		//this.idCompra = idCompra;
+	//}
 
 
 	public String getCorreoCliente() {
@@ -115,7 +115,7 @@ public class Compra {
 	//ToString
 	@Override
 	public String toString() {
-		return "Compra [idCompra=" + idCompra + ", correoCliente=" + correoCliente + ", idProducto=" + idProducto
+		return "Compra [correoCliente=" + correoCliente + ", idProducto=" + idProducto
 				+ ", editorialProducto=" + editorialProducto + ", tituloProducto=" + tituloProducto + ", genero="
 				+ genero + ", precio=" + precio + ", cantidad=" + cantidad + "]";
 	}

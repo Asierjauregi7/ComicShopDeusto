@@ -32,7 +32,7 @@ public class Main {
 		//Se recupera la lista de Comics y Personajes
 		//List<Comic> comics = gestorBD.getComics1();
 		List<Comic> comics = gestorBD.loadCVSComics();
-		System.out.println(comics);
+		
 				
 		//Lambda expression para abrir la ventana Principal
 		//SwingUtilities.invokeLater(() -> new VentanaInicioSesion());

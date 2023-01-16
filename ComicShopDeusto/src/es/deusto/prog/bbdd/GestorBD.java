@@ -159,9 +159,8 @@ public class GestorBD {
 					+ "Saldo INTEGER NOT NULL);";
 			
 			String compra = "CREATE TABLE IF NOT EXISTS COMPRA(\n"
-					+ "idCompra INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n"
 					+ "correoCliente TEXT NOT NULL,\n"
-					+ "idProducto INT NOT NULL,\n"
+					+ "idProducto INT NOT NULL PRIMARY KEY,\n"
 					+ "EditorialProducto TEXT NOT NULL,\n"
 					+ "TituloProducto TEXT NOT NULL,\n"
 					+ "Genero TEXT NOT NULL,\n"
@@ -519,7 +518,7 @@ public class GestorBD {
 	public static void EliminarCarrito() {
 		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
 			String sql = "DELETE * FROM CARRITO";
-			stmt.executeUpdate(sql);
+			stmt.execute(sql);
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -546,7 +545,7 @@ public class GestorBD {
 	public static ArrayList<Compra> cargarComprasUsuario(String correo) {
 		ArrayList<Compra> ret = new ArrayList<>();
 		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
-			String sql = "SELECT * FROM COMPRA WHERE CORREO = '"+correo+"';";
+			String sql = "SELECT * FROM COMPRA WHERE CORREOCLIENTE = '"+correo+"';";
 		ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 				int idCompra = rs.getInt("idCompra");
@@ -559,7 +558,7 @@ public class GestorBD {
 				int cantidad = rs.getInt("cantidad");
 				
 				
-				ret.add(new Compra(idCompra, correoCliente, idProducto, editorialProducto, tituloProducto, genero, precio, cantidad));
+				ret.add(new Compra(correoCliente, idProducto, editorialProducto, tituloProducto, genero, precio, cantidad));
 			}
 			
 		}catch (SQLException e) {
@@ -590,7 +589,7 @@ public class GestorBD {
 	
 		public static void crearCompra(Compra compra) {
 			try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
-				String sql = "INSERT INTO COMPRA (IDCOMPRA, CORREOCLIENTE, IDPRODUCTO, EDITORIALPRODUCTO, TITULOPRODUCTO, GENERO, PRECIO, CANTIDAD) VALUES('" + compra.getIdCompra() + "','" + compra.getCorreoCliente() +"','" + compra.getIdProducto() +"','" + compra.getEditorialProducto() + "', '" + compra.getTituloProducto() + "', '"
+				String sql = "INSERT INTO COMPRA (CORREOCLIENTE, IDPRODUCTO, EDITORIALPRODUCTO, TITULOPRODUCTO, GENERO, PRECIO, CANTIDAD) VALUES('" + compra.getCorreoCliente() +"','" + compra.getIdProducto() +"','" + compra.getEditorialProducto() + "', '" + compra.getTituloProducto() + "', '"
 						+ compra.getGenero() + "', '" + compra.getPrecio() +"', '" + compra.getCantidad() + "')";
 				stmt.executeUpdate(sql);
 			
@@ -603,10 +602,10 @@ public class GestorBD {
 		
 	//Metodo para editar el saldo
 		
-	public static void actualizarSaldo(int saldo) {
+	public static void actualizarSaldo(int saldo, String correo) {
 		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
-			//String sql = "INSERT INTO SALDO FROM USUARIO (SALDO) VALUES('" + saldo + "')";
-			String sql = "INSERT INTO USUARIO (SALDO) VALUES('" + saldo + "')";
+			String sql = "UPDATE USUARIO SET SALDO = '" + Integer.valueOf(saldo) + "' WHERE CORREO = '"+correo+"';";
+			//String sql = "INSERT INTO USUARIO (SALDO) VALUE('" + saldo + "')";
 			stmt.executeUpdate(sql);
 			
 		} catch (SQLException e) {

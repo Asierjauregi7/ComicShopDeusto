@@ -167,8 +167,8 @@ public class VentanaRegistro {
 		
 		
 		btnVolver = new JButton("Volver");
-		btnVolver.setBackground(new Color(101, 183, 246));
-		btnVolver.setForeground(Color.BLACK);
+		btnVolver.setBackground(Color.BLACK);
+		btnVolver.setForeground(Color.WHITE);
 		btnVolver.setBounds(135, 244, 117, 29);
 
 		frameVentanaRegistro.getContentPane().add(btnVolver);
@@ -176,8 +176,8 @@ public class VentanaRegistro {
 		
 		
 		btnRegistrar = new JButton("Registrar");
-		btnRegistrar.setBackground(new Color(101, 183, 246));
-		btnRegistrar.setForeground(Color.BLACK);
+		btnRegistrar.setBackground(Color.BLACK);
+		btnRegistrar.setForeground(Color.WHITE);
 		btnRegistrar.setBounds(264, 244, 117, 29);
 
 		frameVentanaRegistro.getContentPane().add(btnRegistrar);

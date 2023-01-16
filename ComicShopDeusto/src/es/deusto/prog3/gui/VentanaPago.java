@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,6 +14,7 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import java.awt.Window;
 import es.deusto.prog.bbdd.GestorBD;
+import es.deusto.prog3.g32.Usuario;
 
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -166,11 +168,14 @@ public class VentanaPago {
 				
 				String correo = GestorBD.cargarCorreoUsuario();
 				int saldoIngresado = Integer.valueOf(txtCantidad.getText());
+				
 				int nuevoSaldo= GestorBD.cargarSaldoUsuario(correo) + saldoIngresado;
-				GestorBD.actualizarSaldo(nuevoSaldo);
+				GestorBD.actualizarSaldo(nuevoSaldo, correo);
 				frameVentanaPago.dispose();
 				JOptionPane.showMessageDialog(null, "Saldo ingresado correctamente");
-				
+				System.out.println(saldoIngresado);
+				System.out.println(VentanaBiblioteca.getSaldoUsuario());
+				VentanaBiblioteca.saldo.setText("Saldo:"+ VentanaBiblioteca.getSaldoUsuario() +"€");
 				
 			}
 			
