@@ -137,7 +137,7 @@ public class VentanaInicioSesion extends JFrame{
 				chequearInicioSesion(textUsuario.getText(), passwordField.getText());
 				//frameVentanaInicioSesion.dispose();
 				
-				
+				System.out.println(GestorBD.getUsuarios());
 				//if(GestorBD.existeUsuarioEnBBDD(textUsuario.getText(), passwordField.getText())) {
 					//GestorBD.almacenarUsuarioVentana(textUsuario.getText());
 					//VentanaBiblioteca ventana = new VentanaBiblioteca();

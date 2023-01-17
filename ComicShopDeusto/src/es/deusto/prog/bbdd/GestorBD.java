@@ -69,7 +69,8 @@ public class GestorBD {
 		//Sólo se inicializa la BBDD si la propiedad initBBDD es true.
 		//if (properties.get("loadCSV").equals("true")) {
 			//Se borran los datos, si existía alguno
-			this.borrarDatos();
+			//this.borrarDatos();
+		    GestorBD.borrarComics();
 			
 			
 			//Se leen los comics del CSV
@@ -226,7 +227,7 @@ public class GestorBD {
 	
 	public static void borrarComics() {
 		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
-			String sql = "DELETE * FROM COMIC";
+			String sql = "DELETE FROM COMIC;";
 			
 			if (!stmt.execute(sql)) {
 				System.out.println("Se han borrado los comics");
@@ -382,7 +383,7 @@ public class GestorBD {
 	
 	public static void EliminarUsuarioDeBaseDeDatos() {
 		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
-			String sql = "DELETE * FROM COGERCLIENTE";
+			String sql = "DELETE FROM COGERCLIENTE";
 			stmt.executeUpdate(sql);
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -517,7 +518,7 @@ public class GestorBD {
 	
 	public static void EliminarCarrito() {
 		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
-			String sql = "DELETE * FROM CARRITO";
+			String sql = "DELETE FROM CARRITO;";
 			stmt.execute(sql);
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -634,6 +635,20 @@ public class GestorBD {
 		}
 
 		return false;
+	}
+	
+	//Metodo para eliminar cantidad de comic cuando se añade al carrito
+	public static void actualizarComicsCarrito(int cantidad, int idComic) {
+		
+		try (Connection con = DriverManager.getConnection(connectionString); Statement stmt = con.createStatement()) {
+			String sql = "UPDATE COMIC SET CANTIDAD = '" + cantidad + "' WHERE ID = '"+idComic+"';";
+			//String sql = "INSERT INTO USUARIO (SALDO) VALUE('" + saldo + "')";
+			stmt.executeUpdate(sql);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	//MÉTODOS PARA INSERTAR DATOS A LA BBDD
@@ -903,14 +918,14 @@ public class GestorBD {
 				 PreparedStatement pStmt6 = con.prepareStatement(sql6)) {
 				
 				//Se ejecutan las sentencias de borrado de las tablas
-		        if (!pStmt1.execute() && !pStmt2.execute() && !pStmt3.execute() && !pStmt4.execute() && !pStmt5.execute() && !pStmt6.execute()) {
+		        if (!pStmt2.execute()) { //&& !pStmt2.execute() && !pStmt3.execute() && !pStmt4.execute() && !pStmt5.execute() && !pStmt6.execute()) {
 		        	logger.info("Se han borrado los datos");
 		        }
 			} catch (Exception ex) {
 				logger.warning(String.format("Error al borrar los datos: %s", ex.getMessage()));
 			}
 		
-	}
+}
 	
 	
 	public static void main(String[] args) {

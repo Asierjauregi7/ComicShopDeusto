@@ -295,7 +295,7 @@ public class VentanaBiblioteca extends JFrame{
 			}
 			//Cerramos conexion con la base de datos y vaciamos la tabla que contiene el usuario actual
 			public void windowClosed(WindowEvent e) {
-				GestorBD.EliminarUsuarioDeBaseDeDatos();
+				//GestorBD.EliminarUsuarioDeBaseDeDatos();
 				GestorBD.borrarBBDD();
 			}
 
@@ -346,18 +346,31 @@ public class VentanaBiblioteca extends JFrame{
 				realizarCompra(0);
 				
 				
-				
+				ArrayList<Carrito> carritoVacio = new ArrayList<>();
 				String correo = GestorBD.cargarCorreoUsuario();
-				if(GestorBD.cargarSaldoUsuario(correo) > getTotalCarrito()) {
+				if(GestorBD.getCarrito().equals(carritoVacio)) {
+					realizarCompra(0);
+					JOptionPane.showMessageDialog(null, "El carrito esta vacio");
+					
+				}
+				else if(GestorBD.cargarSaldoUsuario(correo) > getTotalCarrito()) {
 					
 					realizarCompra(1);
 					
 					int nuevoSaldo = GestorBD.cargarSaldoUsuario(correo) - getTotalCarrito();       
 					GestorBD.actualizarSaldo(nuevoSaldo, correo);
 					saldo.setText("Saldo:"+ VentanaBiblioteca.getSaldoUsuario() +"€");
+					JOptionPane.showMessageDialog(null, "Compra realizada");
+					GestorBD.EliminarCarrito();
+					verCarrito();
+					
+				}
+				else if(GestorBD.cargarSaldoUsuario(correo) < getTotalCarrito()){
+					JOptionPane.showMessageDialog(null, "Saldo insuficiente, realice un ingreso");
+					realizarCompra(0);
 				}
 				else {
-					JOptionPane.showMessageDialog(null, "Saldo insuficiente, realice un ingreso");
+					JOptionPane.showMessageDialog(null, "Error");
 					realizarCompra(0);
 				}
 				
@@ -389,6 +402,10 @@ public class VentanaBiblioteca extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				ArrayList<Comic>comics = GestorBD.getComics1();
 				ModeloComics(comics);
+				realizarCompra.setVisible(false);
+				saldo.setVisible(false);
+				btnRecargarSaldo.setVisible(false);
+				
 				
 			}
 			
@@ -403,7 +420,9 @@ public class VentanaBiblioteca extends JFrame{
 				String genero = "Comedia";
 				ArrayList<Comic>comicsComedia = GestorBD.cargarComicsPorGenero1(genero);
 				ModeloComics(comicsComedia);
-				
+				realizarCompra.setVisible(false);
+				saldo.setVisible(false);
+				btnRecargarSaldo.setVisible(false);
 			}
 			
 		});
@@ -417,7 +436,9 @@ public class VentanaBiblioteca extends JFrame{
 				String genero = "Terror";
 				ArrayList<Comic>comicsTerror = GestorBD.cargarComicsPorGenero1(genero);
 				ModeloComics(comicsTerror);
-				
+				realizarCompra.setVisible(false);
+				saldo.setVisible(false);
+				btnRecargarSaldo.setVisible(false);
 			}
 					
 		});
@@ -430,7 +451,9 @@ public class VentanaBiblioteca extends JFrame{
 				String genero = "Accion";
 				ArrayList<Comic>comicsAccion = GestorBD.cargarComicsPorGenero1(genero);
 				ModeloComics(comicsAccion);
-				
+				realizarCompra.setVisible(false);
+				saldo.setVisible(false);
+				btnRecargarSaldo.setVisible(false);
 			}
 			
 		});
@@ -444,6 +467,9 @@ public class VentanaBiblioteca extends JFrame{
 				ArrayList<Comic>comicsAventura = GestorBD.cargarComicsPorGenero1(genero);
 				ModeloComics(comicsAventura);
 				System.out.println(comicsAventura);
+				realizarCompra.setVisible(false);
+				saldo.setVisible(false);
+				btnRecargarSaldo.setVisible(false);
 			}
 			
 		});
@@ -634,6 +660,13 @@ public class VentanaBiblioteca extends JFrame{
 			ArrayList<Carrito> carros = GestorBD.getCarrito();
 			ArrayList<String> nombreProductos = new ArrayList<>();
 			
+			ArrayList<Comic> comics = GestorBD.getComics1();
+			for(Comic comic : comics) {
+				if(idTabla == comic.getId()) {
+					GestorBD.actualizarComicsCarrito(comic.getCantidad() - cantidadTabla, idTabla);
+				}
+			}
+			
 			for(Carrito carro : carros) {
 				nombreProductos.add(carro.getTitulo());
 			}
@@ -646,7 +679,7 @@ public class VentanaBiblioteca extends JFrame{
 					GestorBD.crearCarrito(new Carrito(idTabla, editorialTabla, titulo, genero, precio, cantidadTabla));
 					}
 					//GestorBD.RestarCantidadComics(idTabla, cantidadTabla);
-					ModeloComics(GestorBD.getComics1());
+					//ModeloComics(GestorBD.getComics1());
 				}
 				
 		}
@@ -669,7 +702,6 @@ public class VentanaBiblioteca extends JFrame{
 		for(Carrito comic : carrito) {
 			GestorBD.crearCompra(new Compra(GestorBD.cargarCorreoUsuario(), comic.getId(), comic.getEditorial(), comic.getTitulo(), comic.getGenero().toString(), comic.getPrecio(), comic.getCantidad()));
 		}
-		GestorBD.EliminarCarrito();
 			//while(i< mDatos.getRowCount()) {
 				//String correo = GestorBD.cargarCorreoUsuario();
 				//int idComic = (Integer) mDatos.getValueAt(i, 0);

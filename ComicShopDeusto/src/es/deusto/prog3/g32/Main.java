@@ -23,7 +23,7 @@ public class Main {
 		GestorBD gestorBD = new GestorBD();
 				
 		//Se crea la BBDD
-		GestorBD.crearBBDD();
+		//GestorBD.crearBBDD();
 		Connection conex = null;
 		conex = GestorBD.Conexion();
 		//Se cargan los datos y se inicializa la BBDD
