@@ -192,8 +192,8 @@ public class VentanaInicioSesion extends JFrame{
 						ventana.setVisible(true);
 						frameVentanaInicioSesion.dispose();
 						System.out.println(GestorBD.getComics1());
-						}else {
-							JOptionPane.showMessageDialog(null, "Primero debes registrarte");
+						//}else {
+							//JOptionPane.showMessageDialog(null, "Primero debes registrarte");
 						}
 					}
 				}

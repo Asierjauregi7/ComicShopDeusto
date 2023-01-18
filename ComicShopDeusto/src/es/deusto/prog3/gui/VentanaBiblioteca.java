@@ -391,7 +391,7 @@ public class VentanaBiblioteca extends JFrame{
 				verCompras();
 				saldo.setVisible(true);
 				btnRecargarSaldo.setVisible(true);
-				
+				realizarCompra.setVisible(false);
 			}
 			
 		});

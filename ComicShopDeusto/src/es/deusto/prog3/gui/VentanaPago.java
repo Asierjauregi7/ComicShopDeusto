@@ -168,14 +168,22 @@ public class VentanaPago {
 				
 				String correo = GestorBD.cargarCorreoUsuario();
 				int saldoIngresado = Integer.valueOf(txtCantidad.getText());
+				if(txtNumeroCuenta.getText().length() < 16) {
+					JOptionPane.showMessageDialog(null, "Numero de cuenta incorrecto");
+				}else if(txtFechaCaducidad.getText().length() != 5) {
+					JOptionPane.showMessageDialog(null, "Fecha de caducidad incorrecta");
+				}else if(pswdCvv.getText().length() != 3) {
+					JOptionPane.showMessageDialog(null, "CVV Incorrecto");
+				}else {
+					int nuevoSaldo= GestorBD.cargarSaldoUsuario(correo) + saldoIngresado;
+					GestorBD.actualizarSaldo(nuevoSaldo, correo);
+					frameVentanaPago.dispose();
+					JOptionPane.showMessageDialog(null, "Saldo ingresado correctamente");
+					System.out.println(saldoIngresado);
+					System.out.println(VentanaBiblioteca.getSaldoUsuario());
+					VentanaBiblioteca.saldo.setText("Saldo:"+ VentanaBiblioteca.getSaldoUsuario() +"€");
+				}
 				
-				int nuevoSaldo= GestorBD.cargarSaldoUsuario(correo) + saldoIngresado;
-				GestorBD.actualizarSaldo(nuevoSaldo, correo);
-				frameVentanaPago.dispose();
-				JOptionPane.showMessageDialog(null, "Saldo ingresado correctamente");
-				System.out.println(saldoIngresado);
-				System.out.println(VentanaBiblioteca.getSaldoUsuario());
-				VentanaBiblioteca.saldo.setText("Saldo:"+ VentanaBiblioteca.getSaldoUsuario() +"€");
 				
 			}
 			

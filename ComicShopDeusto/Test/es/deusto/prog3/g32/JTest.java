@@ -5,25 +5,28 @@ import static org.junit.Assert.*;
 import java.sql.Connection;
 import java.util.ArrayList;
 
-import BaseDeDatos.BaseDeDatos;
-import JUnit.Before;
-import JUnit.Test;
-import clases.Carrito;
-import clases.Cliente;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 import es.deusto.prog.bbdd.GestorBD;
-import excepciones.MiExcepcionExplicita;
 
-public class Test {
+public class JTest {
 
-	@org.junit.Test
-	public void test() {
-		fail("Not yet implemented");
-	}
-	
 	@Before
-	public void before() throws Exception {
+	public void setUp() throws Exception {
 		Connection conex = null;
 		conex = GestorBD.Conexion();
+	}
+
+	@After
+	public void tearDown() throws Exception {
+	}
+
+	@Test
+	public void test() {
+		
+		fail("Not yet implemented");
 	}
 	
 	@Test
@@ -52,8 +55,15 @@ public class Test {
 
 	}
 	
-	
+	@Test
+	public void testEliminarCarrito() {
+		GestorBD.crearCarrito(new Carrito(123, "Editorial", "Titulo", Genero.Aventura, 20, 2));
+		ArrayList<Carrito> carrito = GestorBD.getCarrito();
+		GestorBD.EliminarCarrito();
+		ArrayList<Carrito> carritoEliminado = GestorBD.getCarrito();
+		assertEquals(carrito.size() - 1, carritoEliminado.size());
+		assertEquals(carritoEliminado.size(), 0);
 
-
+	}
 
 }
