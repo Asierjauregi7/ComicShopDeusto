@@ -161,7 +161,7 @@ public class GestorBD {
 			
 			String compra = "CREATE TABLE IF NOT EXISTS COMPRA(\n"
 					+ "correoCliente TEXT NOT NULL,\n"
-					+ "idProducto INT NOT NULL PRIMARY KEY,\n"
+					+ "idProducto INT PRIMARY KEY NOT NULL,\n"
 					+ "EditorialProducto TEXT NOT NULL,\n"
 					+ "TituloProducto TEXT NOT NULL,\n"
 					+ "Genero TEXT NOT NULL,\n"
